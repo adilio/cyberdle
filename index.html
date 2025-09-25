@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cyberdle</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="acronyms.js"></script>
+
+  </head>
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <div class="title">
+          <h1>Cyberdle</h1>
+          <p>Cybersecurity acronym challenge</p>
+        </div>
+        <nav class="actions" aria-label="Primary">
+          <button type="button" id="help-btn" class="btn btn--ghost">Help</button>
+          <button type="button" id="stats-btn" class="btn btn--ghost">Stats</button>
+          <button type="button" id="theme-btn" class="btn">Toggle theme</button>
+        </nav>
+      </header>
+
+      <section class="controls">
+        <button type="button" id="play-btn" class="btn btn--accent">Play</button>
+        <div class="controls__meta" role="status" aria-live="polite">
+          <span id="puzzle-label"></span>
+          <span id="puzzle-date"></span>
+        </div>
+        <div class="mode-toggle" role="radiogroup" aria-label="Puzzle mode">
+          <button type="button" data-mode="daily" class="chip">Daily</button>
+          <button type="button" data-mode="random" class="chip">Random</button>
+        </div>
+      </section>
+
+      <section class="definition" aria-live="polite">
+        <h2>Definition</h2>
+        <p id="definition-text"></p>
+      </section>
+
+      <div id="message" class="message" role="status" aria-live="polite"></div>
+
+      <input id="key-capture" type="text" aria-hidden="true" autocomplete="off" autocapitalize="characters" spellcheck="false" />
+
+      <section id="grid" class="grid" role="grid" aria-label="Guess grid"></section>
+
+      <section id="keyboard" class="keyboard" aria-label="On-screen keyboard"></section>
+
+      <section class="scoreboard" aria-label="Player stats">
+        <div class="score">
+          <span class="score__label">Score</span>
+          <span id="score-total" class="score__value">0</span>
+        </div>
+        <div class="score">
+          <span class="score__label">Played</span>
+          <span id="score-played" class="score__value">0</span>
+        </div>
+        <div class="score">
+          <span class="score__label">Wins</span>
+          <span id="score-won" class="score__value">0</span>
+        </div>
+        <div class="score">
+          <span class="score__label">Streak</span>
+          <span id="score-streak" class="score__value">0</span>
+        </div>
+        <div class="score">
+          <span class="score__label">Best</span>
+          <span id="score-best" class="score__value">0</span>
+        </div>
+      </section>
+
+      <footer class="footer">Type with your keyboard. Enter submits. Backspace deletes.</footer>
+    </div>
+
+    <dialog id="help-dialog" class="modal">
+      <form method="dialog">
+        <header class="modal__header">
+          <h2>How to play</h2>
+          <button class="btn btn--ghost" value="cancel">Close</button>
+        </header>
+        <div class="modal__body">
+          <p>Guess the cybersecurity acronym that matches the definition in six tries.</p>
+          <ul>
+            <li>Letters turn green when correct, yellow when present elsewhere, gray otherwise.</li>
+            <li>Only approved acronyms are accepted. Length must match the target.</li>
+            <li>Daily mode picks a deterministic acronym; Random gives a new puzzle each time.</li>
+          </ul>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="confetti" aria-hidden="true"></div>
+
+    <dialog id="stats-dialog" class="modal">
+      <form method="dialog">
+        <header class="modal__header">
+          <h2>Statistics</h2>
+          <button class="btn btn--ghost" value="cancel">Close</button>
+        </header>
+        <div class="modal__body">
+          <p><strong>Score:</strong> <span id="modal-score">0</span></p>
+          <p><strong>Played:</strong> <span id="modal-played">0</span></p>
+          <p><strong>Win %:</strong> <span id="modal-win-percent">0</span></p>
+          <p><strong>Current streak:</strong> <span id="modal-streak">0</span></p>
+          <p><strong>Best streak:</strong> <span id="modal-best">0</span></p>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="result-dialog" class="modal modal--result" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
+      <div class="modal__surface">
+        <header class="modal__header">
+          <h2 id="result-title">Nice work!</h2>
+          <button type="button" class="btn btn--ghost" data-close-result>Close</button>
+        </header>
+        <div class="modal__body">
+          <p id="result-message"></p>
+          <p><strong>Acronym:</strong> <span id="result-word"></span></p>
+          <p><strong>Expansion:</strong> <span id="result-expansion"></span></p>
+          <p><strong>Definition:</strong> <span id="result-definition"></span></p>
+          <div class="modal__actions">
+            <button type="button" class="btn btn--accent" id="result-play-again">Play again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let dataset = [];
+      let wordList = [];
+
+      const SCORE_TABLE = [100, 80, 60, 40, 20, 10];
+      const MAX_ATTEMPTS = 6;
+      const STORAGE_KEYS = {
+        game: 'cyberdle:simple:game',
+        stats: 'cyberdle:simple:stats',
+        theme: 'cyberdle:simple:theme',
+        mode: 'cyberdle:simple:mode'
+      };
+
+      const root = document.documentElement;
+      const gridEl = document.getElementById('grid');
+      const messageEl = document.getElementById('message');
+      const definitionEl = document.getElementById('definition-text');
+      const puzzleLabelEl = document.getElementById('puzzle-label');
+      const puzzleDateEl = document.getElementById('puzzle-date');
+      const scoreTotalEl = document.getElementById('score-total');
+      const scorePlayedEl = document.getElementById('score-played');
+      const scoreWonEl = document.getElementById('score-won');
+      const scoreStreakEl = document.getElementById('score-streak');
+      const scoreBestEl = document.getElementById('score-best');
+      const modalScoreEl = document.getElementById('modal-score');
+      const modalPlayedEl = document.getElementById('modal-played');
+      const modalWinPercentEl = document.getElementById('modal-win-percent');
+      const modalStreakEl = document.getElementById('modal-streak');
+      const modalBestEl = document.getElementById('modal-best');
+      const helpDialog = document.getElementById('help-dialog');
+      const statsDialog = document.getElementById('stats-dialog');
+      const resultDialog = document.getElementById('result-dialog');
+      const resultTitleEl = document.getElementById('result-title');
+      const resultMessageEl = document.getElementById('result-message');
+      const resultWordEl = document.getElementById('result-word');
+      const resultExpansionEl = document.getElementById('result-expansion');
+      const resultDefinitionEl = document.getElementById('result-definition');
+      const resultPlayAgainBtn = document.getElementById('result-play-again');
+      const resultCloseBtn = document.querySelector('[data-close-result]');
+      const themeBtn = document.getElementById('theme-btn');
+      const confettiRoot = document.getElementById('confetti');
+      const helpBtn = document.getElementById('help-btn');
+      const statsBtn = document.getElementById('stats-btn');
+      const playBtn = document.getElementById('play-btn');
+      const modeButtons = Array.from(document.querySelectorAll('.mode-toggle .chip'));
+      const keyboardEl = document.getElementById('keyboard');
+      const keyCapture = document.getElementById('key-capture');
+
+      let tiles = [];
+      let currentGuess = '';
+      let mode = loadMode();
+      let stats = loadStats();
+      let theme = loadTheme();
+      let session = null;
+      const keyboardButtons = new Map();
+      const keyboardState = new Map();
+      let confettiTimeout = 0;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      initApp();
+
+      async function initApp() {
+        const acronyms = await loadDataset();
+        if (!acronyms.length) {
+          showDatasetError();
+          return;
+        }
+
+        dataset = acronyms.map((item) => ({
+          word: item.w.toUpperCase(),
+          expansion: item.e,
+          definition: item.d
+        }));
+        wordList = dataset.map((item) => item.word);
+
+        session = initSession();
+        applyTheme();
+        buildGrid(session.len);
+        buildKeyboard();
+        renderAll();
+        attachEvents();
+        focusKeyCapture();
+      }
+
+      function scoreFor(row) {
+        return SCORE_TABLE[row - 1] ?? 0;
+      }
+
+      function evaluateGuess(target, guess) {
+        const t = [...target];
+        const g = [...guess];
+        const res = Array(t.length).fill('absent');
+        const rem = {};
+        for (let i = 0; i < t.length; i += 1) {
+          if (g[i] === t[i]) {
+            res[i] = 'correct';
+          } else {
+            const char = t[i];
+            rem[char] = (rem[char] ?? 0) + 1;
+          }
+        }
+        for (let i = 0; i < t.length; i += 1) {
+          if (res[i] === 'correct') continue;
+          const char = g[i];
+          if (rem[char] && rem[char] > 0) {
+            res[i] = 'present';
+            rem[char] -= 1;
+          }
+        }
+        return res;
+      }
+
+      function isValidGuess(guess, list, len) {
+        return /^[A-Z]+$/.test(guess) && guess.length === len;
+      }
+
+      function yyyymmddSeed(date = new Date()) {
+        return date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+      }
+
+      function seededIndex(seed, max) {
+        let x = seed | 0;
+        x ^= x << 13;
+        x ^= x >>> 17;
+        x ^= x << 5;
+        return Math.abs(x) % max;
+      }
+
+      function initSession() {
+        const stored = loadGame(wordList);
+        if (stored) {
+          const entry = dataset[stored.index] || dataset.find((item) => item.word === stored.word);
+          if (entry) {
+            if (stored.mode === 'daily') {
+              const daily = getDailyPuzzle();
+              if (entry.word === daily.entry.word) {
+                return hydrateSession(stored, entry, daily.seed, daily.index);
+              }
+            } else {
+              return hydrateSession(stored, entry, stored.seed, stored.index);
+            }
+          }
+        }
+        return createSessionFromPuzzle(mode === 'daily' ? getDailyPuzzle() : getRandomPuzzle(), mode);
+      }
+
+      function hydrateSession(stored, entry, seed, index) {
+        mode = stored.mode;
+        const guesses = stored.guesses.slice(0, MAX_ATTEMPTS).map((x) => x.toUpperCase());
+        const results = stored.results.slice(0, MAX_ATTEMPTS);
+        return {
+          word: entry.word,
+          expansion: entry.expansion,
+          definition: entry.definition,
+          len: entry.word.length,
+          guesses,
+          results,
+          row: Math.max(0, Math.min(MAX_ATTEMPTS - 1, stored.row)),
+          done: Boolean(stored.done),
+          win: Boolean(stored.win),
+          seed,
+          index,
+          mode
+        };
+      }
+
+      function createSession(entry, puzzleMode, index, seed) {
+        return {
+          word: entry.word,
+          expansion: entry.expansion,
+          definition: entry.definition,
+          len: entry.word.length,
+          guesses: Array(MAX_ATTEMPTS).fill(''),
+          results: Array(MAX_ATTEMPTS).fill(null),
+          row: 0,
+          done: false,
+          win: false,
+          seed,
+          index,
+          mode: puzzleMode
+        };
+      }
+
+      function getDailyPuzzle() {
+        const seed = yyyymmddSeed();
+        const index = seededIndex(seed, dataset.length);
+        return { entry: dataset[index], index, seed };
+      }
+
+      function getRandomPuzzle() {
+        const seed = Math.floor(Math.random() * 2 ** 31);
+        const index = Math.floor(Math.random() * dataset.length);
+        return { entry: dataset[index], index, seed };
+      }
+
+      function createSessionFromPuzzle(puzzle, puzzleMode) {
+        mode = puzzleMode;
+        saveMode(mode);
+        stats = loadStats();
+        const next = createSession(puzzle.entry, puzzleMode, puzzle.index, puzzle.seed);
+        persistSession(next);
+        return next;
+      }
+
+      function persistSession(state) {
+        saveGame({
+          version: 1,
+          word: state.word,
+          definition: state.definition,
+          len: state.len,
+          guesses: state.guesses,
+          results: state.results.map((row) => (row ? [...row] : [])),
+          row: state.row,
+          done: state.done,
+          win: state.win,
+          seed: state.seed,
+          index: state.index,
+          mode: state.mode
+        });
+      }
+
+      function buildGrid(columns) {
+        root.style.setProperty('--cols', String(columns));
+        gridEl.innerHTML = '';
+        tiles = [];
+        for (let row = 0; row < MAX_ATTEMPTS; row += 1) {
+          const rowEl = document.createElement('div');
+          rowEl.className = 'grid__row';
+          rowEl.setAttribute('role', 'row');
+          const rowTiles = [];
+          for (let col = 0; col < columns; col += 1) {
+            const tile = document.createElement('div');
+            tile.className = 't';
+            tile.setAttribute('role', 'gridcell');
+            rowEl.appendChild(tile);
+            rowTiles.push(tile);
+          }
+          gridEl.appendChild(rowEl);
+          tiles.push(rowTiles);
+        }
+      }
+
+      function buildKeyboard() {
+        if (!keyboardEl) return;
+        keyboardButtons.clear();
+        keyboardEl.innerHTML = '';
+        const layout = [
+          ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+          ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+          ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACK']
+        ];
+        layout.forEach((row) => {
+          const rowEl = document.createElement('div');
+          rowEl.className = 'keyboard__row';
+          row.forEach((key) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'key';
+            if (key === 'ENTER') {
+              button.dataset.key = 'ENTER';
+              button.textContent = 'Enter';
+              button.classList.add('key--wide');
+            } else if (key === 'BACK') {
+              button.dataset.key = 'BACK';
+              button.textContent = '⌫';
+              button.classList.add('key--wide');
+            } else {
+              button.dataset.key = key;
+              button.textContent = key;
+              keyboardButtons.set(key, button);
+            }
+            rowEl.appendChild(button);
+          });
+          keyboardEl.appendChild(rowEl);
+        });
+        keyboardState.clear();
+      }
+
+      function renderAll() {
+        renderModeButtons();
+        renderDefinition();
+        renderGrid();
+        renderStats();
+        updateModalStats();
+        updateMeta();
+        setMessage('');
+      }
+
+      function renderModeButtons() {
+        modeButtons.forEach((button) => {
+          const value = button.dataset.mode === 'random' ? 'random' : 'daily';
+          button.dataset.active = value === mode ? 'true' : 'false';
+        });
+      }
+
+      function renderDefinition() {
+        definitionEl.textContent = session.definition;
+      }
+
+      function renderGrid() {
+        tiles.forEach((rowEl, rowIndex) => {
+          const rowContainer = rowEl[0] ? rowEl[0].parentElement : null;
+          if (rowContainer) {
+            rowContainer.classList.toggle('active', !session.done && session.row === rowIndex);
+          }
+          rowEl.forEach((tile, colIndex) => {
+            const guessLetter = session.guesses[rowIndex]?.[colIndex] ?? '';
+            tile.textContent = guessLetter;
+            tile.classList.remove('t--correct', 't--present', 't--absent');
+            const resultRow = session.results[rowIndex];
+            const status = resultRow ? resultRow[colIndex] : undefined;
+            if (status === 'correct') tile.classList.add('t--correct');
+            else if (status === 'present') tile.classList.add('t--present');
+            else if (status === 'absent') tile.classList.add('t--absent');
+          });
+        });
+        if (!session.done) {
+          const rowIndex = session.row;
+          tiles[rowIndex].forEach((tile, colIndex) => {
+            tile.textContent = currentGuess[colIndex] ?? '';
+          });
+        }
+        refreshKeyboardFromSession();
+      }
+
+      function renderStats() {
+        scoreTotalEl.textContent = String(stats.score);
+        scorePlayedEl.textContent = String(stats.played);
+        scoreWonEl.textContent = String(stats.won);
+        scoreStreakEl.textContent = String(stats.streak);
+        scoreBestEl.textContent = String(stats.best);
+      }
+
+      function updateModalStats() {
+        modalScoreEl.textContent = String(stats.score);
+        modalPlayedEl.textContent = String(stats.played);
+        const winPercent = stats.played === 0 ? 0 : Math.round((stats.won / stats.played) * 100);
+        modalWinPercentEl.textContent = String(winPercent);
+        modalStreakEl.textContent = String(stats.streak);
+        modalBestEl.textContent = String(stats.best);
+      }
+
+      function updateMeta() {
+        puzzleLabelEl.textContent = `Puzzle #${session.index + 1}`;
+        puzzleDateEl.textContent = mode === 'daily' ? new Date().toLocaleDateString() : 'Random challenge';
+      }
+
+      function setMessage(message, tone = 'info') {
+        messageEl.textContent = message;
+        messageEl.dataset.tone = tone;
+      }
+
+      function attachEvents() {
+        window.addEventListener('keydown', handleKeydown);
+        themeBtn.addEventListener('click', handleThemeToggle);
+        helpBtn.addEventListener('click', () => helpDialog.showModal());
+        statsBtn.addEventListener('click', () => {
+          updateModalStats();
+          statsDialog.showModal();
+        });
+        helpDialog.addEventListener('close', focusKeyCapture);
+        statsDialog.addEventListener('close', focusKeyCapture);
+        if (resultCloseBtn) {
+          resultCloseBtn.addEventListener('click', () => {
+            forceCloseResultDialog();
+          });
+        }
+        const resultSurface = resultDialog.querySelector('.modal__surface');
+        if (resultSurface) {
+          resultSurface.addEventListener('click', (event) => event.stopPropagation());
+        }
+        resultDialog.addEventListener('click', (event) => {
+          if (event.target === resultDialog) {
+            forceCloseResultDialog();
+          }
+        });
+        keyboardEl.addEventListener('click', handleKeyboardClick);
+        playBtn.addEventListener('click', () => startNewGame(mode));
+        modeButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const nextMode = button.dataset.mode === 'random' ? 'random' : 'daily';
+            if (mode === nextMode) return;
+            mode = nextMode;
+            saveMode(mode);
+            startNewGame(mode);
+            renderModeButtons();
+          });
+        });
+        resultPlayAgainBtn.addEventListener('click', () => {
+          forceCloseResultDialog();
+          startNewGame(mode);
+        });
+        keyCapture.addEventListener('blur', focusKeyCapture);
+      }
+
+      async function loadDataset() {
+        if (Array.isArray(window.CYBERDLE_DATA)) {
+          return window.CYBERDLE_DATA;
+        }
+        console.error('CYBERDLE_DATA not found – ensure acronyms.js loads before index.html.');
+        return [];
+      }
+
+      function launchConfetti() {
+        if (!confettiRoot || prefersReducedMotion) return;
+        stopConfetti();
+        const colors = ['#00cc66', '#ffd966', '#0f9347', '#65e088'];
+        const total = 140;
+        const frag = document.createDocumentFragment();
+        for (let i = 0; i < total; i += 1) {
+          const piece = document.createElement('span');
+          piece.className = 'confetti-piece';
+          piece.style.left = `${Math.random() * 100}%`;
+          piece.style.setProperty('--dx', `${(Math.random() - 0.5) * 40}vw`);
+          piece.style.setProperty('--rot', `${Math.random() * 720 - 360}deg`);
+          piece.style.setProperty('--dur', `${1.2 + Math.random() * 0.6}s`);
+          piece.style.setProperty('--delay', `${Math.random() * 0.2}s`);
+          piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          frag.appendChild(piece);
+        }
+        confettiRoot.appendChild(frag);
+        confettiRoot.dataset.active = 'true';
+        confettiTimeout = window.setTimeout(stopConfetti, 1800);
+      }
+
+      function stopConfetti() {
+        if (!confettiRoot) return;
+        window.clearTimeout(confettiTimeout);
+        confettiRoot.dataset.active = 'false';
+        confettiRoot.innerHTML = '';
+      }
+
+      function forceCloseResultDialog() {
+        resultDialog.classList.remove('is-open');
+        resultDialog.setAttribute('aria-hidden', 'true');
+        stopConfetti();
+        focusKeyCapture();
+      }
+
+      function showDatasetError() {
+        setMessage('Unable to load the acronym list. Ensure `acronyms.js` sits next to `index.html`.', 'error');
+        definitionEl.textContent = 'Missing dataset file.';
+        puzzleLabelEl.textContent = '';
+        puzzleDateEl.textContent = '';
+        gridEl.innerHTML = '';
+        keyboardEl.innerHTML = '';
+        [playBtn, themeBtn, helpBtn, statsBtn, resultPlayAgainBtn, ...modeButtons].forEach((el) => {
+          if (el) el.disabled = true;
+        });
+      }
+
+      function focusKeyCapture() {
+        if (!keyCapture.value) keyCapture.value = ' ';
+        keyCapture.focus({ preventScroll: true });
+        const pos = keyCapture.value.length;
+        keyCapture.setSelectionRange(pos, pos);
+      }
+
+      function handleThemeToggle() {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        applyTheme();
+        saveTheme(theme);
+      }
+
+      function applyTheme() {
+        root.setAttribute('data-theme', theme);
+      }
+
+      function handleKeydown(event) {
+        if (statsDialog.open || helpDialog.open) return;
+        if (session.done && event.key === 'Enter') {
+          startNewGame(mode);
+          return;
+        }
+        if (event.key === 'Enter') {
+          submitGuess();
+        } else if (event.key === 'Backspace') {
+          removeLetter();
+        } else {
+          const letter = event.key.toUpperCase();
+          if (/^[A-Z]$/.test(letter)) {
+            addLetter(letter);
+          }
+        }
+      }
+
+      function handleKeyboardClick(event) {
+        const target = event.target;
+        if (!(target instanceof HTMLButtonElement)) return;
+        const key = target.dataset.key;
+        if (!key) return;
+        if (key === 'ENTER') {
+          submitGuess();
+        } else if (key === 'BACK') {
+          removeLetter();
+        } else {
+          addLetter(key);
+        }
+        focusKeyCapture();
+      }
+
+      function addLetter(letter) {
+        if (session.done) return;
+        if (currentGuess.length >= session.len) return;
+        currentGuess += letter;
+        renderGrid();
+      }
+
+      function removeLetter() {
+        if (session.done) return;
+        currentGuess = currentGuess.slice(0, -1);
+        renderGrid();
+      }
+
+      function submitGuess() {
+        if (session.done) {
+          const attempts = session.results.filter(Boolean).length || session.row + 1;
+          showResultDialog(session.win, session.win ? attempts : MAX_ATTEMPTS);
+          return;
+        }
+        if (currentGuess.length !== session.len) {
+          setMessage('Not enough letters', 'error');
+          return;
+        }
+        if (!isValidGuess(currentGuess, wordList, session.len)) {
+          setMessage('Letters only (A-Z).', 'error');
+          return;
+        }
+        handleGuess(currentGuess);
+      }
+
+      function handleGuess(guess) {
+        const rowIndex = session.row;
+        const evaluation = evaluateGuess(session.word, guess);
+        session.guesses[rowIndex] = guess;
+        session.results[rowIndex] = evaluation;
+        updateKeyboardWithGuess(guess, evaluation);
+        renderGrid();
+
+        if (evaluation.every((tile) => tile === 'correct')) {
+          session.done = true;
+          session.win = true;
+          stats = applyWin(stats, rowIndex);
+          persistSession(session);
+          saveStats(stats);
+          renderStats();
+          updateModalStats();
+          setMessage(`Solved in ${rowIndex + 1} ${rowIndex === 0 ? 'try' : 'tries'}!`, 'success');
+          launchConfetti();
+          showResultDialog(true, rowIndex + 1);
+          return;
+        }
+
+        if (rowIndex === MAX_ATTEMPTS - 1) {
+          session.done = true;
+          session.win = false;
+          stats = applyLoss(stats);
+          persistSession(session);
+          saveStats(stats);
+          renderStats();
+          updateModalStats();
+          setMessage(`Out of tries! The word was ${session.word}.`, 'error');
+          showResultDialog(false, MAX_ATTEMPTS);
+          return;
+        }
+
+        session.row += 1;
+        currentGuess = '';
+        persistSession(session);
+        renderGrid();
+        setMessage('');
+      }
+
+      function updateKeyboardWithGuess(guess, evaluation) {
+        guess.split('').forEach((letter, index) => {
+          const next = evaluation[index];
+          const merged = mergeTileState(keyboardState.get(letter), next);
+          keyboardState.set(letter, merged);
+          const button = keyboardButtons.get(letter);
+          if (button) {
+            button.dataset.state = merged;
+          }
+        });
+      }
+
+      function refreshKeyboardFromSession() {
+        keyboardButtons.forEach((button) => {
+          delete button.dataset.state;
+        });
+        keyboardState.clear();
+        session.results.forEach((result, idx) => {
+          if (!result) return;
+          const guess = session.guesses[idx];
+          if (!guess) return;
+          updateKeyboardWithGuess(guess, result);
+        });
+      }
+
+      function mergeTileState(previous, next) {
+        if (!previous) return next;
+        const priority = { correct: 3, present: 2, absent: 1 };
+        return priority[next] >= priority[previous] ? next : previous;
+      }
+
+      const WIN_TITLES = [
+        'You cracked it!',
+        'Cyber sleuth!',
+        'Mission accomplished!',
+        'Zero-day wizardry!',
+        'Security star!',
+        'Threat neutralized!',
+        'Legendary analyst!',
+        'Perimeter breached!',
+        'Firewall of fame!',
+        'Acronym assassin!',
+        'Defense in depth master!',
+        'SOC hero!',
+        'Crypto champ!',
+        'Nailed the signal!',
+        'Own the incident!'
+      ];
+
+      function randomWinTitle() {
+        if (!WIN_TITLES.length) return 'You cracked it!';
+        const now = Date.now();
+        const idx = Math.abs((now ^ (now >>> 7) ^ (now << 3))) % WIN_TITLES.length;
+        return WIN_TITLES[idx];
+      }
+
+      function showResultDialog(win, attempts) {
+        resultTitleEl.textContent = win ? randomWinTitle() : 'Good effort!';
+        resultMessageEl.textContent = win
+          ? `Solved in ${attempts} ${attempts === 1 ? 'try' : 'tries'}.`
+          : `The answer was ${session.word}.`;
+        resultWordEl.textContent = session.word;
+        resultExpansionEl.textContent = session.expansion;
+        resultDefinitionEl.textContent = session.definition;
+        resultDialog.classList.add('is-open');
+        resultDialog.setAttribute('aria-hidden', 'false');
+        if (resultCloseBtn) {
+          resultCloseBtn.focus({ preventScroll: true });
+        }
+      }
+
+      function applyWin(snapshot, rowIndex) {
+        const score = scoreFor(rowIndex + 1);
+        return {
+          version: 1,
+          played: snapshot.played + 1,
+          won: snapshot.won + 1,
+          streak: snapshot.streak + 1,
+          best: Math.max(snapshot.best, snapshot.streak + 1),
+          score: snapshot.score + score
+        };
+      }
+
+      function applyLoss(snapshot) {
+        return {
+          version: 1,
+          played: snapshot.played + 1,
+          won: snapshot.won,
+          streak: 0,
+          best: snapshot.best,
+          score: snapshot.score
+        };
+      }
+
+      function startNewGame(nextMode) {
+        forceCloseResultDialog();
+        currentGuess = '';
+        const puzzle = nextMode === 'daily' ? getDailyPuzzle() : getRandomPuzzle();
+        session = createSessionFromPuzzle(puzzle, nextMode);
+        buildGrid(session.len);
+        buildKeyboard();
+        renderAll();
+        focusKeyCapture();
+      }
+
+      function safeParse(value) {
+        if (!value) return null;
+        try {
+          return JSON.parse(value);
+        } catch (error) {
+          console.warn('Failed to parse storage value', error);
+          return null;
+        }
+      }
+
+      function loadGame(expectedWordList) {
+        if (typeof window === 'undefined') return null;
+        const raw = safeParse(localStorage.getItem(STORAGE_KEYS.game));
+        if (!raw || raw.version !== 1) return null;
+        if (!expectedWordList.includes(raw.word)) return null;
+        if (raw.len !== raw.word.length) return null;
+        if (!Array.isArray(raw.guesses) || !Array.isArray(raw.results)) return null;
+        const guesses = raw.guesses.slice(0, MAX_ATTEMPTS).map((g) => (typeof g === 'string' ? g : ''));
+        const results = raw.results.slice(0, MAX_ATTEMPTS).map((row) => (Array.isArray(row) ? row : []));
+        return {
+          version: 1,
+          word: raw.word,
+          definition: raw.definition,
+          len: raw.len,
+          guesses,
+          results,
+          row: Number.isFinite(raw.row) ? Math.max(0, Math.min(MAX_ATTEMPTS - 1, Math.floor(raw.row))) : 0,
+          done: Boolean(raw.done),
+          win: Boolean(raw.win),
+          seed: Number.isFinite(raw.seed) ? Math.floor(raw.seed) : 0,
+          index: Number.isFinite(raw.index) ? Math.floor(raw.index) : 0,
+          mode: raw.mode === 'random' ? 'random' : 'daily'
+        };
+      }
+
+      function saveGame(state) {
+        localStorage.setItem(STORAGE_KEYS.game, JSON.stringify(state));
+      }
+
+      function loadStats() {
+        const raw = safeParse(localStorage.getItem(STORAGE_KEYS.stats));
+        if (!raw || raw.version !== 1) return createInitialStats();
+        return {
+          version: 1,
+          played: sanitizeNumber(raw.played),
+          won: sanitizeNumber(raw.won),
+          streak: sanitizeNumber(raw.streak),
+          best: sanitizeNumber(raw.best),
+          score: sanitizeNumber(raw.score)
+        };
+      }
+
+      function saveStats(snapshot) {
+        localStorage.setItem(STORAGE_KEYS.stats, JSON.stringify(snapshot));
+      }
+
+      function createInitialStats() {
+        return { version: 1, played: 0, won: 0, streak: 0, best: 0, score: 0 };
+      }
+
+      function sanitizeNumber(value) {
+        return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+      }
+
+      function loadTheme() {
+        const raw = localStorage.getItem(STORAGE_KEYS.theme);
+        return raw === 'light' ? 'light' : 'dark';
+      }
+
+      function saveTheme(next) {
+        localStorage.setItem(STORAGE_KEYS.theme, next);
+      }
+
+      function loadMode() {
+        const raw = localStorage.getItem(STORAGE_KEYS.mode);
+        return raw === 'random' ? 'random' : 'daily';
+      }
+
+      function saveMode(nextMode) {
+        localStorage.setItem(STORAGE_KEYS.mode, nextMode);
+      }
+    </script>
+  </body>
+</html>
