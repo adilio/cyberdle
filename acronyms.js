@@ -108,17 +108,17 @@ window.CYBERDLE_DATA = [
   {
     "w": "SAML",
     "e": "Security Assertion Markup Language",
-    "d": "An XML-based open standard for exchanging authentication and authorization data between identity providers and service providers. SAML enables single sign-on functionality by allowing users to authenticate once with an identity provider and access multiple applications without re-entering credentials. It's commonly used in enterprise environments for federating access across different systems and organizations."
+    "d": "An XML-based open standard for exchanging authentication and authorization data between identity providers and service providers. It enables single sign-on functionality by allowing users to authenticate once with an identity provider and access multiple applications without re-entering credentials. It's commonly used in enterprise environments for federating access across different systems and organizations."
   },
   {
     "w": "LDAP",
     "e": "Lightweight Directory Access Protocol",
-    "d": "A protocol for accessing and maintaining distributed directory information services over a network. LDAP is commonly used for storing user accounts, groups, and organizational information in a hierarchical structure. It provides a standardized way to query and modify directory data, making it essential for identity management, authentication services, and maintaining centralized user repositories in enterprise environments."
+    "d": "A protocol for accessing and maintaining distributed directory information services over a network. It is commonly used for storing user accounts, groups, and organizational information in a hierarchical structure. It provides a standardized way to query and modify directory data, making it essential for identity management, authentication services, and maintaining centralized user repositories in enterprise environments."
   },
   {
     "w": "NGFW",
     "e": "Next-Generation Firewall",
-    "d": "An advanced firewall technology that goes beyond traditional port and protocol inspection to include application awareness, user identity, and content filtering. NGFWs can identify and control applications regardless of port or protocol, inspect encrypted traffic, and integrate threat intelligence feeds. They provide deeper visibility and control over network traffic, making them essential for defending against modern sophisticated attacks."
+    "d": "An advanced firewall technology that goes beyond traditional port and protocol inspection to include application awareness, user identity, and content filtering. They can identify and control applications regardless of port or protocol, inspect encrypted traffic, and integrate threat intelligence feeds. They provide deeper visibility and control over network traffic, making them essential for defending against modern sophisticated attacks."
   },
   {
     "w": "SDWAN",
@@ -128,37 +128,37 @@ window.CYBERDLE_DATA = [
   {
     "w": "DMARC",
     "e": "Domain-based Message Authentication, Reporting, and Conformance",
-    "d": "An email authentication protocol that builds on SPF and DKIM to provide a policy framework for email authentication and reporting. DMARC allows domain owners to specify how recipients should handle emails that fail authentication checks, helping prevent email spoofing and phishing attacks. It provides visibility into email authentication results and enables gradual deployment of stricter email security policies."
+    "d": "An email authentication protocol that builds on SPF and DKIM to provide a policy framework for email authentication and reporting. It allows domain owners to specify how recipients should handle emails that fail authentication checks, helping prevent email spoofing and phishing attacks. It provides visibility into email authentication results and enables gradual deployment of stricter email security policies."
   },
   {
     "w": "DKIM",
     "e": "DomainKeys Identified Mail",
-    "d": "An email authentication method that uses cryptographic signatures to verify that an email message was sent by an authorized mail server and hasn't been tampered with in transit. DKIM adds a digital signature to email headers that recipients can verify against a public key published in DNS records. This helps prevent email spoofing and ensures message integrity during transmission."
+    "d": "An email authentication method that uses cryptographic signatures to verify that an email message was sent by an authorized mail server and hasn't been tampered with in transit. It adds a digital signature to email headers that recipients can verify against a public key published in DNS records. This helps prevent email spoofing and ensures message integrity during transmission."
   },
   {
     "w": "HSTS",
     "e": "HTTP Strict Transport Security",
-    "d": "A web security policy mechanism that forces web browsers to interact with websites only over secure HTTPS connections. HSTS prevents protocol downgrade attacks and cookie hijacking by instructing browsers to automatically convert HTTP requests to HTTPS and refuse connections to servers with invalid certificates. This helps protect against man-in-the-middle attacks and ensures secure communication between browsers and web servers."
+    "d": "A web security policy mechanism that forces web browsers to interact with websites only over secure HTTPS connections. It prevents protocol downgrade attacks and cookie hijacking by instructing browsers to automatically convert HTTP requests to HTTPS and refuse connections to servers with invalid certificates. This helps protect against man-in-the-middle attacks and ensures secure communication between browsers and web servers."
   },
   {
     "w": "PKCE",
     "e": "Proof Key for Code Exchange",
-    "d": "A security extension to OAuth 2.0 that provides protection against authorization code interception attacks, particularly important for public clients like mobile applications. PKCE uses dynamically generated secrets to ensure that only the client that initiated the authorization request can exchange the authorization code for tokens. This prevents attackers from intercepting and using authorization codes even if they can observe network traffic."
+    "d": "A security extension to OAuth 2.0 that provides protection against authorization code interception attacks, particularly important for public clients like mobile applications. It uses dynamically generated secrets to ensure that only the client that initiated the authorization request can exchange the authorization code for tokens. This prevents attackers from intercepting and using authorization codes even if they can observe network traffic."
   },
   {
     "w": "ABAC",
     "e": "Attribute-Based Access Control",
-    "d": "A flexible access control model that makes authorization decisions based on attributes of users, resources, actions, and environmental conditions. ABAC enables fine-grained access control by evaluating multiple attributes and their relationships through policy rules. This approach supports complex authorization scenarios and dynamic access decisions that traditional role-based models cannot easily handle, making it suitable for modern distributed environments."
+    "d": "A flexible access control model that makes authorization decisions based on attributes of users, resources, actions, and environmental conditions. It enables fine-grained access control by evaluating multiple attributes and their relationships through policy rules. This approach supports complex authorization scenarios and dynamic access decisions that traditional role-based models cannot easily handle, making it suitable for modern distributed environments."
   },
   {
     "w": "STIG",
     "e": "Security Technical Implementation Guide",
-    "d": "Detailed configuration standards developed by the Defense Information Systems Agency (DISA) for securing information systems and software. STIGs provide step-by-step instructions for hardening systems according to government security requirements and are widely adopted beyond military environments. They cover operating systems, applications, and network devices, providing specific technical controls to reduce security vulnerabilities and ensure compliance with security policies."
+    "d": "Detailed configuration standards developed by the Defense Information Systems Agency (DISA) for securing information systems and software. They provide step-by-step instructions for hardening systems according to government security requirements and are widely adopted beyond military environments. They cover operating systems, applications, and network devices, providing specific technical controls to reduce security vulnerabilities and ensure compliance with security policies."
   },
   {
     "w": "NTLM",
     "e": "NT LAN Manager",
-    "d": "A legacy Windows authentication protocol that uses a challenge-response mechanism to authenticate users without sending passwords over the network. NTLM has known security weaknesses including susceptibility to pass-the-hash attacks and lack of mutual authentication. Microsoft recommends migrating to Kerberos authentication, which provides stronger security features and better protection against modern attack techniques."
+    "d": "A legacy Windows authentication protocol that uses a challenge-response mechanism to authenticate users without sending passwords over the network. It has known security weaknesses including susceptibility to pass-the-hash attacks and lack of mutual authentication. Microsoft recommends migrating to Kerberos authentication, which provides stronger security features and better protection against modern attack techniques."
   },
   {
     "w": "BCRYPT",
@@ -173,37 +173,37 @@ window.CYBERDLE_DATA = [
   {
     "w": "QUIC",
     "e": "Quick UDP Internet Connections",
-    "d": "A transport protocol developed by Google that runs over UDP and provides features similar to TCP but with improved performance and built-in encryption. QUIC reduces connection establishment latency, provides better congestion control, and includes TLS encryption by default. It's designed to improve web performance while maintaining security, and forms the basis for HTTP/3, the next generation of web protocols."
+    "d": "A transport protocol developed by Google that runs over UDP and provides features similar to TCP but with improved performance and built-in encryption. It reduces connection establishment latency, provides better congestion control, and includes TLS encryption by default. It's designed to improve web performance while maintaining security, and forms the basis for HTTP/3, the next generation of web protocols."
   },
   {
     "w": "DNSSEC",
     "e": "Domain Name System Security Extensions",
-    "d": "A suite of extensions to DNS that provides authentication and data integrity for DNS responses using digital signatures. DNSSEC helps prevent DNS spoofing and cache poisoning attacks by allowing DNS resolvers to verify that responses have not been tampered with. It creates a chain of trust from root DNS servers down to individual domain records, ensuring the authenticity of DNS data."
+    "d": "A suite of extensions to DNS that provides authentication and data integrity for DNS responses using digital signatures. It helps prevent DNS spoofing and cache poisoning attacks by allowing DNS resolvers to verify that responses have not been tampered with. It creates a chain of trust from root DNS servers down to individual domain records, ensuring the authenticity of DNS data."
   },
   {
     "w": "SBOM",
     "e": "Software Bill of Materials",
-    "d": "A comprehensive inventory of all software components, libraries, and dependencies used in an application or system. SBOMs provide transparency into software supply chains, enabling organizations to track known vulnerabilities, license compliance issues, and security risks in third-party components. They are becoming essential for managing software supply chain security and meeting regulatory requirements for software transparency."
+    "d": "A comprehensive inventory of all software components, libraries, and dependencies used in an application or system. They provide transparency into software supply chains, enabling organizations to track known vulnerabilities, license compliance issues, and security risks in third-party components. They are becoming essential for managing software supply chain security and meeting regulatory requirements for software transparency."
   },
   {
     "w": "DAST",
     "e": "Dynamic Application Security Testing",
-    "d": "A security testing methodology that analyzes running web applications from the outside to identify vulnerabilities that could be exploited by attackers. DAST tools simulate attacks against applications in their deployed environment, testing for issues like SQL injection, cross-site scripting, and authentication bypasses. This black-box testing approach identifies runtime vulnerabilities that may not be apparent in source code analysis."
+    "d": "A security testing methodology that analyzes running web applications from the outside to identify vulnerabilities that could be exploited by attackers. They simulate attacks against applications in their deployed environment, testing for issues like SQL injection, cross-site scripting, and authentication bypasses. This black-box testing approach identifies runtime vulnerabilities that may not be apparent in source code analysis."
   },
   {
     "w": "SAST",
     "e": "Static Application Security Testing",
-    "d": "A security testing approach that analyzes source code, bytecode, or binaries to identify potential security vulnerabilities without executing the program. SAST tools can detect issues like buffer overflows, SQL injection vulnerabilities, and insecure coding practices early in the development lifecycle. This white-box testing method helps developers fix security issues before applications are deployed to production environments."
+    "d": "A security testing approach that analyzes source code, bytecode, or binaries to identify potential security vulnerabilities without executing the program. They can detect issues like buffer overflows, SQL injection vulnerabilities, and insecure coding practices early in the development lifecycle. This white-box testing method helps developers fix security issues before applications are deployed to production environments."
   },
   {
     "w": "IAST",
     "e": "Interactive Application Security Testing",
-    "d": "A security testing approach that combines elements of SAST and DAST by using instrumentation within running applications to analyze code behavior during testing. IAST tools provide real-time security analysis with low false positive rates by observing application execution and data flow. This hybrid approach offers more accurate vulnerability detection and better context for security issues than traditional testing methods."
+    "d": "A security testing approach that combines elements of SAST and DAST by using instrumentation within running applications to analyze code behavior during testing. They provide real-time security analysis with low false positive rates by observing application execution and data flow. This hybrid approach offers more accurate vulnerability detection and better context for security issues than traditional testing methods."
   },
   {
     "w": "RASP",
     "e": "Runtime Application Self-Protection",
-    "d": "A security technology that integrates into applications to provide real-time attack detection and prevention during runtime. RASP solutions monitor application behavior and can automatically block malicious requests without requiring external security infrastructure. They provide protection against attacks like SQL injection and cross-site scripting by analyzing application logic and data flows in real-time."
+    "d": "A security technology that integrates into applications to provide real-time attack detection and prevention during runtime. They monitor application behavior and can automatically block malicious requests without requiring external security infrastructure. They provide protection against attacks like SQL injection and cross-site scripting by analyzing application logic and data flows in real-time."
   },
   {
     "w": "EBPF",
@@ -218,17 +218,17 @@ window.CYBERDLE_DATA = [
   {
     "w": "GDPR",
     "e": "General Data Protection Regulation",
-    "d": "A comprehensive European Union privacy regulation that governs how personal data is collected, processed, and stored. GDPR grants individuals significant rights over their personal data and imposes strict obligations on organizations, including requirements for consent, data breach notification, and privacy by design. Non-compliance can result in substantial fines, making GDPR compliance a critical concern for any organization handling EU residents' data."
+    "d": "A comprehensive European Union privacy regulation that governs how personal data is collected, processed, and stored. It grants individuals significant rights over their personal data and imposes strict obligations on organizations, including requirements for consent, data breach notification, and privacy by design. Non-compliance can result in substantial fines, making compliance a critical concern for any organization handling EU residents' data."
   },
   {
     "w": "SCADA",
     "e": "Supervisory Control and Data Acquisition",
-    "d": "Industrial control systems used to monitor and control physical processes across large geographic areas such as power plants, water treatment facilities, and manufacturing plants. SCADA systems collect data from remote sensors and devices, display information to operators, and enable remote control of industrial processes. Security of SCADA systems is critical because cyberattacks can cause physical damage and disrupt essential services."
+    "d": "Industrial control systems used to monitor and control physical processes across large geographic areas such as power plants, water treatment facilities, and manufacturing plants. They collect data from remote sensors and devices, display information to operators, and enable remote control of industrial processes. Security of these systems is critical because cyberattacks can cause physical damage and disrupt essential services."
   },
   {
     "w": "XDR",
     "e": "Extended Detection and Response",
-    "d": "A security platform that provides comprehensive threat detection, investigation, and response capabilities across multiple security layers including endpoints, networks, cloud, and applications. XDR solutions correlate data from various sources to provide context-rich alerts and automated response capabilities. They aim to improve security operations efficiency by reducing alert fatigue and enabling faster, more effective incident response through integrated toolsets."
+    "d": "A security platform that provides comprehensive threat detection, investigation, and response capabilities across multiple security layers including endpoints, networks, cloud, and applications. They correlate data from various sources to provide context-rich alerts and automated response capabilities. They aim to improve security operations efficiency by reducing alert fatigue and enabling faster, more effective incident response through integrated toolsets."
   },
   {
     "w": "XSOAR",
@@ -243,17 +243,17 @@ window.CYBERDLE_DATA = [
   {
     "w": "EDL",
     "e": "External Dynamic List",
-    "d": "A security feature that allows firewalls and other security devices to automatically update their threat intelligence by subscribing to external feeds of malicious IP addresses, domains, or URLs. EDLs enable real-time protection against known threats by automatically blocking connections to malicious infrastructure. They reduce the administrative burden of manually updating security policies and ensure that protection remains current against evolving threats."
+    "d": "A security feature that allows firewalls and other security devices to automatically update their threat intelligence by subscribing to external feeds of malicious IP addresses, domains, or URLs. They enable real-time protection against known threats by automatically blocking connections to malicious infrastructure. They reduce the administrative burden of manually updating security policies and ensure that protection remains current against evolving threats."
   },
   {
     "w": "IOC",
     "e": "Indicator of Compromise",
-    "d": "Digital artifacts or evidence that suggest a system or network has been compromised or is under attack. IOCs include file hashes, IP addresses, domain names, registry keys, and behavioral patterns associated with malicious activity. Security teams use IOCs to detect threats, investigate incidents, and share threat intelligence with other organizations to improve collective defense capabilities."
+    "d": "Digital artifacts or evidence that suggest a system or network has been compromised or is under attack. They include file hashes, IP addresses, domain names, registry keys, and behavioral patterns associated with malicious activity. Security teams use them to detect threats, investigate incidents, and share threat intelligence with other organizations to improve collective defense capabilities."
   },
   {
     "w": "MTH",
     "e": "Managed Threat Hunting",
-    "d": "A proactive security service where expert analysts search for hidden threats and advanced persistent threats that may have evaded automated security controls. MTH services combine human expertise with advanced analytics to identify subtle indicators of compromise and sophisticated attack techniques. This proactive approach helps organizations detect threats that traditional reactive security measures might miss, improving overall security posture."
+    "d": "A proactive security service where expert analysts search for hidden threats and advanced persistent threats that may have evaded automated security controls. They combine human expertise with advanced analytics to identify subtle indicators of compromise and sophisticated attack techniques. This proactive approach helps organizations detect threats that traditional reactive security measures might miss, improving overall security posture."
   },
   {
     "w": "TIM",
@@ -268,22 +268,22 @@ window.CYBERDLE_DATA = [
   {
     "w": "UEFI",
     "e": "Unified Extensible Firmware Interface",
-    "d": "A modern firmware interface that replaced traditional BIOS systems, providing enhanced security features and better system initialization capabilities. UEFI includes Secure Boot functionality that verifies the digital signatures of boot loaders and operating system components to prevent rootkits and boot-time malware. It also supports larger hard drives, faster boot times, and more sophisticated pre-boot environments than legacy BIOS systems."
+    "d": "A modern firmware interface that replaced traditional BIOS systems, providing enhanced security features and better system initialization capabilities. It includes Secure Boot functionality that verifies the digital signatures of boot loaders and operating system components to prevent rootkits and boot-time malware. It also supports larger hard drives, faster boot times, and more sophisticated pre-boot environments than legacy BIOS systems."
   },
   {
     "w": "WEC",
     "e": "Windows Event Collector",
-    "d": "A Windows service that aggregates event logs from multiple Windows computers in a network for centralized monitoring and analysis. WEC enables security teams to collect security-relevant events from across their Windows infrastructure, making it easier to detect threats and investigate incidents. It supports both push and pull collection methods and can be configured to collect specific event types based on security monitoring requirements."
+    "d": "A Windows service that aggregates event logs from multiple Windows computers in a network for centralized monitoring and analysis. It enables security teams to collect security-relevant events from across their Windows infrastructure, making it easier to detect threats and investigate incidents. It supports both push and pull collection methods and can be configured to collect specific event types based on security monitoring requirements."
   },
   {
     "w": "EPP",
     "e": "Endpoint Protection Platform",
-    "d": "A comprehensive security solution that provides prevention-focused protection for endpoint devices including desktops, laptops, servers, and mobile devices. EPP solutions typically include antivirus, anti-malware, firewall, and application control capabilities to prevent threats from executing on endpoints. They focus on blocking known threats and preventing malicious activities before they can cause damage to systems or data."
+    "d": "A comprehensive security solution that provides prevention-focused protection for endpoint devices including desktops, laptops, servers, and mobile devices. They typically include antivirus, anti-malware, firewall, and application control capabilities to prevent threats from executing on endpoints. They focus on blocking known threats and preventing malicious activities before they can cause damage to systems or data."
   },
   {
     "w": "XQL",
     "e": "Extended Query Language",
-    "d": "A specialized query language designed for searching and analyzing security data across multiple data sources and formats. XQL enables security analysts to write complex queries that correlate events from different systems, hunt for threats, and investigate security incidents. It provides powerful search capabilities optimized for security use cases, allowing analysts to efficiently explore large volumes of security data."
+    "d": "A specialized query language designed for searching and analyzing security data across multiple data sources and formats. It enables security analysts to write complex queries that correlate events from different systems, hunt for threats, and investigate security incidents. It provides powerful search capabilities optimized for security use cases, allowing analysts to efficiently explore large volumes of security data."
   },
   {
     "w": "CDR",
@@ -298,7 +298,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "ADEM",
     "e": "Autonomous Digital Experience Management",
-    "d": "Technology that automatically monitors and measures end-user application performance and experience quality using artificial intelligence and machine learning. ADEM solutions provide insights into application performance, network conditions, and user satisfaction without requiring manual configuration or extensive infrastructure deployment. They help organizations proactively identify and resolve performance issues that could impact business operations."
+    "d": "Technology that automatically monitors and measures end-user application performance and experience quality using artificial intelligence and machine learning. They provide insights into application performance, network conditions, and user satisfaction without requiring manual configuration or extensive infrastructure deployment. They help organizations proactively identify and resolve performance issues that could impact business operations."
   },
   {
     "w": "ASM",
@@ -313,17 +313,17 @@ window.CYBERDLE_DATA = [
   {
     "w": "APT",
     "e": "Advanced Persistent Threat",
-    "d": "A sophisticated, long-term cyberattack campaign typically carried out by well-resourced threat actors such as nation-states or organized crime groups. APTs are characterized by their stealthy approach, persistence over extended periods, and focus on high-value targets or information. These attacks often involve multiple phases including initial compromise, lateral movement, privilege escalation, and data exfiltration while remaining undetected for months or years."
+    "d": "A sophisticated, long-term cyberattack campaign typically carried out by well-resourced threat actors such as nation-states or organized crime groups. They are characterized by their stealthy approach, persistence over extended periods, and focus on high-value targets or information. These attacks often involve multiple phases including initial compromise, lateral movement, privilege escalation, and data exfiltration while remaining undetected for months or years."
   },
   {
     "w": "CVE",
     "e": "Common Vulnerabilities and Exposures",
-    "d": "A standardized system for identifying and cataloging publicly known security vulnerabilities in software and hardware products. Each CVE entry provides a unique identifier, description, and references to help organizations track and manage security vulnerabilities across their infrastructure. The CVE system enables consistent communication about vulnerabilities between security vendors, researchers, and practitioners worldwide."
+    "d": "A standardized system for identifying and cataloging publicly known security vulnerabilities in software and hardware products. Each entry provides a unique identifier, description, and references to help organizations track and manage security vulnerabilities across their infrastructure. The system enables consistent communication about vulnerabilities between security vendors, researchers, and practitioners worldwide."
   },
   {
     "w": "CVSS",
     "e": "Common Vulnerability Scoring System",
-    "d": "An industry standard framework for assessing the severity and risk of security vulnerabilities using quantitative scoring metrics. CVSS scores range from 0.0 to 10.0 and consider factors such as exploitability, impact, and environmental characteristics. This standardized scoring system helps organizations prioritize vulnerability remediation efforts and make informed risk management decisions based on objective severity assessments."
+    "d": "An industry standard framework for assessing the severity and risk of security vulnerabilities using quantitative scoring metrics. Scores range from 0.0 to 10.0 and consider factors such as exploitability, impact, and environmental characteristics. This standardized scoring system helps organizations prioritize vulnerability remediation efforts and make informed risk management decisions based on objective severity assessments."
   },
   {
     "w": "IOA",
@@ -333,37 +333,37 @@ window.CYBERDLE_DATA = [
   {
     "w": "TTPs",
     "e": "Tactics, Techniques, and Procedures",
-    "d": "A framework for describing the behavior patterns and methodologies used by threat actors during cyberattacks. Tactics represent high-level goals, techniques describe specific methods for achieving those goals, and procedures are the detailed implementation steps. Understanding TTPs helps security professionals develop effective defenses, improve threat hunting capabilities, and share actionable threat intelligence with other organizations."
+    "d": "A framework for describing the behavior patterns and methodologies used by threat actors during cyberattacks. Tactics represent high-level goals, techniques describe specific methods for achieving those goals, and procedures are the detailed implementation steps. Understanding them helps security professionals develop effective defenses, improve threat hunting capabilities, and share actionable threat intelligence with other organizations."
   },
   {
     "w": "SOC",
     "e": "Security Operations Center",
-    "d": "A centralized facility where cybersecurity professionals monitor, detect, analyze, and respond to security threats on a continuous basis. SOCs combine people, processes, and technology to provide 24/7 security monitoring and incident response capabilities. They serve as the nerve center for an organization's cybersecurity operations, coordinating threat detection, incident response, and security analysis activities."
+    "d": "A centralized facility where cybersecurity professionals monitor, detect, analyze, and respond to security threats on a continuous basis. They combine people, processes, and technology to provide 24/7 security monitoring and incident response capabilities. They serve as the nerve center for an organization's cybersecurity operations, coordinating threat detection, incident response, and security analysis activities."
   },
   {
     "w": "MSSP",
     "e": "Managed Security Service Provider",
-    "d": "A third-party organization that provides outsourced cybersecurity services including monitoring, management, and response capabilities. MSSPs offer expertise and resources that many organizations cannot maintain in-house, providing services such as 24/7 security monitoring, threat intelligence, incident response, and security device management. They help organizations improve their security posture while managing costs and addressing skill shortages."
+    "d": "A third-party organization that provides outsourced cybersecurity services including monitoring, management, and response capabilities. They offer expertise and resources that many organizations cannot maintain in-house, providing services such as 24/7 security monitoring, threat intelligence, incident response, and security device management. They help organizations improve their security posture while managing costs and addressing skill shortages."
   },
   {
     "w": "MDR",
     "e": "Managed Detection and Response",
-    "d": "An outsourced cybersecurity service that combines technology and human expertise to provide threat hunting, monitoring, and incident response capabilities. MDR services go beyond traditional managed security services by providing proactive threat hunting and hands-on incident response rather than just alert monitoring. They help organizations detect and respond to sophisticated threats that automated tools alone might miss."
+    "d": "An outsourced cybersecurity service that combines technology and human expertise to provide threat hunting, monitoring, and incident response capabilities. They go beyond traditional managed security services by providing proactive threat hunting and hands-on incident response rather than just alert monitoring. They help organizations detect and respond to sophisticated threats that automated tools alone might miss."
   },
   {
     "w": "EDR",
     "e": "Endpoint Detection and Response",
-    "d": "A cybersecurity technology that continuously monitors endpoint devices to detect and respond to advanced threats and suspicious activities. EDR solutions provide real-time visibility into endpoint behavior, enabling security teams to investigate incidents, hunt for threats, and respond to attacks quickly. They typically include capabilities for forensic analysis, threat hunting, and automated response to contain threats on endpoint devices."
+    "d": "A cybersecurity technology that continuously monitors endpoint devices to detect and respond to advanced threats and suspicious activities. They provide real-time visibility into endpoint behavior, enabling security teams to investigate incidents, hunt for threats, and respond to attacks quickly. They typically include capabilities for forensic analysis, threat hunting, and automated response to contain threats on endpoint devices."
   },
   {
     "w": "NDR",
     "e": "Network Detection and Response",
-    "d": "A cybersecurity approach that monitors network traffic and communications to detect and respond to threats and anomalous behavior. NDR solutions analyze network data flows, metadata, and content to identify indicators of compromise and suspicious activities that other security tools might miss. They provide visibility into lateral movement, data exfiltration, and command-and-control communications across network infrastructure."
+    "d": "A cybersecurity approach that monitors network traffic and communications to detect and respond to threats and anomalous behavior. They analyze network data flows, metadata, and content to identify indicators of compromise and suspicious activities that other security tools might miss. They provide visibility into lateral movement, data exfiltration, and command-and-control communications across network infrastructure."
   },
   {
     "w": "OPSEC",
     "e": "Operations Security",
-    "d": "A risk management process that involves identifying critical information and analyzing friendly actions to determine if they can be observed by adversaries. OPSEC helps organizations protect sensitive activities by identifying and eliminating indicators that could reveal their plans, capabilities, or vulnerabilities. Originally developed by the military, OPSEC principles are now widely applied in cybersecurity to prevent information leakage through social media, public communications, and operational practices."
+    "d": "A risk management process that involves identifying critical information and analyzing friendly actions to determine if they can be observed by adversaries. It helps organizations protect sensitive activities by identifying and eliminating indicators that could reveal their plans, capabilities, or vulnerabilities. Originally developed by the military, its principles are now widely applied in cybersecurity to prevent information leakage through social media, public communications, and operational practices."
   },
   {
     "w": "OSINT",
@@ -388,7 +388,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "TLP",
     "e": "Traffic Light Protocol",
-    "d": "A standardized system for classifying and sharing sensitive threat intelligence information with appropriate disclosure restrictions. TLP uses color codes (RED, AMBER, GREEN, WHITE) to indicate sharing boundaries, ensuring that sensitive intelligence is only distributed to authorized recipients. This protocol enables secure collaboration between organizations while protecting sources, methods, and sensitive information from unauthorized disclosure."
+    "d": "A standardized system for classifying and sharing sensitive threat intelligence information with appropriate disclosure restrictions. It uses color codes (RED, AMBER, GREEN, WHITE) to indicate sharing boundaries, ensuring that sensitive intelligence is only distributed to authorized recipients. This protocol enables secure collaboration between organizations while protecting sources, methods, and sensitive information from unauthorized disclosure."
   },
   {
     "w": "STIX",
@@ -413,27 +413,27 @@ window.CYBERDLE_DATA = [
   {
     "w": "ICS",
     "e": "Industrial Control Systems",
-    "d": "Computer-based systems that monitor and control industrial processes including manufacturing, power generation, water treatment, and transportation systems. ICS environments traditionally prioritized availability and safety over security, but increasing connectivity has made them attractive targets for cyberattacks. Securing ICS requires specialized knowledge of operational technology, unique risk considerations, and careful balance between security and operational requirements."
+    "d": "Computer-based systems that monitor and control industrial processes including manufacturing, power generation, water treatment, and transportation systems. These environments traditionally prioritized availability and safety over security, but increasing connectivity has made them attractive targets for cyberattacks. Securing them requires specialized knowledge of operational technology, unique risk considerations, and careful balance between security and operational requirements."
   },
   {
     "w": "HMI",
     "e": "Human Machine Interface",
-    "d": "User interfaces that allow operators to interact with industrial control systems, providing displays of process data and controls for managing equipment and operations. HMIs are critical components of industrial systems that can become attack vectors if not properly secured. Modern HMI security involves access controls, secure communications, and protection against both cyber and physical threats that could compromise industrial operations."
+    "d": "User interfaces that allow operators to interact with industrial control systems, providing displays of process data and controls for managing equipment and operations. They are critical components of industrial systems that can become attack vectors if not properly secured. Modern security involves access controls, secure communications, and protection against both cyber and physical threats that could compromise industrial operations."
   },
   {
     "w": "PLC",
     "e": "Programmable Logic Controller",
-    "d": "Industrial computers designed to control manufacturing processes, machinery, and automation systems in harsh industrial environments. PLCs execute control logic programs that monitor inputs from sensors and control outputs to actuators and other devices. Security of PLCs is crucial because they directly control physical processes, and compromise could result in equipment damage, production disruption, or safety hazards."
+    "d": "Industrial computers designed to control manufacturing processes, machinery, and automation systems in harsh industrial environments. They execute control logic programs that monitor inputs from sensors and control outputs to actuators and other devices. Security is crucial because they directly control physical processes, and compromise could result in equipment damage, production disruption, or safety hazards."
   },
   {
     "w": "RTU",
     "e": "Remote Terminal Unit",
-    "d": "Microprocessor-controlled devices that collect data from sensors and equipment at remote locations and transmit this information back to central control systems. RTUs are commonly used in utilities, oil and gas, and other industries where monitoring geographically distributed assets is necessary. Security of RTUs is important because they often operate in unsecured locations and communicate over potentially vulnerable networks."
+    "d": "Microprocessor-controlled devices that collect data from sensors and equipment at remote locations and transmit this information back to central control systems. They are commonly used in utilities, oil and gas, and other industries where monitoring geographically distributed assets is necessary. Security is important because they often operate in unsecured locations and communicate over potentially vulnerable networks."
   },
   {
     "w": "DLP",
     "e": "Data Loss Prevention",
-    "d": "A security strategy and set of technologies designed to detect, monitor, and prevent unauthorized transmission, use, or disclosure of sensitive data. DLP solutions can monitor data at rest, in use, and in motion to enforce data protection policies and prevent accidental or malicious data breaches. Modern DLP systems use content inspection, contextual analysis, and machine learning to identify and protect sensitive information across various channels and platforms."
+    "d": "A security strategy and set of technologies designed to detect, monitor, and prevent unauthorized transmission, use, or disclosure of sensitive data. They can monitor data at rest, in use, and in motion to enforce data protection policies and prevent accidental or malicious data breaches. Modern systems use content inspection, contextual analysis, and machine learning to identify and protect sensitive information across various channels and platforms."
   },
   {
     "w": "PAM",
@@ -448,17 +448,17 @@ window.CYBERDLE_DATA = [
   {
     "w": "IAM",
     "e": "Identity and Access Management",
-    "d": "A comprehensive framework of policies, processes, and technologies that ensures the right individuals have appropriate access to organizational resources at the right times and for the right reasons. IAM encompasses user provisioning and deprovisioning, authentication, authorization, and access governance. Modern IAM systems support complex environments with cloud services, mobile devices, and third-party applications while maintaining security and compliance."
+    "d": "A comprehensive framework of policies, processes, and technologies that ensures the right individuals have appropriate access to organizational resources at the right times and for the right reasons. It encompasses user provisioning and deprovisioning, authentication, authorization, and access governance. Modern systems support complex environments with cloud services, mobile devices, and third-party applications while maintaining security and compliance."
   },
   {
     "w": "MFA",
     "e": "Multi-Factor Authentication",
-    "d": "A security mechanism that requires users to provide multiple forms of verification before gaining access to systems or applications. MFA typically combines something you know (password), something you have (token or phone), and something you are (biometric). This layered approach significantly reduces the risk of unauthorized access even if one authentication factor is compromised, making it essential for protecting sensitive systems and data."
+    "d": "A security mechanism that requires users to provide multiple forms of verification before gaining access to systems or applications. It typically combines something you know (password), something you have (token or phone), and something you are (biometric). This layered approach significantly reduces the risk of unauthorized access even if one authentication factor is compromised, making it essential for protecting sensitive systems and data."
   },
   {
     "w": "SSO",
     "e": "Single Sign-On",
-    "d": "An authentication scheme that allows users to access multiple applications and systems using a single set of login credentials. SSO improves user experience by reducing password fatigue and helps organizations improve security by centralizing authentication controls and reducing the number of credentials users must manage. Modern SSO systems often integrate with multi-factor authentication and provide detailed audit trails of user access."
+    "d": "An authentication scheme that allows users to access multiple applications and systems using a single set of login credentials. It improves user experience by reducing password fatigue and helps organizations improve security by centralizing authentication controls and reducing the number of credentials users must manage. Modern systems often integrate with multi-factor authentication and provide detailed audit trails of user access."
   },
   {
     "w": "PKI",
@@ -468,12 +468,12 @@ window.CYBERDLE_DATA = [
   {
     "w": "HSM",
     "e": "Hardware Security Module",
-    "d": "A dedicated, tamper-resistant hardware device that provides secure storage and management of cryptographic keys and performs cryptographic operations. HSMs offer high levels of security by storing keys in hardware that cannot be accessed through software and providing secure execution environments for cryptographic functions. They are commonly used in PKI, database encryption, code signing, and other applications requiring high-assurance key protection."
+    "d": "A dedicated, tamper-resistant hardware device that provides secure storage and management of cryptographic keys and performs cryptographic operations. They offer high levels of security by storing keys in hardware that cannot be accessed through software and providing secure execution environments for cryptographic functions. They are commonly used in PKI, database encryption, code signing, and other applications requiring high-assurance key protection."
   },
   {
     "w": "TPM",
     "e": "Trusted Platform Module",
-    "d": "A specialized cryptographic processor chip that provides hardware-based security functions including secure key storage, platform integrity measurements, and attestation capabilities. TPM chips are built into most modern computers and provide a hardware root of trust for various security features including BitLocker encryption, Windows Hello, and secure boot processes. They help protect against firmware attacks and provide cryptographic functions independent of the main processor."
+    "d": "A specialized cryptographic processor chip that provides hardware-based security functions including secure key storage, platform integrity measurements, and attestation capabilities. They are built into most modern computers and provide a hardware root of trust for various security features including BitLocker encryption, Windows Hello, and secure boot processes. They help protect against firmware attacks and provide cryptographic functions independent of the main processor."
   },
   {
     "w": "KMS",
