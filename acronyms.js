@@ -73,7 +73,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "DDOS",
     "e": "Distributed Denial of Service",
-    "d": "A cyberattack that attempts to make an online service unavailable by overwhelming it with traffic from multiple sources. DDoS attacks use networks of compromised computers (botnets) to generate massive amounts of traffic that exceeds the target's capacity to respond. These attacks can disrupt business operations, cause financial losses, and be used as a diversionary tactic to mask other malicious activities."
+    "d": "A cyberattack that attempts to make an online service unavailable by overwhelming it with traffic from multiple sources. Use networks of compromised computers (botnets) to generate massive amounts of traffic that exceeds the target's capacity to respond. Can disrupt business operations, cause financial losses, and be used as a diversionary tactic to mask other malicious activities."
   },
   {
     "w": "MITRE",
@@ -98,7 +98,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "OAUTH",
     "e": "Open Authorization",
-    "d": "An open standard authorization framework that allows third-party applications to obtain limited access to user accounts without exposing passwords. This standard enables secure delegation of access by using access tokens instead of credentials, allowing users to grant specific permissions to applications. This protocol is widely used for integrating applications and services while maintaining user privacy and security."
+    "d": "An open standard authorization framework that allows third-party applications to obtain limited access to user accounts without exposing passwords. Enables secure delegation of access by using access tokens instead of credentials, allowing users to grant specific permissions to applications. Widely used for integrating applications and services while maintaining user privacy and security."
   },
   {
     "w": "OIDC",
@@ -123,7 +123,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "SDWAN",
     "e": "Software-Defined Wide Area Network",
-    "d": "A networking approach that uses software to control and manage WAN connectivity and services between data centers, branch offices, and cloud environments. SD-WAN improves network performance, reduces costs, and enhances security by intelligently routing traffic across multiple connection types. It provides centralized management and policy enforcement while enabling secure direct internet access from branch locations."
+    "d": "A networking approach that uses software to control and manage WAN connectivity and services between data centers, branch offices, and cloud environments. Improves network performance, reduces costs, and enhances security by intelligently routing traffic across multiple connection types. Provides centralized management and policy enforcement while enabling secure direct internet access from branch locations."
   },
   {
     "w": "DMARC",
@@ -163,12 +163,12 @@ window.CYBERDLE_DATA = [
   {
     "w": "BCRYPT",
     "e": "Blowfish Crypt Password Hash",
-    "d": "A password hashing function based on the Blowfish cipher that includes an adaptive work factor to make it computationally expensive to crack. It is designed to be slow and resource-intensive, making brute-force attacks time-consuming and costly for attackers. The work factor can be increased over time as computing power grows, ensuring that password hashing remains secure against improving attack capabilities."
+    "d": "A password hashing function based on the Blowfish cipher that includes an adaptive work factor to make it computationally expensive to crack. Designed to be slow and resource-intensive, making brute-force attacks time-consuming and costly for attackers. The work factor can be increased over time as computing power grows, ensuring that password hashing remains secure against improving attack capabilities."
   },
   {
     "w": "SCRYPT",
     "e": "Scrypt Password Hash",
-    "d": "A memory-hard password hashing algorithm designed to make large-scale custom hardware attacks cost-prohibitive by requiring significant amounts of memory. Scrypt is particularly effective against specialized ASIC and GPU-based cracking attempts because it forces attackers to invest in expensive memory as well as processing power. This makes password cracking operations much more expensive and less feasible for attackers."
+    "d": "A memory-hard password hashing algorithm designed to make large-scale custom hardware attacks cost-prohibitive by requiring significant amounts of memory. Particularly effective against specialized ASIC and GPU-based cracking attempts because it forces attackers to invest in expensive memory as well as processing power. Makes password cracking operations much more expensive and less feasible for attackers."
   },
   {
     "w": "QUIC",
@@ -208,7 +208,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "EBPF",
     "e": "Extended Berkeley Packet Filter",
-    "d": "A powerful kernel technology that allows secure execution of custom programs in kernel space without changing kernel source code or loading kernel modules. eBPF enables efficient monitoring, networking, and security applications by providing high-performance access to kernel events and data structures. Security tools use eBPF for real-time threat detection, system call monitoring, and network traffic analysis with minimal performance overhead."
+    "d": "A powerful kernel technology that allows secure execution of custom programs in kernel space without changing kernel source code or loading kernel modules. Enables efficient monitoring, networking, and security applications by providing high-performance access to kernel events and data structures. Security tools use it for real-time threat detection, system call monitoring, and network traffic analysis with minimal performance overhead."
   },
   {
     "w": "NERC",
@@ -258,7 +258,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "TIM",
     "e": "Threat Intelligence Management",
-    "d": "The process of collecting, analyzing, and operationalizing threat intelligence to improve security decision-making and defensive capabilities. These platforms aggregate threat data from multiple sources, enrich it with context, and distribute actionable intelligence to security tools and personnel. Effective threat intelligence management helps organizations understand their threat landscape and make informed security investments."
+    "d": "The process of collecting, analyzing, and operationalizing threat intelligence to improve security decision-making and defensive capabilities. Platforms aggregate threat data from multiple sources, enrich it with context, and distribute actionable intelligence to security tools and personnel. Helps organizations understand their threat landscape and make informed security investments."
   },
   {
     "w": "FQDN",
@@ -288,12 +288,12 @@ window.CYBERDLE_DATA = [
   {
     "w": "CDR",
     "e": "Cloud Detection and Response",
-    "d": "Security capabilities specifically focused on detecting and responding to threats in cloud environments including infrastructure-as-a-service, platform-as-a-service, and software-as-a-service. These solutions monitor cloud configurations, user activities, and resource access to identify suspicious behavior and potential security breaches. They provide specialized detection and response capabilities tailored to the unique security challenges of cloud computing environments."
+    "d": "Security capabilities specifically focused on detecting and responding to threats in cloud environments including infrastructure-as-a-service, platform-as-a-service, and software-as-a-service. Monitor cloud configurations, user activities, and resource access to identify suspicious behavior and potential security breaches. Provide specialized detection and response capabilities tailored to the unique security challenges of cloud computing environments."
   },
   {
     "w": "CGO",
     "e": "Causality Group Owner",
-    "d": "A security concept that represents the root process or entity responsible for initiating a chain of related activities or events on a system. This helps security analysts understand the origin and progression of process execution chains during incident investigation. By identifying the causality group owner, analysts can better understand attack progression and determine the initial point of compromise in complex security incidents."
+    "d": "A security concept that represents the root process or entity responsible for initiating a chain of related activities or events on a system. Helps security analysts understand the origin and progression of process execution chains during incident investigation. By identifying it, analysts can better understand attack progression and determine the initial point of compromise in complex security incidents."
   },
   {
     "w": "ADEM",
@@ -303,12 +303,12 @@ window.CYBERDLE_DATA = [
   {
     "w": "ASM",
     "e": "Attack Surface Management",
-    "d": "A security practice that involves continuously discovering, monitoring, and managing an organization's external-facing digital assets and potential attack vectors. These solutions help organizations understand their internet-exposed infrastructure, identify unknown or forgotten assets, and assess potential security risks from an attacker's perspective. This outside-in approach to security helps organizations reduce their attack surface and improve their overall security posture."
+    "d": "A security practice that involves continuously discovering, monitoring, and managing an organization's external-facing digital assets and potential attack vectors. Helps organizations understand their internet-exposed infrastructure, identify unknown or forgotten assets, and assess potential security risks from an attacker's perspective. An outside-in approach to security that helps organizations reduce their attack surface and improve their overall security posture."
   },
   {
     "w": "DFIR",
     "e": "Digital Forensics and Incident Response",
-    "d": "A specialized field that combines digital forensics techniques with incident response procedures to investigate security breaches and cyberattacks. Professionals in this field collect and analyze digital evidence, reconstruct attack timelines, and help organizations recover from security incidents. They use specialized tools and methodologies to preserve evidence integrity while gathering information needed for legal proceedings, insurance claims, and security improvements."
+    "d": "A specialized field that combines digital forensics techniques with incident response procedures to investigate security breaches and cyberattacks. Professionals collect and analyze digital evidence, reconstruct attack timelines, and help organizations recover from security incidents. They use specialized tools and methodologies to preserve evidence integrity while gathering information needed for legal proceedings, insurance claims, and security improvements."
   },
   {
     "w": "APT",
@@ -368,22 +368,22 @@ window.CYBERDLE_DATA = [
   {
     "w": "OSINT",
     "e": "Open Source Intelligence",
-    "d": "Intelligence gathering from publicly available sources including websites, social media, news articles, academic papers, and government publications. This intelligence is used by security researchers, threat hunters, and attackers to gather information about targets without direct access to internal systems. This discipline has become increasingly important in cybersecurity for threat intelligence, attack surface mapping, and understanding adversary capabilities and intentions."
+    "d": "Intelligence gathering from publicly available sources including websites, social media, news articles, academic papers, and government publications. Used by security researchers, threat hunters, and attackers to gather information about targets without direct access to internal systems. Has become increasingly important in cybersecurity for threat intelligence, attack surface mapping, and understanding adversary capabilities and intentions."
   },
   {
     "w": "HUMINT",
     "e": "Human Intelligence",
-    "d": "Intelligence gathered through human sources and interpersonal contact, including interviews, conversations, and human observation. In cybersecurity contexts, this might involve social engineering assessments, insider threat investigations, or gathering information through human networks. While less technical than other intelligence disciplines, this remains valuable for understanding motivations, intentions, and capabilities that technical collection methods cannot reveal."
+    "d": "Intelligence gathered through human sources and interpersonal contact, including interviews, conversations, and human observation. In cybersecurity contexts, might involve social engineering assessments, insider threat investigations, or gathering information through human networks. While less technical than other intelligence disciplines, remains valuable for understanding motivations, intentions, and capabilities that technical collection methods cannot reveal."
   },
   {
     "w": "SIGINT",
     "e": "Signals Intelligence",
-    "d": "Intelligence derived from intercepting and analyzing electronic signals and communications including radio transmissions, phone calls, and digital communications. These capabilities are primarily used by government agencies for national security purposes, but the principles apply to cybersecurity monitoring of network communications and electronic surveillance. This intelligence discipline requires sophisticated technical capabilities and legal frameworks for proper implementation."
+    "d": "Intelligence derived from intercepting and analyzing electronic signals and communications including radio transmissions, phone calls, and digital communications. Primarily used by government agencies for national security purposes, but the principles apply to cybersecurity monitoring of network communications and electronic surveillance. Requires sophisticated technical capabilities and legal frameworks for proper implementation."
   },
   {
     "w": "CTI",
     "e": "Cyber Threat Intelligence",
-    "d": "Evidence-based knowledge about current and emerging cybersecurity threats that helps organizations make informed security decisions. This includes information about threat actors, their tactics and techniques, indicators of compromise, and contextual analysis of threat landscapes. Effective cyber threat intelligence enables proactive defense, improves incident response, and helps organizations understand and prepare for relevant threats to their specific environment and industry."
+    "d": "Evidence-based knowledge about current and emerging cybersecurity threats that helps organizations make informed security decisions. Includes information about threat actors, their tactics and techniques, indicators of compromise, and contextual analysis of threat landscapes. Enables proactive defense, improves incident response, and helps organizations understand and prepare for relevant threats to their specific environment and industry."
   },
   {
     "w": "TLP",
@@ -408,7 +408,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "IOT",
     "e": "Internet of Things",
-    "d": "A network of interconnected physical devices embedded with sensors, software, and connectivity that enables them to collect and exchange data over the internet. IoT devices range from consumer products like smart home devices to industrial sensors and medical equipment. The rapid proliferation of IoT devices has created significant cybersecurity challenges due to often poor security implementations, difficult patch management, and expanded attack surfaces."
+    "d": "A network of interconnected physical devices embedded with sensors, software, and connectivity that enables them to collect and exchange data over the internet. These devices range from consumer products like smart home devices to industrial sensors and medical equipment. The rapid proliferation has created significant cybersecurity challenges due to often poor security implementations, difficult patch management, and expanded attack surfaces."
   },
   {
     "w": "ICS",
@@ -443,7 +443,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "PIM",
     "e": "Privileged Identity Management",
-    "d": "A security discipline focused on managing and securing identities with elevated access rights within an organization's IT infrastructure. PIM encompasses the processes, policies, and technologies used to discover, manage, and monitor privileged accounts throughout their lifecycle. This includes service accounts, administrator accounts, and other identities that have access to critical systems and sensitive data."
+    "d": "A security discipline focused on managing and securing identities with elevated access rights within an organization's IT infrastructure. Encompasses the processes, policies, and technologies used to discover, manage, and monitor privileged accounts throughout their lifecycle. Includes service accounts, administrator accounts, and other identities that have access to critical systems and sensitive data."
   },
   {
     "w": "IAM",
@@ -478,7 +478,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "KMS",
     "e": "Key Management Service",
-    "d": "A centralized system for creating, distributing, storing, and managing cryptographic keys throughout their lifecycle. These solutions provide automated key generation, secure key storage, access controls, and key rotation capabilities while maintaining detailed audit logs. Proper key management is essential for maintaining the security of encrypted data and ensuring compliance with regulatory requirements for cryptographic key protection."
+    "d": "A centralized system for creating, distributing, storing, and managing cryptographic keys throughout their lifecycle. Provides automated key generation, secure key storage, access controls, and key rotation capabilities while maintaining detailed audit logs. Essential for maintaining the security of encrypted data and ensuring compliance with regulatory requirements for cryptographic key protection."
   },
   {
     "w": "CA",
