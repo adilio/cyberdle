@@ -1,6 +1,6 @@
 # Cyberdle
 
-Look, we all know cybersecurity has way too many dang acronyms. Half the time it feels like we’re drowning in acronym soup. CNAPP, CSPM, XDR, SOC, MITRE... and that's jsut the first 2 minutes of this meeting. So lets try and have some fun with this!
+Look, we all know cybersecurity has way too many dang acronyms. Half the time it feels like we’re drowning in acronym soup. CNAPP, CSPM, XDR, SOC, MITRE... and that's just the first 2 minutes of this meeting. So lets try and have some fun while we leaern!
 
 Cyberdle is a Wordle-style word game designed for cybersecurity professionals, students, and acronym enthusiasts. Test your knowledge of cybersecurity acronyms by guessing the correct term based on its definition. Each guess provides color-coded feedback: green for letters in the correct position, yellow for letters present elsewhere, and gray for absent letters.
 
