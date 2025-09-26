@@ -6,6 +6,12 @@ Cyberdle is a Wordle-style word game designed for cybersecurity professionals, s
 
 The entire game ships as static files (HTML, CSS, and a single dataset script), so you can double-click `index.html` and start playing immediately. No build step, server, or tooling required. Just pure, online/offline fun!
 
+## Play Online
+
+The easiest way to play Cyberdle is online at: **[https://adilio.github.io/cyberdle/](https://adilio.github.io/cyberdle/)**
+
+The site is hosted via GitHub Pages, so you can play directly in your browser without any setup or downloads.
+
 ## How to Play
 
 1. **Read the Definition**: Each puzzle presents a detailed definition of a cybersecurity acronym.
