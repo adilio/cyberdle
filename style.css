@@ -374,10 +374,9 @@ button {
 
 .footer__attribution {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
   font-size: clamp(0.75rem, 1.8vw, 0.85rem);
 }
 
