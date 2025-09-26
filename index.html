@@ -207,6 +207,9 @@
         buildKeyboard();
         renderAll();
         attachEvents();
+        if ('ontouchstart' in window) {
+          tiles.flat().forEach(tile => tile.setAttribute('tabindex', '0'));
+        }
         focusKeyCapture();
       }
 
@@ -494,6 +497,11 @@
           keyCapture.addEventListener('keydown', handleMobileKeydown);
           keyCapture.addEventListener('input', () => {
             keyCapture.value = currentGuess;
+          });
+          gridEl.addEventListener('click', (event) => {
+            if (event.target.classList.contains('t') && !session.done) {
+              focusKeyCapture();
+            }
           });
         } else {
           window.addEventListener('keydown', handleKeydown);
