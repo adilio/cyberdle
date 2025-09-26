@@ -438,7 +438,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "PAM",
     "e": "Privileged Access Management",
-    "d": "A cybersecurity strategy and toolset for controlling and monitoring privileged access to critical systems and sensitive data. PAM solutions provide secure storage of privileged credentials, session monitoring and recording, and just-in-time access provisioning. By managing privileged accounts that have elevated permissions, PAM helps organizations reduce the risk of insider threats and prevent attackers from leveraging compromised privileged credentials."
+    "d": "A cybersecurity strategy and toolset for controlling and monitoring privileged access to critical systems and sensitive data. Solutions provide secure storage of privileged credentials, session monitoring and recording, and just-in-time access provisioning. By managing privileged accounts that have elevated permissions, it helps organizations reduce the risk of insider threats and prevent attackers from leveraging compromised privileged credentials."
   },
   {
     "w": "PIM",
