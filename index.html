@@ -70,7 +70,13 @@
         </div>
       </section>
 
-      <footer class="footer">Type with your keyboard. Enter submits. Backspace deletes.</footer>
+      <footer class="footer">
+        <div class="footer__instructions"></div>
+        <div class="footer__attribution">
+          <a href="https://github.com/adilio/cyberdle" target="_blank" rel="noopener" class="footer__link">View on GitHub</a>
+          Made with 💜 by <a href="https://github.com/adilio" target="_blank" rel="noopener" class="footer__link">Adil Leghari</a>
+        </div>
+      </footer>
     </div>
 
     <dialog id="help-dialog" class="modal">
@@ -478,10 +484,10 @@
       }
 
       function updateFooter() {
-        const footerEl = document.querySelector('.footer');
-        if (!footerEl) return;
+        const instructionsEl = document.querySelector('.footer__instructions');
+        if (!instructionsEl) return;
         const isTouch = 'ontouchstart' in window;
-        footerEl.textContent = isTouch
+        instructionsEl.textContent = isTouch
           ? 'Use the on-screen keyboard or type in the input below. Enter submits.'
           : 'Type with your keyboard. Enter submits. Backspace deletes.';
       }
