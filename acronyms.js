@@ -233,12 +233,12 @@ window.CYBERDLE_DATA = [
   {
     "w": "XSOAR",
     "e": "Extended Security Orchestration, Automation, and Response",
-    "d": "An advanced security orchestration platform that automates incident response workflows and integrates multiple security tools into coordinated response processes. XSOAR solutions use playbooks to automate complex security procedures, enabling consistent and rapid response to security incidents. They help security teams scale their capabilities by automating routine tasks and orchestrating sophisticated multi-tool response workflows."
+    "d": "An advanced security orchestration platform that automates incident response workflows and integrates multiple security tools into coordinated response processes. Solutions use playbooks to automate complex security procedures, enabling consistent and rapid response to security incidents. They help security teams scale their capabilities by automating routine tasks and orchestrating sophisticated multi-tool response workflows."
   },
   {
     "w": "XSIAM",
     "e": "Extended Security Intelligence and Automation Management",
-    "d": "An AI-powered security operations platform that combines security information and event management with advanced analytics and automated response capabilities. XSIAM solutions use machine learning to analyze security data, identify threats, and automate investigation and response processes. They represent the next evolution of security operations, providing intelligent automation that can adapt to new threats and reduce the burden on human analysts."
+    "d": "An AI-powered security operations platform that combines security information and event management with advanced analytics and automated response capabilities. Solutions use machine learning to analyze security data, identify threats, and automate investigation and response processes. They represent the next evolution of security operations, providing intelligent automation that can adapt to new threats and reduce the burden on human analysts."
   },
   {
     "w": "EDL",
@@ -393,17 +393,17 @@ window.CYBERDLE_DATA = [
   {
     "w": "STIX",
     "e": "Structured Threat Information eXpression",
-    "d": "A standardized language and data model for describing cyber threat information in a machine-readable format that enables automated processing and sharing. STIX provides a common vocabulary for expressing threat intelligence including indicators, tactics, techniques, campaigns, and threat actors. This standardization enables interoperability between security tools and facilitates large-scale threat intelligence sharing between organizations and platforms."
+    "d": "A standardized language and data model for describing cyber threat information in a machine-readable format that enables automated processing and sharing. It provides a common vocabulary for expressing threat intelligence including indicators, tactics, techniques, campaigns, and threat actors. This standardization enables interoperability between security tools and facilitates large-scale threat intelligence sharing between organizations and platforms."
   },
   {
     "w": "TAXII",
     "e": "Trusted Automated eXchange of Intelligence Information",
-    "d": "A protocol specification that defines how cyber threat intelligence formatted in STIX can be shared between organizations and systems in an automated, reliable manner. TAXII provides secure transport mechanisms for threat intelligence sharing, including both push and pull models for data exchange. Together with STIX, TAXII enables the creation of threat intelligence sharing communities and automated threat feeds."
+    "d": "A protocol specification that defines how cyber threat intelligence formatted in a machine-readable format can be shared between organizations and systems in an automated, reliable manner. It provides secure transport mechanisms for threat intelligence sharing, including both push and pull models for data exchange. Together with standardized formats, it enables the creation of threat intelligence sharing communities and automated threat feeds."
   },
   {
     "w": "YARA",
     "e": "Yet Another Ridiculous Acronym",
-    "d": "A pattern matching engine and rule-based language used to identify and classify malware samples based on textual or binary patterns. YARA rules describe malware families or specific threats using string patterns, file characteristics, and logical conditions. Security researchers and analysts use YARA extensively for malware analysis, threat hunting, and creating detection signatures that can be shared across the security community."
+    "d": "A pattern matching engine and rule-based language used to identify and classify malware samples based on textual or binary patterns. Rules describe malware families or specific threats using string patterns, file characteristics, and logical conditions. Security researchers and analysts use it extensively for malware analysis, threat hunting, and creating detection signatures that can be shared across the security community."
   },
   {
     "w": "IOT",
@@ -463,7 +463,7 @@ window.CYBERDLE_DATA = [
   {
     "w": "PKI",
     "e": "Public Key Infrastructure",
-    "d": "A comprehensive framework for managing digital certificates and public-key encryption that enables secure communications, authentication, and data integrity. PKI consists of certificate authorities, registration authorities, certificate repositories, and key management systems that work together to establish trust relationships. It forms the foundation for many security technologies including SSL/TLS, code signing, email encryption, and device authentication."
+    "d": "A comprehensive framework for managing digital certificates and public-key encryption that enables secure communications, authentication, and data integrity. It consists of certificate authorities, registration authorities, certificate repositories, and key management systems that work together to establish trust relationships. It forms the foundation for many security technologies including SSL/TLS, code signing, email encryption, and device authentication."
   },
   {
     "w": "HSM",
@@ -483,16 +483,16 @@ window.CYBERDLE_DATA = [
   {
     "w": "CA",
     "e": "Certificate Authority",
-    "d": "A trusted third-party organization that issues, manages, and validates digital certificates used to verify the identity of entities in public key infrastructure. CAs perform identity verification before issuing certificates and maintain certificate revocation lists for compromised or expired certificates. They serve as the foundation of trust for secure communications on the internet and within enterprise environments."
+    "d": "A trusted third-party organization that issues, manages, and validates digital certificates used to verify the identity of entities in public key infrastructure. They perform identity verification before issuing certificates and maintain certificate revocation lists for compromised or expired certificates. They serve as the foundation of trust for secure communications on the internet and within enterprise environments."
   },
   {
     "w": "CRL",
     "e": "Certificate Revocation List",
-    "d": "A digitally signed list of certificates that have been revoked by a certificate authority before their scheduled expiration date. CRLs are published regularly and contain the serial numbers of revoked certificates along with revocation dates and reasons. Applications and services check CRLs to ensure they don't trust revoked certificates, helping maintain the integrity of PKI systems and prevent use of compromised certificates."
+    "d": "A digitally signed list of certificates that have been revoked by a certificate authority before their scheduled expiration date. They are published regularly and contain the serial numbers of revoked certificates along with revocation dates and reasons. Applications and services check them to ensure they don't trust revoked certificates, helping maintain the integrity of PKI systems and prevent use of compromised certificates."
   },
   {
     "w": "OCSP",
     "e": "Online Certificate Status Protocol",
-    "d": "A real-time protocol that enables applications to check the revocation status of digital certificates by querying certificate authorities directly. OCSP provides more timely certificate status information than traditional certificate revocation lists and reduces bandwidth requirements. It enables immediate verification of certificate validity, improving security by ensuring that revoked certificates are not trusted by applications and services."
+    "d": "A real-time protocol that enables applications to check the revocation status of digital certificates by querying certificate authorities directly. It provides more timely certificate status information than traditional certificate revocation lists and reduces bandwidth requirements. It enables immediate verification of certificate validity, improving security by ensuring that revoked certificates are not trusted by applications and services."
   }
 ]
