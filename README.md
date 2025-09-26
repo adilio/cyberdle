@@ -70,6 +70,7 @@ Cyberdle is MIT-licensed, so you're free to fork it, customize it, or build your
 index.html      # Game UI + logic
 style.css       # Themes + layout
 acronyms.js     # Acronym dataset
+favicon.svg     # Site favicon
 README.md       # This file
 LICENSE         # MIT license
 ```

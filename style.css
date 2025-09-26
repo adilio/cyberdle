@@ -97,6 +97,15 @@ button {
 .title h1 {
   margin: 0;
   font-size: clamp(1.8rem, 4vw, 2.4rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.favicon-icon {
+  width: 1.2em;
+  height: 1.2em;
+  flex-shrink: 0;
 }
 
 .title p {
