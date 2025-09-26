@@ -411,6 +411,7 @@
         renderStats();
         updateModalStats();
         updateMeta();
+        updateFooter();
         setMessage('');
       }
 
@@ -473,13 +474,30 @@
         puzzleDateEl.textContent = mode === 'daily' ? new Date().toLocaleDateString() : 'Random challenge';
       }
 
+      function updateFooter() {
+        const footerEl = document.querySelector('.footer');
+        if (!footerEl) return;
+        const isTouch = 'ontouchstart' in window;
+        footerEl.textContent = isTouch
+          ? 'Use the on-screen keyboard or type in the input below. Enter submits.'
+          : 'Type with your keyboard. Enter submits. Backspace deletes.';
+      }
+
       function setMessage(message, tone = 'info') {
         messageEl.textContent = message;
         messageEl.dataset.tone = tone;
       }
 
       function attachEvents() {
-        window.addEventListener('keydown', handleKeydown);
+        const isTouch = 'ontouchstart' in window;
+        if (isTouch) {
+          keyCapture.addEventListener('keydown', handleMobileKeydown);
+          keyCapture.addEventListener('input', () => {
+            keyCapture.value = currentGuess;
+          });
+        } else {
+          window.addEventListener('keydown', handleKeydown);
+        }
         themeBtn.addEventListener('click', handleThemeToggle);
         helpBtn.addEventListener('click', () => helpDialog.showModal());
         statsBtn.addEventListener('click', () => {
@@ -610,6 +628,26 @@
             addLetter(letter);
           }
         }
+      }
+
+      function handleMobileKeydown(event) {
+        if (statsDialog.open || helpDialog.open) return;
+        if (session.done && event.key === 'Enter') {
+          startNewGame(mode);
+          return;
+        }
+        if (event.key === 'Enter') {
+          submitGuess();
+        } else if (event.key === 'Backspace') {
+          removeLetter();
+        } else {
+          const letter = event.key.toUpperCase();
+          if (/^[A-Z]$/.test(letter)) {
+            addLetter(letter);
+          }
+        }
+        event.preventDefault();
+        keyCapture.value = currentGuess;
       }
 
       function handleKeyboardClick(event) {
