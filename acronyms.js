@@ -231,16 +231,6 @@ window.CYBERDLE_DATA = [
     "d": "A security platform that provides comprehensive threat detection, investigation, and response capabilities across multiple security layers including endpoints, networks, cloud, and applications. They correlate data from various sources to provide context-rich alerts and automated response capabilities. They aim to improve security operations efficiency by reducing alert fatigue and enabling faster, more effective incident response through integrated toolsets."
   },
   {
-    "w": "XSOAR",
-    "e": "Extended Security Orchestration, Automation, and Response",
-    "d": "An advanced security orchestration platform that automates incident response workflows and integrates multiple security tools into coordinated response processes. Solutions use playbooks to automate complex security procedures, enabling consistent and rapid response to security incidents. They help security teams scale their capabilities by automating routine tasks and orchestrating sophisticated multi-tool response workflows."
-  },
-  {
-    "w": "XSIAM",
-    "e": "Extended Security Intelligence and Automation Management",
-    "d": "An AI-powered security operations platform that combines security information and event management with advanced analytics and automated response capabilities. Solutions use machine learning to analyze security data, identify threats, and automate investigation and response processes. They represent the next evolution of security operations, providing intelligent automation that can adapt to new threats and reduce the burden on human analysts."
-  },
-  {
     "w": "EDL",
     "e": "External Dynamic List",
     "d": "A security feature that allows firewalls and other security devices to automatically update their threat intelligence by subscribing to external feeds of malicious IP addresses, domains, or URLs. They enable real-time protection against known threats by automatically blocking connections to malicious infrastructure. They reduce the administrative burden of manually updating security policies and ensure that protection remains current against evolving threats."
