@@ -3,72 +3,72 @@ window.CYBERDLE_DATA = [
   {
     "w": "CNAPP",
     "e": "Cloud-Native Application Protection Platform",
-    "d": "A comprehensive security platform that combines multiple cloud protection capabilities into a single solution. CNAPP helps secure applications throughout their entire lifecycle, from development through runtime deployment. It typically integrates cloud security posture management, workload protection, and vulnerability management to provide holistic cloud application security."
+    "d": "A comprehensive security platform that combines multiple cloud protection capabilities into a single solution. Helps secure applications throughout their entire lifecycle, from development through runtime deployment. Typically integrates cloud security posture management, workload protection, and vulnerability management to provide holistic cloud application security."
   },
   {
     "w": "CSPM",
     "e": "Cloud Security Posture Management",
-    "d": "Security tools that continuously scan cloud environments for misconfigurations, policy violations, and compliance issues. CSPM solutions help organizations maintain proper security settings across their cloud infrastructure by identifying risky configurations before they can be exploited. They provide automated remediation capabilities and compliance reporting to prevent cloud breaches caused by human error."
+    "d": "Security tools that continuously scan cloud environments for misconfigurations, policy violations, and compliance issues. Help organizations maintain proper security settings across their cloud infrastructure by identifying risky configurations before they can be exploited. Provide automated remediation capabilities and compliance reporting to prevent cloud breaches caused by human error."
   },
   {
     "w": "DSPM",
     "e": "Data Security Posture Management",
-    "d": "A security approach focused on discovering, classifying, and protecting sensitive data across cloud and SaaS environments. DSPM solutions provide continuous visibility into data location, access patterns, and potential exposure risks. They help organizations meet compliance requirements by automatically identifying sensitive information like PII, PHI, and financial data, then applying appropriate protection policies."
+    "d": "A security approach focused on discovering, classifying, and protecting sensitive data across cloud and SaaS environments. Provide continuous visibility into data location, access patterns, and potential exposure risks. Help organizations meet compliance requirements by automatically identifying sensitive information like PII, PHI, and financial data, then applying appropriate protection policies."
   },
   {
     "w": "CWPP",
     "e": "Cloud Workload Protection Platform",
-    "d": "Runtime security defenses specifically designed to protect cloud workloads including containers, virtual machines, and serverless functions. CWPP solutions provide real-time threat detection and response capabilities for running applications in cloud environments. They typically include features like behavioral monitoring, vulnerability scanning, and automated incident response to defend against exploits and malware."
+    "d": "Runtime security defenses specifically designed to protect cloud workloads including containers, virtual machines, and serverless functions. Provide real-time threat detection and response capabilities for running applications in cloud environments. Typically include features like behavioral monitoring, vulnerability scanning, and automated incident response to defend against exploits and malware."
   },
   {
     "w": "CIEM",
     "e": "Cloud Infrastructure Entitlement Management",
-    "d": "Security solutions that provide visibility and control over cloud permissions and access rights. CIEM helps organizations implement the principle of least privilege by identifying excessive permissions, unused accounts, and potential privilege escalation paths. It addresses the challenge of privilege sprawl in cloud environments where permissions can quickly become overly broad and difficult to manage."
+    "d": "Security solutions that provide visibility and control over cloud permissions and access rights. Help organizations implement the principle of least privilege by identifying excessive permissions, unused accounts, and potential privilege escalation paths. Addresses the challenge of privilege sprawl in cloud environments where permissions can quickly become overly broad and difficult to manage."
   },
   {
     "w": "SIEM",
     "e": "Security Information and Event Management",
-    "d": "A centralized platform that aggregates and analyzes security logs and events from across an organization's IT infrastructure. SIEM systems provide real-time monitoring, threat detection, and incident response capabilities by correlating data from multiple sources. They enable security teams to detect suspicious patterns, investigate security incidents, and maintain compliance through comprehensive logging and reporting."
+    "d": "A centralized platform that aggregates and analyzes security logs and events from across an organization's IT infrastructure. Provide real-time monitoring, threat detection, and incident response capabilities by correlating data from multiple sources. Enable security teams to detect suspicious patterns, investigate security incidents, and maintain compliance through comprehensive logging and reporting."
   },
   {
     "w": "SASE",
     "e": "Secure Access Service Edge",
-    "d": "A cloud-delivered security framework that combines networking and security services into a single platform. SASE provides secure connectivity for users regardless of their location, whether in the office, at home, or traveling. It integrates capabilities like secure web gateways, cloud access security brokers, and zero trust network access to support modern distributed work environments."
+    "d": "A cloud-delivered security framework that combines networking and security services into a single platform. Provides secure connectivity for users regardless of their location, whether in the office, at home, or traveling. Integrates capabilities like secure web gateways, cloud access security brokers, and zero trust network access to support modern distributed work environments."
   },
   {
     "w": "CASB",
     "e": "Cloud Access Security Broker",
-    "d": "A security control point positioned between cloud service consumers and cloud service providers to extend security policies beyond on-premises infrastructure. CASB solutions provide visibility into cloud application usage, data protection through encryption and access controls, and compliance monitoring. They help organizations safely adopt cloud services while maintaining security and regulatory compliance."
+    "d": "A security control point positioned between cloud service consumers and cloud service providers to extend security policies beyond on-premises infrastructure. Provide visibility into cloud application usage, data protection through encryption and access controls, and compliance monitoring. Help organizations safely adopt cloud services while maintaining security and regulatory compliance."
   },
   {
     "w": "ITDR",
     "e": "Identity Threat Detection and Response",
-    "d": "Security solutions specifically focused on detecting and responding to identity-based threats such as credential theft, privilege abuse, and account takeovers. ITDR systems monitor identity systems like Active Directory for suspicious activities and policy violations. They provide specialized capabilities for investigating and remediating identity-related security incidents, which are increasingly common attack vectors."
+    "d": "Security solutions specifically focused on detecting and responding to identity-based threats such as credential theft, privilege abuse, and account takeovers. Monitor identity systems like Active Directory for suspicious activities and policy violations. Provide specialized capabilities for investigating and remediating identity-related security incidents, which are increasingly common attack vectors."
   },
   {
     "w": "UEBA",
     "e": "User and Entity Behavior Analytics",
-    "d": "Analytics technology that uses machine learning to establish baseline behaviors for users, devices, and other entities in an IT environment. UEBA solutions detect anomalies that may indicate insider threats, compromised accounts, or advanced persistent threats. They analyze patterns in user activities, network access, and data usage to identify suspicious behavior that traditional security tools might miss."
+    "d": "Analytics technology that uses machine learning to establish baseline behaviors for users, devices, and other entities in an IT environment. Detect anomalies that may indicate insider threats, compromised accounts, or advanced persistent threats. Analyze patterns in user activities, network access, and data usage to identify suspicious behavior that traditional security tools might miss."
   },
   {
     "w": "RBAC",
     "e": "Role-Based Access Control",
-    "d": "An access control method that assigns permissions to users based on their organizational roles rather than individual identity. RBAC simplifies permission management by grouping users with similar job functions and granting access rights collectively. This approach reduces administrative overhead, improves security by enforcing least privilege principles, and makes it easier to audit and maintain access controls across large organizations."
+    "d": "An access control method that assigns permissions to users based on their organizational roles rather than individual identity. Simplifies permission management by grouping users with similar job functions and granting access rights collectively. Reduces administrative overhead, improves security by enforcing least privilege principles, and makes it easier to audit and maintain access controls across large organizations."
   },
   {
     "w": "ZTNA",
     "e": "Zero Trust Network Access",
-    "d": "A security model that requires verification of every user and device before granting access to applications and resources. ZTNA assumes that no user or device can be trusted by default, regardless of their location or network connection. It provides secure remote access by creating encrypted tunnels to specific applications rather than broad network access, reducing the attack surface and preventing lateral movement."
+    "d": "A security model that requires verification of every user and device before granting access to applications and resources. Assumes that no user or device can be trusted by default, regardless of their location or network connection. Provides secure remote access by creating encrypted tunnels to specific applications rather than broad network access, reducing the attack surface and preventing lateral movement."
   },
   {
     "w": "SOAR",
     "e": "Security Orchestration, Automation, and Response",
-    "d": "Technology platforms that integrate security tools and automate incident response processes through predefined playbooks. SOAR solutions help security teams respond to threats more quickly and consistently by automating routine tasks and orchestrating complex workflows across multiple security tools. They improve efficiency by reducing manual effort and ensure that incident response procedures are followed consistently."
+    "d": "Technology platforms that integrate security tools and automate incident response processes through predefined playbooks. Help security teams respond to threats more quickly and consistently by automating routine tasks and orchestrating complex workflows across multiple security tools. Improve efficiency by reducing manual effort and ensure that incident response procedures are followed consistently."
   },
   {
     "w": "FIDO",
     "e": "Fast Identity Online",
-    "d": "An open standard for strong, passwordless authentication that uses public key cryptography and biometrics or hardware tokens. FIDO protocols eliminate the need for passwords by allowing users to authenticate using their devices through methods like fingerprint scanning, facial recognition, or hardware security keys. This approach significantly reduces the risk of phishing attacks and credential-based breaches."
+    "d": "An open standard for strong, passwordless authentication that uses public key cryptography and biometrics or hardware tokens. Eliminate the need for passwords by allowing users to authenticate using their devices through methods like fingerprint scanning, facial recognition, or hardware security keys. Significantly reduces the risk of phishing attacks and credential-based breaches."
   },
   {
     "w": "DDOS",
@@ -78,22 +78,22 @@ window.CYBERDLE_DATA = [
   {
     "w": "MITRE",
     "e": "MIT Research and Engineering",
-    "d": "A nonprofit organization that maintains the ATT&CK framework, a comprehensive knowledge base of adversary tactics, techniques, and procedures based on real-world observations. The MITRE ATT&CK framework helps security professionals understand how attackers operate and develop appropriate defenses. It provides a common language for describing cyber threats and enables organizations to assess their security posture against known attack patterns."
+    "d": "A nonprofit organization that maintains the ATT&CK framework, a comprehensive knowledge base of adversary tactics, techniques, and procedures based on real-world observations. Helps security professionals understand how attackers operate and develop appropriate defenses. Provides a common language for describing cyber threats and enables organizations to assess their security posture against known attack patterns."
   },
   {
     "w": "EASM",
     "e": "External Attack Surface Management",
-    "d": "A security practice that involves discovering, monitoring, and managing internet-facing assets and potential vulnerabilities from an attacker's perspective. EASM solutions continuously scan for exposed services, misconfigured systems, and shadow IT resources that could provide entry points for attackers. They help organizations understand their external attack surface and prioritize remediation efforts based on actual exposure risk."
+    "d": "A security practice that involves discovering, monitoring, and managing internet-facing assets and potential vulnerabilities from an attacker's perspective. Continuously scan for exposed services, misconfigured systems, and shadow IT resources that could provide entry points for attackers. Help organizations understand their external attack surface and prioritize remediation efforts based on actual exposure risk."
   },
   {
     "w": "NIST",
     "e": "National Institute of Standards and Technology",
-    "d": "A U.S. federal agency that develops cybersecurity frameworks, standards, and guidelines widely adopted across industries and government. NIST's Cybersecurity Framework provides a structured approach to managing cybersecurity risks through five core functions: Identify, Protect, Detect, Respond, and Recover. Their publications and standards serve as authoritative guidance for implementing security controls and best practices."
+    "d": "A U.S. federal agency that develops cybersecurity frameworks, standards, and guidelines widely adopted across industries and government. Provides a structured approach to managing cybersecurity risks through five core functions: Identify, Protect, Detect, Respond, and Recover. Publications and standards serve as authoritative guidance for implementing security controls and best practices."
   },
   {
     "w": "SCIM",
     "e": "System for Cross-domain Identity Management",
-    "d": "An open standard protocol for automated provisioning, updating, and deprovisioning of user accounts across different applications and services. SCIM simplifies identity lifecycle management by providing a standardized way to synchronize user information between identity providers and service providers. It reduces administrative overhead and improves security by ensuring user access is properly managed throughout their organizational lifecycle."
+    "d": "An open standard protocol for automated provisioning, updating, and deprovisioning of user accounts across different applications and services. Simplifies identity lifecycle management by providing a standardized way to synchronize user information between identity providers and service providers. Reduces administrative overhead and improves security by ensuring user access is properly managed throughout their organizational lifecycle."
   },
   {
     "w": "OAUTH",
