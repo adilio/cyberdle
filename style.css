@@ -552,6 +552,12 @@ dialog[open].modal {
     font-size: 16px;
     padding: 0 1rem;
     z-index: 1000;
+    transition: border-color 0.2s ease;
+  }
+
+  #key-capture:focus {
+    border-color: var(--accent);
+    outline: none;
   }
 
   .app {

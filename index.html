@@ -504,10 +504,11 @@
       function attachEvents() {
         const isTouch = 'ontouchstart' in window;
         if (isTouch) {
+          // Use input events for mobile instead of keydown for better compatibility
+          keyCapture.addEventListener('input', handleMobileInput);
           keyCapture.addEventListener('keydown', handleMobileKeydown);
-          keyCapture.addEventListener('input', () => {
-            keyCapture.value = currentGuess;
-          });
+          keyCapture.addEventListener('compositionstart', handleCompositionStart);
+          keyCapture.addEventListener('compositionend', handleCompositionEnd);
           gridEl.addEventListener('click', (event) => {
             if (event.target.classList.contains('t') && !session.done) {
               focusKeyCapture();
@@ -614,10 +615,16 @@
       }
 
       function focusKeyCapture() {
-        if (!keyCapture.value) keyCapture.value = ' ';
-        keyCapture.focus({ preventScroll: true });
-        const pos = keyCapture.value.length;
-        keyCapture.setSelectionRange(pos, pos);
+        if (!session.done) {
+          // Ensure input is properly set for mobile
+          keyCapture.value = currentGuess || ' ';
+          keyCapture.focus({ preventScroll: true });
+          // Set cursor to end for better UX
+          setTimeout(() => {
+            const pos = keyCapture.value.length;
+            keyCapture.setSelectionRange(pos, pos);
+          }, 0);
+        }
       }
 
       function handleThemeToggle() {
@@ -648,6 +655,52 @@
         }
       }
 
+      let isComposing = false;
+
+      function handleMobileInput(event) {
+        if (isComposing || statsDialog.open || helpDialog.open) return;
+
+        const newValue = event.target.value.toUpperCase();
+        const currentLength = currentGuess.length;
+        const newLength = newValue.length;
+
+        // Handle backspace (shorter input)
+        if (newLength < currentLength) {
+          const charsToRemove = currentLength - newLength;
+          for (let i = 0; i < charsToRemove; i++) {
+            removeLetter();
+          }
+        }
+        // Handle new characters (longer input)
+        else if (newLength > currentLength) {
+          const newChars = newValue.slice(currentLength);
+          for (const char of newChars) {
+            if (/^[A-Z]$/.test(char)) {
+              addLetter(char);
+            }
+          }
+        }
+
+        // Keep input in sync
+        event.target.value = currentGuess;
+      }
+
+      function handleCompositionStart() {
+        isComposing = true;
+      }
+
+      function handleCompositionEnd(event) {
+        isComposing = false;
+        // Process the composed text
+        const composedText = event.data.toUpperCase();
+        for (const char of composedText) {
+          if (/^[A-Z]$/.test(char)) {
+            addLetter(char);
+          }
+        }
+        keyCapture.value = currentGuess;
+      }
+
       function handleMobileKeydown(event) {
         if (statsDialog.open || helpDialog.open) return;
         if (session.done && event.key === 'Enter') {
@@ -656,15 +709,12 @@
         }
         if (event.key === 'Enter') {
           submitGuess();
+          event.preventDefault();
         } else if (event.key === 'Backspace') {
           removeLetter();
-        } else {
-          const letter = event.key.toUpperCase();
-          if (/^[A-Z]$/.test(letter)) {
-            addLetter(letter);
-          }
+          event.preventDefault();
         }
-        event.preventDefault();
+        // Let input event handle regular character input
         keyCapture.value = currentGuess;
       }
 
