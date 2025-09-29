@@ -271,11 +271,6 @@ window.CYBERDLE_DATA = [
     "d": "A comprehensive security solution that provides prevention-focused protection for endpoint devices including desktops, laptops, servers, and mobile devices. They typically include antivirus, anti-malware, firewall, and application control capabilities to prevent threats from executing on endpoints. They focus on blocking known threats and preventing malicious activities before they can cause damage to systems or data."
   },
   {
-    "w": "XQL",
-    "e": "Extended Query Language",
-    "d": "A specialized query language designed for searching and analyzing security data across multiple data sources and formats. It enables security analysts to write complex queries that correlate events from different systems, hunt for threats, and investigate security incidents. It provides powerful search capabilities optimized for security use cases, allowing analysts to efficiently explore large volumes of security data."
-  },
-  {
     "w": "CDR",
     "e": "Cloud Detection and Response",
     "d": "Security capabilities specifically focused on detecting and responding to threats in cloud environments including infrastructure-as-a-service, platform-as-a-service, and software-as-a-service. Monitor cloud configurations, user activities, and resource access to identify suspicious behavior and potential security breaches. Provide specialized detection and response capabilities tailored to the unique security challenges of cloud computing environments."
@@ -484,5 +479,355 @@ window.CYBERDLE_DATA = [
     "w": "OCSP",
     "e": "Online Certificate Status Protocol",
     "d": "A real-time protocol that enables applications to check the revocation status of digital certificates by querying certificate authorities directly. It provides more timely certificate status information than traditional certificate revocation lists and reduces bandwidth requirements. It enables immediate verification of certificate validity, improving security by ensuring that revoked certificates are not trusted by applications and services."
+  },
+  {
+    "w": "WAF",
+    "e": "Web Application Firewall",
+    "d": "A security appliance that filters, monitors, and blocks HTTP/HTTPS traffic to and from web applications. Protects against common web attacks like SQL injection, cross-site scripting, and file inclusion vulnerabilities by inspecting application layer traffic. Unlike traditional firewalls that protect network layers, these focus specifically on web application security and can understand HTTP protocol nuances."
+  },
+  {
+    "w": "IDS",
+    "e": "Intrusion Detection System",
+    "d": "A security technology that monitors network or system activities for malicious activities or policy violations and produces reports to management. Unlike intrusion prevention systems, these are passive systems that detect and alert on suspicious activity but do not actively block threats. They analyze traffic patterns and signatures to identify potential security incidents requiring human investigation."
+  },
+  {
+    "w": "IPS",
+    "e": "Intrusion Prevention System",
+    "d": "An active security device that monitors network traffic for suspicious activity and takes immediate action to prevent detected threats from causing harm. Unlike intrusion detection systems that only alert, these can automatically block malicious traffic, reset connections, or reconfigure firewalls to stop attacks in real-time. They sit inline with network traffic to provide active protection against known threats and anomalous behavior."
+  },
+  {
+    "w": "VPN",
+    "e": "Virtual Private Network",
+    "d": "A secure, encrypted connection established over a less secure network, typically the internet, to provide privacy and anonymity for users. Creates a secure tunnel for data transmission, protecting it from eavesdropping and interception. Commonly used for remote access to corporate networks, protecting sensitive communications, and bypassing geographic restrictions while maintaining data confidentiality."
+  },
+  {
+    "w": "NAC",
+    "e": "Network Access Control",
+    "d": "A security approach that enforces policies on devices seeking to connect to networks, ensuring they comply with security requirements before granting access. Validates device health, patches, antivirus status, and other security posture elements before allowing network connectivity. Helps prevent compromised or non-compliant devices from accessing sensitive network resources and spreading threats."
+  },
+  {
+    "w": "VLAN",
+    "e": "Virtual Local Area Network",
+    "d": "A logical network segmentation technology that partitions a physical network into multiple isolated broadcast domains for improved security and network management. Enables organizations to separate network traffic by function, department, or security level without requiring physical network separation. Reduces attack surface by limiting lateral movement and containing potential security breaches within specific network segments."
+  },
+  {
+    "w": "DMZ",
+    "e": "Demilitarized Zone",
+    "d": "A physical or logical network segment that sits between an internal trusted network and an external untrusted network, typically the internet. Hosts public-facing services like web servers and email gateways while isolating them from internal networks. Provides an additional layer of security by preventing direct access to internal resources even if perimeter services are compromised."
+  },
+  {
+    "w": "ACL",
+    "e": "Access Control List",
+    "d": "A table of rules that specifies which users or systems are granted or denied access to specific resources or network segments. Used in firewalls, routers, and file systems to control traffic flow and resource access based on criteria like IP addresses, protocols, or user identities. Forms the foundation of network security policies by defining what traffic is permitted or blocked."
+  },
+  {
+    "w": "AES",
+    "e": "Advanced Encryption Standard",
+    "d": "A symmetric encryption algorithm widely adopted as a government and industry standard for protecting sensitive data. Uses key sizes of 128, 192, or 256 bits to provide strong encryption that is computationally infeasible to break with current technology. Replaced older DES encryption and is used extensively for securing data at rest and in transit across various applications and protocols."
+  },
+  {
+    "w": "RSA",
+    "e": "Rivest-Shamir-Adleman",
+    "d": "An asymmetric cryptographic algorithm that uses public and private key pairs for secure data transmission and digital signatures. Based on the mathematical difficulty of factoring large prime numbers, providing strong security for key exchange and authentication. Widely used in SSL/TLS certificates, email encryption, and secure communications despite being computationally intensive compared to symmetric algorithms."
+  },
+  {
+    "w": "TLS",
+    "e": "Transport Layer Security",
+    "d": "A cryptographic protocol that provides secure communication over computer networks by encrypting data in transit between clients and servers. Evolved from SSL to provide improved security features including stronger encryption algorithms and better authentication mechanisms. Forms the foundation of HTTPS and is essential for protecting web traffic, email, instant messaging, and other network communications."
+  },
+  {
+    "w": "SSL",
+    "e": "Secure Sockets Layer",
+    "d": "A deprecated cryptographic protocol that provided secure communications over networks before being succeeded by TLS. Despite being obsolete due to known security vulnerabilities, the term is still commonly used interchangeably with TLS in industry terminology. Organizations should disable SSL protocols and use only modern TLS versions to maintain secure communications."
+  },
+  {
+    "w": "VDI",
+    "e": "Virtual Desktop Infrastructure",
+    "d": "A technology that hosts desktop operating systems on centralized servers and delivers them to endpoints over a network. Enhances security by centralizing data storage and processing, reducing the risk of data loss from endpoint device theft or compromise. Provides consistent desktop experiences while enabling centralized patch management, security controls, and data protection policies."
+  },
+  {
+    "w": "DRM",
+    "e": "Digital Rights Management",
+    "d": "Technologies that control the use, modification, and distribution of copyrighted digital content and enforce access restrictions. Implements encryption, licensing, and authentication mechanisms to prevent unauthorized copying and sharing of protected materials. Used extensively in media, software, and document protection to balance content access with intellectual property protection."
+  },
+  {
+    "w": "PII",
+    "e": "Personally Identifiable Information",
+    "d": "Any data that could potentially identify a specific individual, including names, addresses, social security numbers, and biometric records. Protection of this information is mandated by numerous privacy regulations and standards worldwide. Organizations must implement appropriate security controls to prevent unauthorized access, disclosure, or misuse of such data."
+  },
+  {
+    "w": "PHI",
+    "e": "Protected Health Information",
+    "d": "Any health-related information that can be linked to a specific individual, protected under HIPAA and other healthcare privacy regulations. Includes medical records, treatment information, billing data, and health insurance details. Healthcare organizations must implement stringent security and privacy controls to protect this data from unauthorized access and disclosure."
+  },
+  {
+    "w": "HIPAA",
+    "e": "Health Insurance Portability and Accountability Act",
+    "d": "A U.S. federal law that establishes national standards for protecting the privacy and security of health information. Requires healthcare providers, insurers, and their business associates to implement administrative, physical, and technical safeguards to protect patient data. Non-compliance can result in significant penalties, making it critical for healthcare organizations to maintain comprehensive security programs."
+  },
+  {
+    "w": "PCI",
+    "e": "Payment Card Industry",
+    "d": "Refers to the industry segment involving credit card payments and the associated security standards. The PCI Data Security Standard (PCI DSS) establishes requirements for organizations that handle credit card information. Compliance requires implementing security controls including network segmentation, encryption, access controls, and regular security testing to protect cardholder data."
+  },
+  {
+    "w": "SOX",
+    "e": "Sarbanes-Oxley Act",
+    "d": "A U.S. federal law that establishes requirements for financial reporting and internal controls for publicly traded companies. Includes provisions related to IT security and access controls for systems that process financial data. Requires organizations to maintain comprehensive audit trails, implement change management processes, and ensure the integrity of financial reporting systems."
+  },
+  {
+    "w": "GLBA",
+    "e": "Gramm-Leach-Bliley Act",
+    "d": "A U.S. federal law requiring financial institutions to explain their information-sharing practices to customers and protect sensitive financial data. Mandates implementation of security programs including risk assessment, access controls, and employee training to safeguard customer information. Requires organizations to provide privacy notices and give customers options to limit information sharing."
+  },
+  {
+    "w": "FISMA",
+    "e": "Federal Information Security Management Act",
+    "d": "A U.S. federal law that establishes comprehensive information security requirements for federal agencies and their contractors. Requires agencies to develop, document, and implement information security programs based on risk assessment and NIST standards. Mandates annual security assessments and reporting to ensure ongoing compliance and security posture improvement."
+  },
+  {
+    "w": "FERPA",
+    "e": "Family Educational Rights and Privacy Act",
+    "d": "A U.S. federal law that protects the privacy of student education records including grades, transcripts, and disciplinary records. Gives parents and eligible students control over disclosure of personally identifiable information from education records. Educational institutions must implement security and privacy controls to protect student information and comply with disclosure requirements."
+  },
+  {
+    "w": "APM",
+    "e": "Application Performance Monitoring",
+    "d": "Technology that monitors and manages the performance and availability of software applications to ensure optimal user experience. Detects performance anomalies that could indicate security issues, resource exhaustion attacks, or infrastructure problems. Provides visibility into application behavior, helping identify both performance bottlenecks and potential security incidents."
+  },
+  {
+    "w": "SIEM",
+    "e": "Security Information and Event Management",
+    "d": "A centralized platform that aggregates and analyzes security logs and events from across an organization's IT infrastructure. Provides real-time monitoring, threat detection, and incident response capabilities by correlating data from multiple sources. Enables security teams to detect suspicious patterns, investigate security incidents, and maintain compliance through comprehensive logging and reporting."
+  },
+  {
+    "w": "CEF",
+    "e": "Common Event Format",
+    "d": "A standardized log format that enables interoperability between security products by providing a consistent structure for security event data. Simplifies integration of diverse security tools by providing a common language for log parsing and analysis. Facilitates centralized security monitoring by allowing different security products to communicate event information in a unified format."
+  },
+  {
+    "w": "PCAP",
+    "e": "Packet Capture",
+    "d": "The process of intercepting and recording network traffic for analysis, troubleshooting, or security investigation purposes. Files contain raw network packets that can be analyzed using tools like Wireshark to reconstruct network communications and investigate security incidents. Essential for forensic investigations, network troubleshooting, and understanding attack techniques."
+  },
+  {
+    "w": "UTM",
+    "e": "Unified Threat Management",
+    "d": "An integrated security appliance that combines multiple security functions including firewall, intrusion prevention, antivirus, and content filtering into a single platform. Designed for small to medium organizations that need comprehensive security without managing multiple separate security devices. Simplifies security management while providing defense-in-depth through multiple integrated security technologies."
+  },
+  {
+    "w": "SWG",
+    "e": "Secure Web Gateway",
+    "d": "A security solution that filters unwanted content from web traffic, enforces corporate policies, and protects users from web-based threats. Inspects web traffic for malware, blocks access to malicious sites, and prevents data leakage through web channels. Essential for protecting users from web-based attacks and enforcing acceptable use policies for internet access."
+  },
+  {
+    "w": "APT",
+    "e": "Advanced Persistent Threat",
+    "d": "A sophisticated, long-term cyberattack campaign typically carried out by well-resourced threat actors such as nation-states or organized crime groups. Characterized by their stealthy approach, persistence over extended periods, and focus on high-value targets or information. These attacks often involve multiple phases including initial compromise, lateral movement, privilege escalation, and data exfiltration while remaining undetected for months or years."
+  },
+  {
+    "w": "C2",
+    "e": "Command and Control",
+    "d": "Infrastructure used by attackers to maintain communications with compromised systems and issue commands to malware or compromised hosts. Servers enable attackers to exfiltrate data, deploy additional malware, and coordinate attack activities across multiple compromised systems. Detecting and disrupting these communications is critical for containing breaches and preventing further damage."
+  },
+  {
+    "w": "RAT",
+    "e": "Remote Access Trojan",
+    "d": "Malware that provides attackers with complete remote control over infected systems, enabling surveillance, data theft, and further malicious activities. These programs often masquerade as legitimate software and provide capabilities including keystroke logging, screen capture, file manipulation, and webcam access. Detection and removal requires comprehensive endpoint security and behavioral monitoring."
+  },
+  {
+    "w": "APK",
+    "e": "Android Package Kit",
+    "d": "The package file format used by Android operating systems for distribution and installation of mobile applications. Security analysis of these files is important for mobile application security, as malicious actors often distribute malware through compromised or fake applications. Organizations should implement mobile application vetting processes to prevent installation of malicious applications on corporate devices."
+  },
+  {
+    "w": "IDA",
+    "e": "Interactive Disassembler",
+    "d": "A professional disassembler and debugger widely used for reverse engineering and malware analysis to understand how software works at the assembly level. Enables security researchers to analyze compiled code, identify vulnerabilities, and understand malware functionality. Essential tool for vulnerability research, malware analysis, and security assessments of software without access to source code."
+  },
+  {
+    "w": "OSCP",
+    "e": "Offensive Security Certified Professional",
+    "d": "A highly respected cybersecurity certification that validates penetration testing skills through a challenging hands-on examination. Requires candidates to compromise multiple systems in a controlled environment using manual exploitation techniques. Considered one of the most rigorous practical security certifications, emphasizing real-world hacking skills over theoretical knowledge."
+  },
+  {
+    "w": "CISSP",
+    "e": "Certified Information Systems Security Professional",
+    "d": "A globally recognized information security certification that validates expertise across eight security domains including security operations, asset security, and software development security. Requires significant professional experience and passing a comprehensive examination covering security management and technical topics. Considered a gold standard certification for information security professionals and often required for senior security positions."
+  },
+  {
+    "w": "CEH",
+    "e": "Certified Ethical Hacker",
+    "d": "A professional certification that teaches ethical hacking methodologies and tools used by malicious attackers to help security professionals understand and defend against cyber threats. Covers reconnaissance, scanning, enumeration, exploitation, and post-exploitation techniques from an attacker's perspective. Enables security professionals to think like attackers and identify vulnerabilities before malicious actors can exploit them."
+  },
+  {
+    "w": "CISA",
+    "e": "Certified Information Systems Auditor",
+    "d": "A globally recognized certification that validates expertise in auditing, controlling, and securing information systems. Focuses on understanding how to assess organizational security controls, identify compliance gaps, and recommend improvements. Essential for professionals involved in security audits, compliance assessments, and governance activities."
+  },
+  {
+    "w": "CISM",
+    "e": "Certified Information Security Manager",
+    "d": "A certification that recognizes expertise in information security governance, risk management, and program development and management. Focuses on management aspects of information security rather than technical implementation. Ideal for security managers and those responsible for developing and managing enterprise information security programs."
+  },
+  {
+    "w": "BGP",
+    "e": "Border Gateway Protocol",
+    "d": "The routing protocol that makes the internet work by exchanging routing information between autonomous systems and determining paths for data transmission. Security vulnerabilities in this protocol can enable route hijacking, traffic interception, and denial of service attacks. Securing this infrastructure is critical for internet stability and preventing large-scale routing attacks."
+  },
+  {
+    "w": "NAT",
+    "e": "Network Address Translation",
+    "d": "A technique that modifies IP address information in packet headers while routing traffic, allowing multiple devices to share a single public IP address. Provides a degree of security by hiding internal network structures from external networks. Commonly used to conserve IPv4 addresses and provide basic network security by preventing direct inbound connections to internal hosts."
+  },
+  {
+    "w": "IPAM",
+    "e": "IP Address Management",
+    "d": "A methodology and set of tools for planning, tracking, and managing IP address space within networks. Proper management is important for security because it enables organizations to maintain accurate network inventories, detect unauthorized devices, and prevent IP conflicts. Integrated systems help identify shadow IT and potential security issues through comprehensive network visibility."
+  },
+  {
+    "w": "SDN",
+    "e": "Software-Defined Networking",
+    "d": "A network architecture approach that separates the control plane from the data plane, enabling centralized network management through software. Enables dynamic network reconfiguration, microsegmentation, and automated security policy enforcement. Provides enhanced security capabilities by allowing rapid response to threats through programmatic network changes."
+  },
+  {
+    "w": "GRC",
+    "e": "Governance, Risk, and Compliance",
+    "d": "An integrated approach to managing organizational governance, risk management, and regulatory compliance activities. Platforms provide centralized management of policies, risk assessments, compliance monitoring, and audit activities. Enables organizations to demonstrate compliance with regulations, manage security risks, and align security programs with business objectives."
+  },
+  {
+    "w": "BCP",
+    "e": "Business Continuity Planning",
+    "d": "The process of creating systems and procedures to ensure critical business functions can continue during and after a disaster or major disruption. Includes planning for IT systems, data backup and recovery, alternate work locations, and communication strategies. Security incidents are a significant factor in planning, as cyberattacks and data breaches can disrupt business operations."
+  },
+  {
+    "w": "DRP",
+    "e": "Disaster Recovery Plan",
+    "d": "A documented set of procedures for recovering IT systems, data, and infrastructure after a catastrophic event or major failure. Specifies recovery time objectives, recovery point objectives, and step-by-step procedures for restoring critical systems. Regular testing is essential to ensure plans remain effective as technology and business requirements evolve."
+  },
+  {
+    "w": "RTO",
+    "e": "Recovery Time Objective",
+    "d": "The targeted duration of time within which a business process or system must be restored after a disruption to avoid unacceptable consequences. Drives decisions about backup strategies, redundant systems, and recovery procedures. Security incidents must be considered when defining these objectives, as cyberattacks can cause extended downtime."
+  },
+  {
+    "w": "RPO",
+    "e": "Recovery Point Objective",
+    "d": "The maximum acceptable amount of data loss measured in time before a disaster or disruption occurred. Determines backup frequency and data replication strategies required to meet business requirements. Ransomware and destructive attacks have made understanding and meeting these objectives critical for organizational resilience."
+  },
+  {
+    "w": "BIA",
+    "e": "Business Impact Analysis",
+    "d": "A systematic process to identify critical business functions and assess the consequences of disruptions to those functions. Helps organizations prioritize recovery efforts and allocate resources appropriately. Security considerations include evaluating the impact of various cyber threats and determining appropriate security investments."
+  },
+  {
+    "w": "ATO",
+    "e": "Authority to Operate",
+    "d": "A formal declaration by a designated authority that an information system is approved to operate based on an acceptable level of risk. Requires completion of security assessments, risk analysis, and implementation of required security controls. In government and regulated environments, systems cannot be placed into production without this authorization."
+  },
+  {
+    "w": "SSP",
+    "e": "System Security Plan",
+    "d": "A comprehensive document that describes the security controls implemented or planned for an information system and its operational environment. Provides a detailed description of system boundaries, security requirements, control implementation details, and responsibilities. Required for system authorization in many government and regulated environments."
+  },
+  {
+    "w": "MOA",
+    "e": "Memorandum of Agreement",
+    "d": "A formal document that establishes terms for cooperation and information sharing between organizations regarding security responsibilities and requirements. Often used to define security obligations when systems interconnect or when sensitive information is shared. Ensures mutual understanding of security expectations and responsibilities."
+  },
+  {
+    "w": "MOU",
+    "e": "Memorandum of Understanding",
+    "d": "A formal agreement between parties that outlines terms and details of mutual understanding or agreement regarding security responsibilities and commitments. Less formal than contracts but establishes framework for security cooperation and information sharing. Commonly used in public-private partnerships and inter-agency security collaborations."
+  },
+  {
+    "w": "SLA",
+    "e": "Service Level Agreement",
+    "d": "A contractual commitment between a service provider and customer that defines expected service levels, including availability, performance, and security requirements. Security-relevant provisions may include incident response times, vulnerability patching schedules, and security monitoring requirements. Provides measurable criteria for evaluating service provider performance."
+  },
+  {
+    "w": "NDA",
+    "e": "Non-Disclosure Agreement",
+    "d": "A legal contract that establishes confidential relationships between parties and restricts disclosure of sensitive information. Critical for protecting proprietary security information, vulnerability details, and sensitive business data. Essential when engaging external security consultants, penetration testers, or discussing security matters with third parties."
+  },
+  {
+    "w": "COMSEC",
+    "e": "Communications Security",
+    "d": "Measures and controls taken to deny unauthorized persons information derived from telecommunications and ensure the authenticity of such communications. Encompasses cryptographic security, transmission security, emission security, and physical security of communications systems. Critical for protecting sensitive voice, data, and multimedia communications from interception and exploitation."
+  },
+  {
+    "w": "EMP",
+    "e": "Electromagnetic Pulse",
+    "d": "A burst of electromagnetic radiation that can damage or destroy electronic equipment by inducing destructive electrical currents. Can result from nuclear detonations, specialized weapons, or powerful natural phenomena. Protection requires special shielding and hardening of critical systems, particularly for essential infrastructure and defense systems."
+  },
+  {
+    "w": "AV",
+    "e": "Antivirus",
+    "d": "Software designed to detect, prevent, and remove malicious software including viruses, worms, trojans, and other threats. Modern solutions use signature-based detection, heuristic analysis, and behavioral monitoring to identify threats. While still important, these are now typically part of comprehensive endpoint protection platforms that provide additional security capabilities."
+  },
+  {
+    "w": "HIDS",
+    "e": "Host-based Intrusion Detection System",
+    "d": "Security software installed on individual hosts to monitor system activities, file integrity, and local events for signs of malicious activity. Provides detailed visibility into host-level activities including process execution, registry modifications, and file system changes. Complements network-based detection by identifying threats that may not be visible at the network layer."
+  },
+  {
+    "w": "HIPS",
+    "e": "Host-based Intrusion Prevention System",
+    "d": "Security software that actively prevents malicious activities on individual hosts by blocking suspicious processes, file modifications, and system calls. Provides real-time protection by enforcing security policies at the host level and preventing exploits from succeeding. More proactive than detection systems, providing defense against zero-day attacks through behavioral analysis."
+  },
+  {
+    "w": "FIM",
+    "e": "File Integrity Monitoring",
+    "d": "A security process that validates the integrity of operating system and application files by detecting unauthorized modifications. Creates cryptographic baselines of files and alerts when changes occur, helping detect malware infections, unauthorized modifications, and compliance violations. Required by many compliance frameworks for protecting critical system files."
+  },
+  {
+    "w": "RADIUS",
+    "e": "Remote Authentication Dial-In User Service",
+    "d": "A networking protocol that provides centralized authentication, authorization, and accounting for users connecting to network services. Commonly used for securing network access including wireless networks, VPNs, and network devices. Enables centralized management of user credentials and provides detailed logging of authentication events."
+  },
+  {
+    "w": "SNMP",
+    "e": "Simple Network Management Protocol",
+    "d": "A protocol for collecting information from and configuring network devices including routers, switches, servers, and security appliances. Security concerns include the use of community strings in older versions and potential for information disclosure. Version 3 added encryption and authentication capabilities to address security vulnerabilities in earlier versions."
+  },
+  {
+    "w": "SMTP",
+    "e": "Simple Mail Transfer Protocol",
+    "d": "The standard protocol for sending email messages between mail servers across the internet. Originally designed without security features, making it vulnerable to spoofing, interception, and relay abuse. Modern implementations should use TLS encryption and authentication mechanisms to protect email transmission."
+  },
+  {
+    "w": "IMAP",
+    "e": "Internet Message Access Protocol",
+    "d": "A protocol that allows email clients to access and manage messages stored on mail servers. Provides more sophisticated mailbox management capabilities than POP3, including server-side folders and message flags. Should be secured with TLS encryption to protect credentials and message content during transmission."
+  },
+  {
+    "w": "POP3",
+    "e": "Post Office Protocol version 3",
+    "d": "A simple protocol for retrieving email from mail servers, typically downloading messages to local clients and deleting them from servers. Less feature-rich than IMAP but widely supported and simple to implement. Should be used with TLS encryption to protect user credentials and email content during retrieval."
+  },
+  {
+    "w": "SMB",
+    "e": "Server Message Block",
+    "d": "A network file sharing protocol used primarily in Windows environments for accessing files, printers, and other network resources. Has been exploited in numerous attacks including WannaCry ransomware due to vulnerabilities in legacy versions. Modern implementations should disable SMBv1 and use SMB signing and encryption for security."
+  },
+  {
+    "w": "NFS",
+    "e": "Network File System",
+    "d": "A distributed file system protocol that allows clients to access files over a network as if they were local. Commonly used in Unix and Linux environments but has security limitations including weak authentication in older versions. Modern implementations should use Kerberos authentication and consider encryption for sensitive data transfers."
+  },
+  {
+    "w": "SSH",
+    "e": "Secure Shell",
+    "d": "A cryptographic network protocol that provides secure remote access to systems and secure file transfers over unsecured networks. Replaces insecure protocols like Telnet and FTP with encrypted alternatives. Essential for secure system administration and commonly used for managing servers, network devices, and cloud infrastructure."
+  },
+  {
+    "w": "RDP",
+    "e": "Remote Desktop Protocol",
+    "d": "A proprietary protocol developed by Microsoft that provides graphical remote access to Windows systems over network connections. Frequently targeted by attackers for brute force attacks and exploitation of vulnerabilities. Should be secured with network-level authentication, strong passwords or certificates, and restricted network access."
+  },
+  {
+    "w": "VNC",
+    "e": "Virtual Network Computing",
+    "d": "A cross-platform screen sharing and remote access system that transmits keyboard and mouse events and displays graphical screens. Various implementations exist with varying security features. Should be secured with strong authentication and encryption, ideally tunneled through VPN or SSH for internet access."
   }
 ]
