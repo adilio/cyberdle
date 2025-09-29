@@ -86,6 +86,14 @@ button {
   gap: var(--pad);
 }
 
+/* Ensure app container doesn't constrain modal positioning */
+body.modal-active .app {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  position: static !important;
+}
+
 .app__header {
   display: flex;
   flex-wrap: wrap;
@@ -407,8 +415,6 @@ button {
 
 .modal {
   position: fixed;
-  inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
   background: var(--surface);
   color: var(--fg);
   border: 1px solid var(--surface-border);
@@ -421,21 +427,53 @@ button {
   display: none;
 }
 
+/* Base modal positioning - overridden by specific modal types */
+.modal {
+  position: fixed;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+}
+
 dialog[open].modal {
   display: block;
 }
 
 .modal.modal--result.is-open {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: auto;
+  background: none !important;
+  border: none !important;
+}
+
+.modal.modal--result:not(.is-open) {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Prevent body scroll when modal is active */
+html.modal-active,
+body.modal-active {
+  overflow: hidden !important;
+  position: static !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .modal.modal--result {
   background: transparent;
   border: none;
   box-shadow: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  transform: translateZ(0); /* Force new stacking context */
 }
 
 .modal.modal--result .modal__surface {
@@ -444,10 +482,16 @@ dialog[open].modal {
   border: 1px solid var(--surface-border);
   border-radius: 16px;
   width: min(520px, 92vw);
-  max-height: 90vh;
+  max-width: min(520px, 92vw);
+  max-height: min(600px, 90vh);
   box-shadow: 0 24px 60px rgba(0, 17, 8, 0.4);
   position: relative;
-  z-index: 1;
+  z-index: 1000000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .modal.modal--result::before {
@@ -457,10 +501,21 @@ dialog[open].modal {
   background: rgba(0, 12, 8, 0.75);
   opacity: 0;
   transition: opacity 160ms ease;
+  z-index: 999998;
+  pointer-events: none;
+  width: 100vw !important;
+  height: 100vh !important;
+  box-sizing: border-box !important;
 }
 
 .modal.modal--result.is-open::before {
   opacity: 1;
+  pointer-events: auto;
+}
+
+.modal.modal--result:not(.is-open)::before {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .modal.is-open {

@@ -43,13 +43,13 @@
         <p id="definition-text"></p>
       </section>
 
-      <div id="message" class="message" role="status" aria-live="polite"></div>
+      <div id="message" class="message" role="status" aria-live="polite" data-testid="message"></div>
 
       <input id="key-capture" type="text" aria-hidden="true" autocomplete="off" autocapitalize="characters" spellcheck="false" />
 
-      <section id="grid" class="grid" role="grid" aria-label="Guess grid"></section>
+      <section id="grid" class="grid" role="grid" aria-label="Guess grid" data-testid="grid"></section>
 
-      <section id="keyboard" class="keyboard" aria-label="On-screen keyboard"></section>
+      <section id="keyboard" class="keyboard" aria-label="On-screen keyboard" data-testid="keyboard"></section>
 
       <section class="scoreboard" aria-label="Player stats">
         <div class="score">
@@ -568,10 +568,12 @@
 
       function launchConfetti() {
         if (!confettiRoot || prefersReducedMotion) return;
+
         stopConfetti();
         const colors = ['#00cc66', '#ffd966', '#0f9347', '#65e088'];
         const total = 140;
         const frag = document.createDocumentFragment();
+
         for (let i = 0; i < total; i += 1) {
           const piece = document.createElement('span');
           piece.className = 'confetti-piece';
@@ -583,9 +585,11 @@
           piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
           frag.appendChild(piece);
         }
+
         confettiRoot.appendChild(frag);
         confettiRoot.dataset.active = 'true';
-        confettiTimeout = window.setTimeout(stopConfetti, 1800);
+
+        confettiTimeout = window.setTimeout(() => stopConfetti(), 1800);
       }
 
       function stopConfetti() {
@@ -596,8 +600,39 @@
       }
 
       function forceCloseResultDialog() {
+        // Remove modal-active class from body and html
+        document.documentElement.classList.remove('modal-active');
+        document.body.classList.remove('modal-active');
+
         resultDialog.classList.remove('is-open');
         resultDialog.setAttribute('aria-hidden', 'true');
+
+        // Force hide the modal by setting display to none
+        resultDialog.style.display = 'none';
+
+        // Also reset the backdrop opacity using CSS custom properties
+        resultDialog.style.setProperty('--modal-backdrop-opacity', '0');
+        resultDialog.style.position = '';
+        resultDialog.style.inset = '';
+        resultDialog.style.top = '';
+        resultDialog.style.left = '';
+        resultDialog.style.width = '';
+        resultDialog.style.height = '';
+        resultDialog.style.zIndex = '';
+        resultDialog.style.justifyContent = '';
+        resultDialog.style.alignItems = '';
+        resultDialog.style.background = '';
+        resultDialog.style.boxSizing = '';
+
+        // Also try to close using native dialog method
+        try {
+          if (resultDialog.close) {
+            resultDialog.close();
+          }
+        } catch (e) {
+          // Ignore errors if dialog is already closed
+        }
+
         stopConfetti();
         focusKeyCapture();
       }
@@ -639,10 +674,13 @@
 
       function handleKeydown(event) {
         if (statsDialog.open || helpDialog.open) return;
+
         if (session.done && event.key === 'Enter') {
+          forceCloseResultDialog();
           startNewGame(mode);
           return;
         }
+
         if (event.key === 'Enter') {
           submitGuess();
         } else if (event.key === 'Backspace') {
@@ -681,7 +719,6 @@
           }
         }
 
-        // Keep input in sync
         event.target.value = currentGuess;
       }
 
@@ -704,6 +741,7 @@
       function handleMobileKeydown(event) {
         if (statsDialog.open || helpDialog.open) return;
         if (session.done && event.key === 'Enter') {
+          forceCloseResultDialog();
           startNewGame(mode);
           return;
         }
@@ -757,7 +795,7 @@
           return;
         }
         if (!isValidGuess(currentGuess, wordList, session.len)) {
-          setMessage('Letters only (A-Z).', 'error');
+          setMessage('Letters only (A–Z).', 'error');
           return;
         }
         handleGuess(currentGuess);
@@ -772,18 +810,25 @@
         renderGrid();
 
         if (evaluation.every((tile) => tile === 'correct')) {
-          session.done = true;
-          session.win = true;
-          stats = applyWin(stats, rowIndex);
-          persistSession(session);
-          saveStats(stats);
-          renderStats();
-          updateModalStats();
-          setMessage(`Solved in ${rowIndex + 1} ${rowIndex === 0 ? 'try' : 'tries'}!`, 'success');
-          launchConfetti();
-          showResultDialog(true, rowIndex + 1);
-          return;
-        }
+            session.done = true;
+            session.win = true;
+            stats = applyWin(stats, rowIndex);
+            persistSession(session);
+            saveStats(stats);
+            renderStats();
+            updateModalStats();
+            setMessage(`Solved in ${rowIndex + 1} ${rowIndex === 0 ? 'try' : 'tries'}!`, 'success');
+
+            // Launch confetti immediately
+            launchConfetti();
+
+            // Delay modal appearance to let confetti be visible
+            setTimeout(() => {
+              showResultDialog(true, rowIndex + 1);
+            }, 500); // 0.5 second delay to enjoy the confetti
+
+            return;
+          }
 
         if (rowIndex === MAX_ATTEMPTS - 1) {
           session.done = true;
@@ -869,10 +914,30 @@
         resultWordEl.textContent = session.word;
         resultExpansionEl.textContent = session.expansion;
         resultDefinitionEl.textContent = session.definition;
+
+        document.body.classList.add('modal-active');
         resultDialog.classList.add('is-open');
         resultDialog.setAttribute('aria-hidden', 'false');
+
+        // Use native dialog method with fallback
+        try {
+          resultDialog.showModal();
+        } catch (e) {
+          // Fallback for browsers that don't support showModal
+          resultDialog.style.display = 'flex';
+          resultDialog.style.position = 'fixed';
+          resultDialog.style.inset = '0';
+          resultDialog.style.width = '100vw';
+          resultDialog.style.height = '100vh';
+          resultDialog.style.zIndex = '999999';
+          resultDialog.style.justifyContent = 'center';
+          resultDialog.style.alignItems = 'center';
+          resultDialog.style.background = 'transparent';
+          resultDialog.style.boxSizing = 'border-box';
+        }
+
         if (resultCloseBtn) {
-          resultCloseBtn.focus({ preventScroll: true });
+          setTimeout(() => resultCloseBtn.focus({ preventScroll: true }), 100);
         }
       }
 
@@ -900,7 +965,9 @@
       }
 
       function startNewGame(nextMode) {
+        // Force close any open modals before starting new game
         forceCloseResultDialog();
+
         currentGuess = '';
         const puzzle = nextMode === 'daily' ? getDailyPuzzle() : getRandomPuzzle();
         session = createSessionFromPuzzle(puzzle, nextMode);
@@ -991,6 +1058,13 @@
       function saveMode(nextMode) {
         localStorage.setItem(STORAGE_KEYS.mode, nextMode);
       }
+
+      /* ============== Test hooks for debugging ============== */
+      window.CYBERDLE = {
+        _getSession: () => session,
+        _getStats: () => stats,
+        _startNewGame: (mode) => startNewGame(mode || 'daily')
+      };
     </script>
   </body>
 </html>
