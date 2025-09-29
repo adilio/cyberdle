@@ -668,3 +668,36 @@ body.modal-active {
     opacity: 0;
   }
 }
+
+/* Streak flair */
+.streak-flair { margin-left: .5rem; font-weight: 600; opacity: .9; }
+[data-theme="dark"] .streak-flair { color: #7CFFB2; }
+[data-theme="light"] .streak-flair { color: #0a7a3d; }
+.streak-hot { animation: pulse 0.9s ease-in-out 2; }
+@keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+/* Badges */
+.badge-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.badge-list li { background: rgba(0,0,0,.08); border-radius: 999px; padding: .25rem .6rem; font-size: .9rem; }
+[data-theme="dark"] .badge-list li { background: rgba(255,255,255,.06); }
+
+/* Mobile ergonomics */
+.key { min-height: 44px; min-width: 2rem; }
+.btn { min-height: 44px; padding: .5rem .9rem; }
+.keyboard__row { display: flex; flex-wrap: wrap; gap: .35rem; }
+
+/* Prevent sideways scroll and limit container width */
+html, body { overflow-x: hidden; }
+.grid, .keyboard { max-width: 100%; }
+
+/* Sticky message */
+.message { position: sticky; top: 0; z-index: 10; }
+
+/* Respect safe-area insets */
+.app { padding-left: max(1rem, env(safe-area-inset-left));
+       padding-right: max(1rem, env(safe-area-inset-right));
+       padding-bottom: var(--kb-pad, 0); }
+.footer, .keyboard { padding-bottom: max(.5rem, env(safe-area-inset-bottom)); }
+
+/* Reduce mobile tap highlight */
+* { -webkit-tap-highlight-color: rgba(0,0,0,0); }

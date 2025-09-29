@@ -8,6 +8,21 @@
     <link rel="stylesheet" href="style.css">
     <script src="acronyms.js"></script>
 
+    <!-- Social preview -->
+    <meta property="og:title" content="Cyberdle">
+    <meta property="og:description" content="A Wordle style cybersecurity acronym challenge. Learn as you play.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adilio.github.io/cyberdle/">
+    <meta property="og:image" content="https://adilio.github.io/cyberdle/favicon.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Cyberdle">
+    <meta name="twitter:description" content="Guess the acronym, learn the craft.">
+    <meta name="twitter:image" content="https://adilio.github.io/cyberdle/favicon.svg">
+
+    <!-- Cloudflare Web Analytics (replace YOUR_TOKEN_HERE) -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token":"YOUR_TOKEN_HERE"}'></script>
+
   </head>
   <body>
     <div class="app">
@@ -28,6 +43,7 @@
 
       <section class="controls">
         <button type="button" id="play-btn" class="btn btn--accent">Play</button>
+        <button type="button" id="test-input-btn" class="btn" onclick="window.CYBERDLE._testInput()" style="margin-left: 0.5rem;">Debug Input</button>
         <div class="controls__meta" role="status" aria-live="polite">
           <span id="puzzle-label"></span>
           <span id="puzzle-date"></span>
@@ -36,6 +52,12 @@
           <button type="button" data-mode="daily" class="chip">Daily</button>
           <button type="button" data-mode="random" class="chip">Random</button>
         </div>
+        <button type="button" id="hint-btn" class="btn btn--ghost">Hint</button>
+        <span id="streak-flair" class="streak-flair" aria-live="polite"></span>
+
+        <label class="chip" style="margin-top:.5rem; display:inline-flex; align-items:center; gap:.5rem;">
+          <input type="checkbox" id="strict-toggle"> Strict dictionary
+        </label>
       </section>
 
       <section class="definition" aria-live="polite">
@@ -45,7 +67,14 @@
 
       <div id="message" class="message" role="status" aria-live="polite" data-testid="message"></div>
 
-      <input id="key-capture" type="text" aria-hidden="true" autocomplete="off" autocapitalize="characters" spellcheck="false" />
+      <input
+        id="key-capture"
+        type="text"
+        aria-hidden="true"
+        autocomplete="off"
+        autocapitalize="characters"
+        spellcheck="false"
+      />
 
       <section id="grid" class="grid" role="grid" aria-label="Guess grid" data-testid="grid"></section>
 
@@ -114,6 +143,8 @@
           <p><strong>Win %:</strong> <span id="modal-win-percent">0</span></p>
           <p><strong>Current streak:</strong> <span id="modal-streak">0</span></p>
           <p><strong>Best streak:</strong> <span id="modal-best">0</span></p>
+          <h3 style="margin-top:1rem;">Badges</h3>
+          <ul id="badge-list" class="badge-list"></ul>
         </div>
       </form>
     </dialog>
@@ -130,7 +161,9 @@
           <p><strong>Expansion:</strong> <span id="result-expansion"></span></p>
           <p><strong>Definition:</strong> <span id="result-definition"></span></p>
           <div class="modal__actions">
-            <button type="button" class="btn btn--accent" id="result-play-again">Play again</button>
+            <button type="button" class="btn" id="result-share">Share</button>
+            <button type="button" class="btn" id="result-copy">Copy result</button>
+            <button type="button" class="btn" id="result-challenge">Challenge a friend</button>
           </div>
         </div>
       </div>
@@ -198,6 +231,7 @@
       initApp();
 
       async function initApp() {
+        console.log('Initializing app...');
         const acronyms = await loadDataset();
         if (!acronyms.length) {
           showDatasetError();
@@ -212,6 +246,7 @@
         wordList = dataset.map((item) => item.word);
 
         session = initSession();
+        console.log('Session initialized:', session);
         applyTheme();
         buildGrid(session.len);
         buildKeyboard();
@@ -221,6 +256,7 @@
           tiles.flat().forEach(tile => tile.setAttribute('tabindex', '0'));
         }
         focusKeyCapture();
+        console.log('App initialization complete');
       }
 
       function scoreFor(row) {
@@ -502,59 +538,104 @@
       }
 
       function attachEvents() {
+        console.log('Attaching events...');
+
+        // Simplified input handling for debugging
+        keyCapture.addEventListener('input', (event) => {
+          console.log('Input event fired:', event.target.value);
+          if (!session) {
+            console.error('No session in input handler');
+            return;
+          }
+
+          const newValue = event.target.value.toUpperCase();
+          const allowedLength = session.len;
+
+          // Simple approach: only allow valid characters and length
+          const filtered = newValue.replace(/[^A-Z]/g, '').substring(0, allowedLength);
+
+          if (filtered !== currentGuess) {
+            currentGuess = filtered;
+            renderGrid();
+            console.log('Updated guess:', currentGuess);
+          }
+
+          // Keep input in sync
+          event.target.value = currentGuess;
+        });
+
+        // Keep existing keyboard click handling
         const isTouch = 'ontouchstart' in window;
-        if (isTouch) {
-          // Use input events for mobile instead of keydown for better compatibility
-          keyCapture.addEventListener('input', handleMobileInput);
-          keyCapture.addEventListener('keydown', handleMobileKeydown);
-          keyCapture.addEventListener('compositionstart', handleCompositionStart);
-          keyCapture.addEventListener('compositionend', handleCompositionEnd);
+        if (isTouch && gridEl) {
           gridEl.addEventListener('click', (event) => {
             if (event.target.classList.contains('t') && !session.done) {
               focusKeyCapture();
             }
           });
-        } else {
+        } else if (!isTouch) {
           window.addEventListener('keydown', handleKeydown);
         }
-        themeBtn.addEventListener('click', handleThemeToggle);
-        helpBtn.addEventListener('click', () => helpDialog.showModal());
-        statsBtn.addEventListener('click', () => {
-          updateModalStats();
-          statsDialog.showModal();
+
+        // Add Enter key support to input
+        keyCapture.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            submitGuess();
+          }
         });
-        helpDialog.addEventListener('close', focusKeyCapture);
-        statsDialog.addEventListener('close', focusKeyCapture);
+        if (themeBtn) themeBtn.addEventListener('click', handleThemeToggle);
+        if (helpBtn && helpDialog) helpBtn.addEventListener('click', () => helpDialog.showModal());
+        if (statsBtn && statsDialog) {
+          statsBtn.addEventListener('click', () => {
+            updateModalStats();
+            statsDialog.showModal();
+          });
+        }
+        if (helpDialog) helpDialog.addEventListener('close', focusKeyCapture);
+        if (statsDialog) statsDialog.addEventListener('close', focusKeyCapture);
         if (resultCloseBtn) {
           resultCloseBtn.addEventListener('click', () => {
             forceCloseResultDialog();
           });
         }
-        const resultSurface = resultDialog.querySelector('.modal__surface');
-        if (resultSurface) {
-          resultSurface.addEventListener('click', (event) => event.stopPropagation());
-        }
-        resultDialog.addEventListener('click', (event) => {
-          if (event.target === resultDialog) {
-            forceCloseResultDialog();
+        if (resultDialog) {
+          const resultSurface = resultDialog.querySelector('.modal__surface');
+          if (resultSurface) {
+            resultSurface.addEventListener('click', (event) => event.stopPropagation());
           }
-        });
-        keyboardEl.addEventListener('click', handleKeyboardClick);
-        playBtn.addEventListener('click', () => startNewGame(mode));
-        modeButtons.forEach((button) => {
-          button.addEventListener('click', () => {
-            const nextMode = button.dataset.mode === 'random' ? 'random' : 'daily';
-            if (mode === nextMode) return;
-            mode = nextMode;
-            saveMode(mode);
-            startNewGame(mode);
-            renderModeButtons();
+          resultDialog.addEventListener('click', (event) => {
+            if (event.target === resultDialog) {
+              forceCloseResultDialog();
+            }
           });
-        });
-        resultPlayAgainBtn.addEventListener('click', () => {
-          forceCloseResultDialog();
-          startNewGame(mode);
-        });
+        }
+        // Attach keyboard events after keyboard is built
+        setTimeout(() => {
+          if (keyboardEl) {
+            keyboardEl.addEventListener('click', handleKeyboardClick);
+          } else {
+            console.warn('Keyboard element not found for click events');
+          }
+        }, 200);
+        if (playBtn) playBtn.addEventListener('click', () => startNewGame(mode));
+        if (modeButtons) {
+          modeButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              const nextMode = button.dataset.mode === 'random' ? 'random' : 'daily';
+              if (mode === nextMode) return;
+              mode = nextMode;
+              saveMode(mode);
+              startNewGame(mode);
+              renderModeButtons();
+            });
+          });
+        }
+        if (resultPlayAgainBtn) {
+          resultPlayAgainBtn.addEventListener('click', () => {
+            forceCloseResultDialog();
+            startNewGame(mode);
+          });
+        }
         keyCapture.addEventListener('blur', focusKeyCapture);
       }
 
@@ -693,68 +774,7 @@
         }
       }
 
-      let isComposing = false;
-
-      function handleMobileInput(event) {
-        if (isComposing || statsDialog.open || helpDialog.open) return;
-
-        const newValue = event.target.value.toUpperCase();
-        const currentLength = currentGuess.length;
-        const newLength = newValue.length;
-
-        // Handle backspace (shorter input)
-        if (newLength < currentLength) {
-          const charsToRemove = currentLength - newLength;
-          for (let i = 0; i < charsToRemove; i++) {
-            removeLetter();
-          }
-        }
-        // Handle new characters (longer input)
-        else if (newLength > currentLength) {
-          const newChars = newValue.slice(currentLength);
-          for (const char of newChars) {
-            if (/^[A-Z]$/.test(char)) {
-              addLetter(char);
-            }
-          }
-        }
-
-        event.target.value = currentGuess;
-      }
-
-      function handleCompositionStart() {
-        isComposing = true;
-      }
-
-      function handleCompositionEnd(event) {
-        isComposing = false;
-        // Process the composed text
-        const composedText = event.data.toUpperCase();
-        for (const char of composedText) {
-          if (/^[A-Z]$/.test(char)) {
-            addLetter(char);
-          }
-        }
-        keyCapture.value = currentGuess;
-      }
-
-      function handleMobileKeydown(event) {
-        if (statsDialog.open || helpDialog.open) return;
-        if (session.done && event.key === 'Enter') {
-          forceCloseResultDialog();
-          startNewGame(mode);
-          return;
-        }
-        if (event.key === 'Enter') {
-          submitGuess();
-          event.preventDefault();
-        } else if (event.key === 'Backspace') {
-          removeLetter();
-          event.preventDefault();
-        }
-        // Let input event handle regular character input
-        keyCapture.value = currentGuess;
-      }
+      // Simplified input handling - using basic input event only
 
       function handleKeyboardClick(event) {
         const target = event.target;
@@ -772,10 +792,15 @@
       }
 
       function addLetter(letter) {
+        if (!session) {
+          console.error('Session not initialized');
+          return;
+        }
         if (session.done) return;
-        if (currentGuess.length >= session.len) return;
-        currentGuess += letter;
-        renderGrid();
+        if (currentGuess.length < session.len) {
+          currentGuess += letter;
+          renderGrid();
+        }
       }
 
       function removeLetter() {
@@ -1059,12 +1084,371 @@
         localStorage.setItem(STORAGE_KEYS.mode, nextMode);
       }
 
-      /* ============== Test hooks for debugging ============== */
-      window.CYBERDLE = {
+      /* ============== Deterministic query helpers and flags ============== */
+      function getQueryInt(name) {
+        const v = new URLSearchParams(location.search).get(name);
+        const n = Number(v);
+        return Number.isFinite(n) ? Math.floor(n) : null;
+      }
+      function getForcedIndexFromURL() {
+        const n = getQueryInt('puzzle');
+        return n != null && n >= 0 && n < dataset.length ? n : null;
+      }
+      function getForcedSeedFromURL() {
+        return getQueryInt('seed');
+      }
+      function queryHas(name, expected = '1') {
+        return new URLSearchParams(location.search).get(name) === expected;
+      }
+
+      /* Clear LocalStorage if requested */
+      if (typeof localStorage !== 'undefined' && queryHas('reset')) {
+        try {
+          Object.values(STORAGE_KEYS || {}).forEach(k => localStorage.removeItem(k));
+          localStorage.removeItem('cyberdle:simple:strict');
+        } catch {}
+      }
+
+      /* ============== Mobile input fixes ============== */
+      function syncInputMaxLength() {
+        if (session && session.len && keyCapture) {
+          keyCapture.setAttribute('maxlength', String(session.len));
+        }
+      }
+      function focusKeyCapture() {
+        if (!session) {
+          console.log('No session to focus');
+          return;
+        }
+        if (!session.done) {
+          console.log('Focusing input, current guess:', currentGuess);
+          keyCapture.value = currentGuess;
+          keyCapture.focus({ preventScroll: true });
+          setTimeout(() => {
+            const pos = keyCapture.value.length;
+            keyCapture.setSelectionRange(pos, pos);
+          }, 0);
+        }
+      }
+      /* Input filtering is handled by handleMobileInput function */
+
+      /* VisualViewport padding to keep UI visible when soft keyboard is open */
+      (function mountViewportPadding() {
+        const vv = window.visualViewport;
+        if (!vv) return;
+        const apply = () => {
+          const overlap = Math.max(0, (window.innerHeight - vv.height));
+          document.documentElement.style.setProperty('--kb-pad', overlap > 40 ? (overlap + 8) + 'px' : '0px');
+        };
+        vv.addEventListener('resize', apply);
+        vv.addEventListener('scroll', apply);
+        apply();
+      })();
+
+      /* Optional haptics on key taps */
+      function lightHaptic() { try { navigator.vibrate?.(10); } catch {} }
+      function attachHapticFeedback() {
+        if (keyboardEl) {
+          keyboardEl.addEventListener('click', (e) => {
+            if (e.target.closest('.key')) lightHaptic();
+          }, { passive: true });
+        } else {
+          console.warn('Keyboard element not found for haptic feedback');
+        }
+      }
+
+      /* Keep validation focused on syntax and length only */
+      function isValidGuess(guess, list, len) {
+        return /^[A-Z]+$/.test(guess) && guess.length === len;
+      }
+
+      /* ============== Strict dictionary support ============== */
+      const STORAGE_FLAGS = { strict: 'cyberdle:simple:strict' };
+      function loadStrict() { return localStorage.getItem(STORAGE_FLAGS.strict) === '1'; }
+      function saveStrict(v) { localStorage.setItem(STORAGE_FLAGS.strict, v ? '1' : '0'); }
+      const strictToggle = document.getElementById('strict-toggle');
+      let strictMode = loadStrict();
+      if (strictToggle) strictToggle.checked = strictMode;
+
+      /* ============== Share text and challenge link ============== */
+      function resultShareText() {
+        const attemptsUsed = session.results.filter(Boolean).length || (session.row + 1);
+        const header = `Cyberdle #${session.index + 1} ${session.win ? attemptsUsed : 'X'}/${MAX_ATTEMPTS}`;
+        const rows = session.results
+          .filter(Boolean)
+          .map(row => row.map(s => s === 'correct' ? '🟩' : s === 'present' ? '🟨' : '⬛').join(''))
+          .join('\n');
+        const url = `${location.origin}${location.pathname}?src=share`;
+        return `${header}\n${rows}\n${url}`;
+      }
+      function challengeLinkForCurrent() {
+        return `${location.origin}${location.pathname}?puzzle=${session.index}`;
+      }
+
+      /* ============== Hint helper and penalty ============== */
+      function hintText() {
+        const first = session.word[0];
+        const last = session.word[session.word.length - 1];
+        const isVowel = (char) => ['A', 'E', 'I', 'O', 'U'].includes(char);
+        const firstVowel = session.word.split('').find(isVowel) || first;
+        const category = getAcronymCategory(session.word);
+
+        // Provide multiple hint options based on word characteristics
+        const hints = [
+          `Starts with "${first}"`,
+          `Ends with "${last}"`,
+          `Contains "${firstVowel}"`
+        ];
+
+        if (category) {
+          hints.push(`Category: ${category}`);
+        }
+
+        return `Hint: ${hints.join(', ')}`;
+      }
+
+      function getAcronymCategory(word) {
+        const categories = {
+          'NETWORK': 'Networking',
+          'SECURITY': 'Security',
+          'CLOUD': 'Cloud Computing',
+          'DATA': 'Data & Storage',
+          'WEB': 'Web & Internet',
+          'CRYPTO': 'Cryptography',
+          'SYSTEM': 'System Administration',
+          'DEV': 'Development'
+        };
+
+        for (const [key, value] of Object.entries(categories)) {
+          if (word.includes(key)) {
+            return value;
+          }
+        }
+        return null;
+      }
+
+      /* ============== Badges and streak flair ============== */
+      function currentBadges() {
+        const b = [];
+        if (stats.best >= 3) b.push('Streak 3');
+        if (stats.best >= 5) b.push('Streak 5');
+        if (stats.best >= 10) b.push('Streak 10');
+        if (stats.score >= 500) b.push('Score 500');
+        if (stats.won >= 10) b.push('10 Wins');
+        return b;
+      }
+      function renderBadges() {
+        const ul = document.getElementById('badge-list');
+        if (!ul) return;
+        const items = currentBadges();
+        ul.innerHTML = items.length ? items.map(x => `<li>${x}</li>`).join('') : '<li>Keep playing to earn badges</li>';
+      }
+      function renderStreakFlair() {
+        const el = document.getElementById('streak-flair');
+        if (!el) return;
+        const s = stats.streak;
+        if (s <= 0) { el.textContent = ''; return; }
+        const icon = s >= 10 ? '🔥' : s >= 5 ? '⚡' : '⭐';
+        el.textContent = `${icon} ${s}-day streak`;
+      }
+
+      /* ============== Honor ?puzzle and ?seed in puzzle pickers ============== */
+      const _origGetDaily = getDailyPuzzle;
+      const _origGetRandom = getRandomPuzzle;
+      function getDailyPuzzle() {
+        const forced = getForcedIndexFromURL();
+        if (forced != null) return { entry: dataset[forced], index: forced, seed: forced };
+        return _origGetDaily();
+      }
+      function getRandomPuzzle() {
+        const forced = getForcedIndexFromURL();
+        const forcedSeed = getForcedSeedFromURL();
+        if (forced != null) return { entry: dataset[forced], index: forced, seed: forcedSeed ?? forced };
+        return _origGetRandom();
+      }
+
+      /* ============== Bind new UI controls ============== */
+      (function attachExtraEvents() {
+        const hintBtn = document.getElementById('hint-btn');
+        if (hintBtn) {
+          hintBtn.addEventListener('click', () => {
+            if (session.done) return;
+            if (!session.hinted) {
+              session.hinted = true;
+              persistSession(session);
+            }
+            setMessage(hintText(), 'info');
+            focusKeyCapture();
+          });
+        }
+        if (strictToggle) {
+          strictToggle.addEventListener('change', () => {
+            strictMode = strictToggle.checked;
+            saveStrict(strictMode);
+            focusKeyCapture();
+          });
+        }
+        const resultCopyBtn = document.getElementById('result-copy');
+        if (resultCopyBtn) {
+          resultCopyBtn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(resultShareText());
+              setMessage('Result copied to clipboard', 'success');
+            } catch {
+              setMessage('Could not copy. Long press to copy manually.', 'error');
+            }
+          });
+        }
+        const resultShareBtn = document.getElementById('result-share');
+        if (resultShareBtn) {
+          resultShareBtn.addEventListener('click', async () => {
+            const text = resultShareText();
+            if (navigator.share) {
+              try { await navigator.share({ text }); return; } catch {}
+            }
+            try {
+              await navigator.clipboard.writeText(text);
+              setMessage('Result copied. Paste to share anywhere.', 'success');
+            } catch {
+              setMessage('Could not share. Long press to copy manually.', 'error');
+            }
+          });
+        }
+        const resultChallengeBtn = document.getElementById('result-challenge');
+        if (resultChallengeBtn) {
+          resultChallengeBtn.addEventListener('click', async () => {
+            const link = challengeLinkForCurrent();
+            const msg = `Try my Cyberdle: ${link}`;
+            if (navigator.share) {
+              try { await navigator.share({ text: msg }); return; } catch {}
+            }
+            try {
+              await navigator.clipboard.writeText(link);
+              setMessage('Link copied. Send it to a friend.', 'success');
+            } catch {
+              setMessage('Could not copy. Long press to copy manually.', 'error');
+            }
+          });
+        }
+      })();
+
+      /* ============== Score penalty on win ============== */
+      const _origApplyWin = applyWin;
+      function applyWin(snapshot, rowIndex) {
+        const base = scoreFor(rowIndex + 1);
+        const penalty = session && session.hinted ? 20 : 0;
+        return {
+          version: 1,
+          played: snapshot.played + 1,
+          won: snapshot.won + 1,
+          streak: snapshot.streak + 1,
+          best: Math.max(snapshot.best, snapshot.streak + 1),
+          score: snapshot.score + Math.max(0, base - penalty)
+        };
+      }
+
+      /* ============== Enhanced submit with strict dictionary ============== */
+      function submitGuess() {
+        if (!session) {
+          console.error('No session in submitGuess');
+          return;
+        }
+
+        if (session.done) {
+          const attempts = session.results.filter(Boolean).length || session.row + 1;
+          showResultDialog(session.win, session.win ? attempts : MAX_ATTEMPTS);
+          return;
+        }
+
+        if (currentGuess.length !== session.len) {
+          setMessage('Not enough letters', 'error');
+          return;
+        }
+
+        if (!isValidGuess(currentGuess, wordList, session.len)) {
+          setMessage('Letters only (A–Z).', 'error');
+          return;
+        }
+
+        if (strictMode && !wordList.includes(currentGuess.toUpperCase())) {
+          setMessage('Not in the approved acronym list', 'error');
+          return;
+        }
+
+        // Process the guess directly
+        handleGuess(currentGuess);
+      }
+
+      /* ============== Streak flair update and milestone messages ============== */
+      const _origHandleGuess = handleGuess;
+      function handleGuess(guess) {
+        _origHandleGuess(guess);
+        renderStreakFlair();
+        if (session.done && session.win) {
+          if (stats.streak === 5) setMessage('Five days in a row. You are on a roll.', 'success');
+          if (stats.streak === 10 || (stats.streak > 0 && stats.streak % 10 === 0)) {
+            setMessage(`Amazing, day ${stats.streak}.`, 'success');
+          }
+          const flair = document.getElementById('streak-flair');
+          if (flair) {
+            flair.classList.add('streak-hot');
+            setTimeout(() => flair.classList.remove('streak-hot'), 900);
+          }
+        }
+      }
+
+      /* ============== Enhanced stats modal update ============== */
+      function updateModalStats() {
+        modalScoreEl.textContent = String(stats.score);
+        modalPlayedEl.textContent = String(stats.played);
+        const winPercent = stats.played === 0 ? 0 : Math.round((stats.won / stats.played) * 100);
+        modalWinPercentEl.textContent = String(winPercent);
+        modalStreakEl.textContent = String(stats.streak);
+        modalBestEl.textContent = String(stats.best);
+
+        // Add badges rendering
+        renderBadges();
+      }
+
+      /* ============== Welcome message for share traffic ============== */
+      (function welcomeFromShare() {
+        const src = new URLSearchParams(location.search).get('src');
+        if (src === 'share') setMessage('Welcome, this puzzle came from a shared result.', 'info');
+      })();
+
+      /* ============== Test hooks for the agent ============== */
+      window.CYBERDLE = Object.assign(window.CYBERDLE || {}, {
+        _evaluateGuess: evaluateGuess,
+        _scoreFor: scoreFor,
+        _seededIndex: seededIndex,
+        _yyyymmddSeed: yyyymmddSeed,
+        _mergeTileState: mergeTileState,
         _getSession: () => session,
         _getStats: () => stats,
-        _startNewGame: (mode) => startNewGame(mode || 'daily')
-      };
+        _startNewGame: (modeOverride) => startNewGame(modeOverride || mode),
+        _clearStorage: () => {
+          try {
+            Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
+            localStorage.removeItem('cyberdle:simple:strict');
+          } catch {}
+        },
+        // Debug helpers
+        _testInput: () => {
+          console.log('Testing input - Session:', session);
+          console.log('Current guess:', currentGuess);
+          if (session) {
+            console.log('Session length:', session.len);
+            console.log('Can add letter?', currentGuess.length < session.len);
+          }
+        },
+        _addTestLetter: (letter) => {
+          console.log('Adding test letter:', letter);
+          addLetter(letter);
+          console.log('Result - Current guess:', currentGuess);
+        }
+      });
+
+      /* Input handling is managed by handleMobileInput */
     </script>
   </body>
 </html>
