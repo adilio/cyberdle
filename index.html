@@ -28,9 +28,11 @@
 
       <section class="controls">
         <button type="button" id="play-btn" class="btn btn--accent">Play</button>
+        <button type="button" id="hint-btn" class="btn btn--ghost">Hint</button>
         <div class="controls__meta" role="status" aria-live="polite">
           <span id="puzzle-label"></span>
           <span id="puzzle-date"></span>
+          <span id="streak-flair" class="streak-flair" aria-live="polite"></span>
         </div>
         <div class="mode-toggle" role="radiogroup" aria-label="Puzzle mode">
           <button type="button" data-mode="daily" class="chip">Daily</button>
@@ -126,10 +128,13 @@
         </header>
         <div class="modal__body">
           <p id="result-message"></p>
+          <p id="result-hint-note" style="font-size:0.9em;opacity:0.8;display:none;"></p>
           <p><strong>Acronym:</strong> <span id="result-word"></span></p>
           <p><strong>Expansion:</strong> <span id="result-expansion"></span></p>
           <p><strong>Definition:</strong> <span id="result-definition"></span></p>
           <div class="modal__actions">
+            <button type="button" class="btn" id="result-share">Share</button>
+            <button type="button" class="btn" id="result-copy">Copy</button>
             <button type="button" class="btn btn--accent" id="result-play-again">Play again</button>
           </div>
         </div>
@@ -160,6 +165,7 @@
       const scoreWonEl = document.getElementById('score-won');
       const scoreStreakEl = document.getElementById('score-streak');
       const scoreBestEl = document.getElementById('score-best');
+      const streakFlairEl = document.getElementById('streak-flair');
       const modalScoreEl = document.getElementById('modal-score');
       const modalPlayedEl = document.getElementById('modal-played');
       const modalWinPercentEl = document.getElementById('modal-win-percent');
@@ -180,9 +186,13 @@
       const helpBtn = document.getElementById('help-btn');
       const statsBtn = document.getElementById('stats-btn');
       const playBtn = document.getElementById('play-btn');
+      const hintBtn = document.getElementById('hint-btn');
       const modeButtons = Array.from(document.querySelectorAll('.mode-toggle .chip'));
       const keyboardEl = document.getElementById('keyboard');
       const keyCapture = document.getElementById('key-capture');
+      const resultShareBtn = document.getElementById('result-share');
+      const resultCopyBtn = document.getElementById('result-copy');
+      const resultHintNoteEl = document.getElementById('result-hint-note');
 
       let tiles = [];
       let currentGuess = '';
@@ -301,7 +311,8 @@
           win: Boolean(stored.win),
           seed,
           index,
-          mode
+          mode,
+          hinted: Boolean(stored.hinted)
         };
       }
 
@@ -318,7 +329,8 @@
           win: false,
           seed,
           index,
-          mode: puzzleMode
+          mode: puzzleMode,
+          hinted: false
         };
       }
 
@@ -356,7 +368,8 @@
           win: state.win,
           seed: state.seed,
           index: state.index,
-          mode: state.mode
+          mode: state.mode,
+          hinted: Boolean(state.hinted)
         });
       }
 
@@ -426,6 +439,7 @@
         updateMeta();
         updateFooter();
         setMessage('');
+        updateHintButton();
       }
 
       function renderModeButtons() {
@@ -471,6 +485,7 @@
         scoreWonEl.textContent = String(stats.won);
         scoreStreakEl.textContent = String(stats.streak);
         scoreBestEl.textContent = String(stats.best);
+        updateStreakFlair();
       }
 
       function updateModalStats() {
@@ -555,6 +570,15 @@
           forceCloseResultDialog();
           startNewGame(mode);
         });
+        if (hintBtn) {
+          hintBtn.addEventListener('click', handleHintClick);
+        }
+        if (resultShareBtn) {
+          resultShareBtn.addEventListener('click', handleShareClick);
+        }
+        if (resultCopyBtn) {
+          resultCopyBtn.addEventListener('click', handleCopyClick);
+        }
         keyCapture.addEventListener('blur', focusKeyCapture);
       }
 
@@ -634,6 +658,10 @@
         }
 
         stopConfetti();
+        if (resultHintNoteEl) {
+          resultHintNoteEl.textContent = '';
+          resultHintNoteEl.style.display = 'none';
+        }
         focusKeyCapture();
       }
 
@@ -660,6 +688,46 @@
             keyCapture.setSelectionRange(pos, pos);
           }, 0);
         }
+      }
+
+      function handleHintClick() {
+        if (!hintBtn || session.done) return;
+        session.hinted = true;
+        persistSession(session);
+        const hint = `First letter: ${session.word[0]} • Length: ${session.len}`;
+        setMessage(hint, 'info');
+        updateHintButton();
+        focusKeyCapture();
+      }
+
+      function updateHintButton() {
+        if (!hintBtn) return;
+        hintBtn.disabled = session.done;
+      }
+
+      function updateStreakFlair() {
+        if (!streakFlairEl) return;
+        const streak = stats.streak;
+        if (!streak) {
+          streakFlairEl.textContent = '';
+          streakFlairEl.style.display = 'none';
+          streakFlairEl.classList.remove('hot');
+          return;
+        }
+        let icon = '⭐';
+        if (streak >= 10) icon = '🔥';
+        else if (streak >= 5) icon = '⚡';
+        streakFlairEl.textContent = `${icon} ${streak}`;
+        streakFlairEl.style.display = 'inline-flex';
+      }
+
+      function animateStreakFlair() {
+        if (!streakFlairEl || streakFlairEl.style.display === 'none') return;
+        streakFlairEl.classList.remove('hot');
+        // Force reflow to restart animation
+        // eslint-disable-next-line no-unused-expressions
+        streakFlairEl.offsetHeight;
+        streakFlairEl.classList.add('hot');
       }
 
       function handleThemeToggle() {
@@ -810,22 +878,23 @@
         renderGrid();
 
         if (evaluation.every((tile) => tile === 'correct')) {
-            session.done = true;
-            session.win = true;
-            stats = applyWin(stats, rowIndex);
-            persistSession(session);
-            saveStats(stats);
-            renderStats();
-            updateModalStats();
-            setMessage(`Solved in ${rowIndex + 1} ${rowIndex === 0 ? 'try' : 'tries'}!`, 'success');
+          session.done = true;
+          session.win = true;
+          stats = applyWin(stats, rowIndex);
+          persistSession(session);
+          saveStats(stats);
+          renderStats();
+          updateModalStats();
+          setMessage(`Solved in ${rowIndex + 1} ${rowIndex === 0 ? 'try' : 'tries'}!`, 'success');
 
-            // Launch confetti immediately
-            launchConfetti();
+          // Launch confetti immediately
+          launchConfetti();
+          animateStreakFlair();
 
-            // Delay modal appearance to let confetti be visible
-            setTimeout(() => {
-              showResultDialog(true, rowIndex + 1);
-            }, 500); // 0.5 second delay to enjoy the confetti
+          // Delay modal appearance to let confetti be visible
+          setTimeout(() => {
+            showResultDialog(true, rowIndex + 1);
+          }, 500); // 0.5 second delay to enjoy the confetti
 
             return;
           }
@@ -911,6 +980,15 @@
         resultMessageEl.textContent = win
           ? `Solved in ${attempts} ${attempts === 1 ? 'try' : 'tries'}.`
           : `The answer was ${session.word}.`;
+        if (resultHintNoteEl) {
+          if (win && session.hinted) {
+            resultHintNoteEl.textContent = '(Hint used: -20 points)';
+            resultHintNoteEl.style.display = 'block';
+          } else {
+            resultHintNoteEl.textContent = '';
+            resultHintNoteEl.style.display = 'none';
+          }
+        }
         resultWordEl.textContent = session.word;
         resultExpansionEl.textContent = session.expansion;
         resultDefinitionEl.textContent = session.definition;
@@ -942,14 +1020,16 @@
       }
 
       function applyWin(snapshot, rowIndex) {
-        const score = scoreFor(rowIndex + 1);
+        const baseScore = scoreFor(rowIndex + 1);
+        const penalty = session && session.hinted ? 20 : 0;
+        const finalScore = Math.max(0, baseScore - penalty);
         return {
           version: 1,
           played: snapshot.played + 1,
           won: snapshot.won + 1,
           streak: snapshot.streak + 1,
           best: Math.max(snapshot.best, snapshot.streak + 1),
-          score: snapshot.score + score
+          score: snapshot.score + finalScore
         };
       }
 
@@ -962,6 +1042,263 @@
           best: snapshot.best,
           score: snapshot.score
         };
+      }
+
+      function generateShareText() {
+        if (!session || !session.done) return '';
+        const filledRows = session.results.filter((row) => Array.isArray(row) && row.length);
+        const attempts = filledRows.length || session.row + 1;
+        const emoji = session.win ? attempts : 'X';
+        const hintSuffix = session.hinted && session.win ? ' • Hint used' : '';
+        const header = `Cyberdle #${session.index + 1} ${emoji}/${MAX_ATTEMPTS}${hintSuffix}`;
+        const attemptSummary = session.win
+          ? `Solved in ${attempts} ${attempts === 1 ? 'try' : 'tries'}`
+          : `Missed it — answer: ${session.word}`;
+        const winPercent = stats.played === 0 ? 0 : Math.round((stats.won / stats.played) * 100);
+        const summary = `Score ${stats.score} • Win ${winPercent}% • Streak ${stats.streak}`;
+        const grid = filledRows
+          .map((row) => row
+            .map((state) => {
+              if (state === 'correct') return '🟩';
+              if (state === 'present') return '🟨';
+              return '⬛';
+            })
+            .join(''))
+          .join('\n');
+        const url = `${window.location.origin}${window.location.pathname}`;
+        const lines = ['My Cyberdle Result', header, attemptSummary, summary];
+        if (grid) {
+          lines.push(grid, '');
+        }
+        lines.push('Your turn! Try Cyberdle at:', url);
+        return lines.join('\n');
+      }
+
+      function collectShareRows() {
+        if (!session) return [];
+        return session.results
+          .map((row, idx) => ({
+            states: Array.isArray(row) && row.length ? row : null,
+            guess: session.guesses[idx] || ''
+          }))
+          .filter((entry) => entry.states);
+      }
+
+      function readColor(styles, name, fallback) {
+        const value = styles.getPropertyValue(name);
+        return value && value.trim() ? value.trim() : fallback;
+      }
+
+      function drawRoundedRect(ctx, x, y, width, height, radius) {
+        const r = Math.max(0, Math.min(radius, width / 2, height / 2));
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + width - r, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+        ctx.lineTo(x + width, y + height - r);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+        ctx.lineTo(x + r, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
+
+      function canvasToBlob(canvas) {
+        return new Promise((resolve) => {
+          if (canvas.toBlob) {
+            canvas.toBlob((blob) => resolve(blob), 'image/png', 1);
+            return;
+          }
+          const dataUrl = canvas.toDataURL('image/png');
+          const base64 = dataUrl.split(',')[1];
+          if (!base64) {
+            resolve(null);
+            return;
+          }
+          const binary = atob(base64);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i += 1) {
+            bytes[i] = binary.charCodeAt(i);
+          }
+          resolve(new Blob([bytes], { type: 'image/png' }));
+        });
+      }
+
+      async function createShareCard() {
+        if (!session || !session.done) return null;
+        const rows = collectShareRows();
+        if (!rows.length) return null;
+
+        const width = 880;
+        const height = 520;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return null;
+
+        const styles = getComputedStyle(document.documentElement);
+        const surface = readColor(styles, '--surface', '#0f2520');
+        const fg = readColor(styles, '--fg', '#f1fff9');
+        const accent = readColor(styles, '--accent', '#2ee89e');
+        const muted = readColor(styles, '--muted', '#7ba79a');
+        const correctColor = readColor(styles, '--t-correct', '#21c262');
+        const presentColor = readColor(styles, '--t-present', '#d5b63f');
+        const absentColor = readColor(styles, '--t-absent', '#1f332f');
+
+        ctx.fillStyle = surface;
+        ctx.fillRect(0, 0, width, height);
+        ctx.save();
+        ctx.globalAlpha = 0.24;
+        ctx.fillStyle = accent;
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        ctx.fillStyle = fg;
+        ctx.font = '700 48px "Inter", "Segoe UI", sans-serif';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText(`Cyberdle #${session.index + 1}`, 48, 96);
+
+        const attemptCount = rows.length || session.row + 1;
+        const modeLabel = mode === 'daily' ? 'Daily challenge' : 'Random challenge';
+        const attemptLabel = session.win
+          ? `Solved in ${attemptCount} ${attemptCount === 1 ? 'try' : 'tries'}`
+          : 'Missed it today';
+        const hintLabel = session.hinted ? ' • Hint used (-20)' : '';
+        ctx.font = '500 26px "Inter", "Segoe UI", sans-serif';
+        ctx.fillText(`${modeLabel} • ${attemptLabel}${hintLabel}`, 48, 146);
+
+        const tileGap = 12;
+        const maxCols = Math.max(session.len, 3);
+        let tileSize = Math.max(44, Math.min(72, Math.floor((width - 96 - tileGap * (maxCols - 1)) / maxCols)));
+        const topMargin = 190;
+        const bottomMargin = 180;
+        const availableHeight = height - topMargin - bottomMargin;
+        if (rows.length > 0) {
+          const maxRowTile = Math.floor((availableHeight - tileGap * (rows.length - 1)) / rows.length);
+          if (maxRowTile > 0) {
+            tileSize = Math.min(tileSize, maxRowTile);
+          }
+        }
+        const gridWidth = session.len * tileSize + Math.max(0, session.len - 1) * tileGap;
+        const gridHeight = rows.length ? (rows.length * tileSize + Math.max(0, rows.length - 1) * tileGap) : 0;
+        const startX = Math.max(48, Math.floor((width - gridWidth) / 2));
+        const startY = topMargin + Math.max(0, Math.floor((availableHeight - gridHeight) / 2));
+
+        rows.forEach((entry, rowIndex) => {
+          entry.states.forEach((state, colIndex) => {
+            const x = startX + colIndex * (tileSize + tileGap);
+            const y = startY + rowIndex * (tileSize + tileGap);
+            const color = state === 'correct' ? correctColor : state === 'present' ? presentColor : absentColor;
+            ctx.fillStyle = color;
+            drawRoundedRect(ctx, x, y, tileSize, tileSize, 14);
+            ctx.fill();
+          });
+        });
+
+        const winPercent = stats.played === 0 ? 0 : Math.round((stats.won / stats.played) * 100);
+        const summary = `Score ${stats.score} • Win ${winPercent}% • Streak ${stats.streak}`;
+        ctx.textAlign = 'start';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = muted;
+        ctx.font = '500 24px "Inter", "Segoe UI", sans-serif';
+        const summaryY = height - 110;
+        ctx.fillText(summary, 48, summaryY);
+
+        ctx.fillStyle = accent;
+        ctx.font = '600 22px "Inter", "Segoe UI", sans-serif';
+        const url = `${window.location.origin}${window.location.pathname}`;
+        ctx.fillText(url, 48, height - 60);
+
+        const blob = await canvasToBlob(canvas);
+        if (!blob) return null;
+        return { blob, fileName: `cyberdle-${session.index + 1}.png` };
+      }
+
+      async function buildSharePayload() {
+        if (!session || !session.done) return null;
+        const text = generateShareText();
+        if (!text) return null;
+        const card = await createShareCard();
+        let file = null;
+        if (card && typeof File !== 'undefined') {
+          try {
+            file = new File([card.blob], card.fileName, { type: 'image/png' });
+          } catch (error) {
+            file = null;
+          }
+        }
+        return { text, card, file };
+      }
+
+      async function copySharePayload(payload) {
+        if (!payload || !navigator.clipboard) return 'none';
+        if (window.ClipboardItem && payload.card?.blob && navigator.clipboard.write) {
+          try {
+            const items = {
+              'image/png': payload.card.blob,
+              'text/plain': new Blob([payload.text], { type: 'text/plain' })
+            };
+            await navigator.clipboard.write([new ClipboardItem(items)]);
+            return 'card';
+          } catch (error) {
+            // fall back to text copy below
+          }
+        }
+        try {
+          await navigator.clipboard.writeText(payload.text);
+          return 'text';
+        } catch (error) {
+          return 'none';
+        }
+      }
+
+      async function handleShareClick() {
+        const payload = await buildSharePayload();
+        if (!payload) {
+          setMessage('Nothing to share yet.', 'error');
+          return;
+        }
+        if (navigator.share) {
+          const shareData = { text: payload.text, title: 'My Cyberdle Result' };
+          if (payload.file && navigator.canShare && navigator.canShare({ files: [payload.file] })) {
+            shareData.files = [payload.file];
+          }
+          try {
+            await navigator.share(shareData);
+            return;
+          } catch (error) {
+            if (error && error.name === 'AbortError') {
+              return; // user cancelled
+            }
+            // fall through to clipboard
+          }
+        }
+        const copied = await copySharePayload(payload);
+        if (copied === 'card') {
+          setMessage('Share card copied to clipboard!', 'success');
+        } else if (copied === 'text') {
+          setMessage('Share text copied to clipboard!', 'success');
+        } else {
+          setMessage('Could not share', 'error');
+        }
+      }
+
+      async function handleCopyClick() {
+        const payload = await buildSharePayload();
+        if (!payload) {
+          setMessage('Nothing to copy yet.', 'error');
+          return;
+        }
+        const copied = await copySharePayload(payload);
+        if (copied === 'card') {
+          setMessage('Share card copied to clipboard!', 'success');
+        } else if (copied === 'text') {
+          setMessage('Share text copied to clipboard!', 'success');
+        } else {
+          setMessage('Could not copy', 'error');
+        }
       }
 
       function startNewGame(nextMode) {
@@ -1002,14 +1339,15 @@
           definition: raw.definition,
           len: raw.len,
           guesses,
-          results,
-          row: Number.isFinite(raw.row) ? Math.max(0, Math.min(MAX_ATTEMPTS - 1, Math.floor(raw.row))) : 0,
-          done: Boolean(raw.done),
-          win: Boolean(raw.win),
-          seed: Number.isFinite(raw.seed) ? Math.floor(raw.seed) : 0,
-          index: Number.isFinite(raw.index) ? Math.floor(raw.index) : 0,
-          mode: raw.mode === 'random' ? 'random' : 'daily'
-        };
+        results,
+        row: Number.isFinite(raw.row) ? Math.max(0, Math.min(MAX_ATTEMPTS - 1, Math.floor(raw.row))) : 0,
+        done: Boolean(raw.done),
+        win: Boolean(raw.win),
+        seed: Number.isFinite(raw.seed) ? Math.floor(raw.seed) : 0,
+        index: Number.isFinite(raw.index) ? Math.floor(raw.index) : 0,
+        mode: raw.mode === 'random' ? 'random' : 'daily',
+        hinted: Boolean(raw.hinted)
+      };
       }
 
       function saveGame(state) {
