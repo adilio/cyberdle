@@ -137,6 +137,7 @@
             <button type="button" class="btn" id="result-copy">Copy</button>
             <button type="button" class="btn btn--accent" id="result-play-again">Play again</button>
           </div>
+          <p id="result-status" class="modal__status" aria-live="polite"></p>
         </div>
       </div>
     </div>
@@ -193,6 +194,7 @@
       const resultShareBtn = document.getElementById('result-share');
       const resultCopyBtn = document.getElementById('result-copy');
       const resultHintNoteEl = document.getElementById('result-hint-note');
+      const resultStatusEl = document.getElementById('result-status');
 
       let tiles = [];
       let currentGuess = '';
@@ -662,6 +664,7 @@
           resultHintNoteEl.textContent = '';
           resultHintNoteEl.style.display = 'none';
         }
+        updateResultStatus('');
         focusKeyCapture();
       }
 
@@ -703,6 +706,19 @@
       function updateHintButton() {
         if (!hintBtn) return;
         hintBtn.disabled = session.done;
+      }
+
+      function updateResultStatus(message, tone = 'info') {
+        if (!resultStatusEl) return;
+        if (!message) {
+          resultStatusEl.textContent = '';
+          resultStatusEl.style.display = 'none';
+          resultStatusEl.dataset.tone = '';
+          return;
+        }
+        resultStatusEl.textContent = message;
+        resultStatusEl.dataset.tone = tone;
+        resultStatusEl.style.display = 'block';
       }
 
       function updateStreakFlair() {
@@ -989,6 +1005,7 @@
             resultHintNoteEl.style.display = 'none';
           }
         }
+        updateResultStatus('');
         resultWordEl.textContent = session.word;
         resultExpansionEl.textContent = session.expansion;
         resultDefinitionEl.textContent = session.definition;
@@ -1254,6 +1271,25 @@
         }
       }
 
+      function fallbackCopyText(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+        let success = false;
+        try {
+          success = document.execCommand('copy');
+        } catch (error) {
+          success = false;
+        }
+        textarea.remove();
+        return success ? 'text' : 'none';
+      }
+
       async function handleShareClick() {
         const payload = await buildSharePayload();
         if (!payload) {
@@ -1278,10 +1314,19 @@
         const copied = await copySharePayload(payload);
         if (copied === 'card') {
           setMessage('Share card copied to clipboard!', 'success');
+          updateResultStatus('Share card copied to clipboard!', 'success');
         } else if (copied === 'text') {
           setMessage('Share text copied to clipboard!', 'success');
+          updateResultStatus('Share text copied to clipboard!', 'success');
         } else {
-          setMessage('Could not share', 'error');
+          const fallback = fallbackCopyText(payload.text);
+          if (fallback === 'text') {
+            setMessage('Share text copied to clipboard!', 'success');
+            updateResultStatus('Share text copied to clipboard!', 'success');
+          } else {
+            setMessage('Could not share', 'error');
+            updateResultStatus('Could not share', 'error');
+          }
         }
       }
 
@@ -1294,10 +1339,19 @@
         const copied = await copySharePayload(payload);
         if (copied === 'card') {
           setMessage('Share card copied to clipboard!', 'success');
+          updateResultStatus('Share card copied to clipboard!', 'success');
         } else if (copied === 'text') {
           setMessage('Share text copied to clipboard!', 'success');
+          updateResultStatus('Share text copied to clipboard!', 'success');
         } else {
-          setMessage('Could not copy', 'error');
+          const fallback = fallbackCopyText(payload.text);
+          if (fallback === 'text') {
+            setMessage('Share text copied to clipboard!', 'success');
+            updateResultStatus('Share text copied to clipboard!', 'success');
+          } else {
+            setMessage('Could not copy', 'error');
+            updateResultStatus('Could not copy', 'error');
+          }
         }
       }
 

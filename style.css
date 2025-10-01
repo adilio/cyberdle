@@ -562,6 +562,21 @@ body.modal-active {
   flex-wrap: wrap;
 }
 
+.modal__status {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  display: none;
+}
+
+.modal__status[data-tone='success'] {
+  color: var(--success);
+}
+
+.modal__status[data-tone='error'] {
+  color: var(--danger);
+}
+
 .modal ul {
   margin: 0;
   padding-left: 1.2rem;
