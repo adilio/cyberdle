@@ -137,6 +137,13 @@
             <button type="button" class="btn" id="result-copy">Copy</button>
             <button type="button" class="btn btn--accent" id="result-play-again">Play again</button>
           </div>
+          <div id="copy-fallback" class="modal__fallback" hidden>
+            <p class="modal__fallback-label">Copy this text manually:</p>
+            <textarea id="copy-fallback-text" readonly rows="5"></textarea>
+            <div class="modal__fallback-actions">
+              <button type="button" class="btn btn--ghost" id="copy-fallback-btn">Copy text</button>
+            </div>
+          </div>
           <p id="result-status" class="modal__status" aria-live="polite"></p>
         </div>
       </div>
@@ -195,6 +202,9 @@
       const resultCopyBtn = document.getElementById('result-copy');
       const resultHintNoteEl = document.getElementById('result-hint-note');
       const resultStatusEl = document.getElementById('result-status');
+      const copyFallbackEl = document.getElementById('copy-fallback');
+      const copyFallbackTextarea = document.getElementById('copy-fallback-text');
+      const copyFallbackBtn = document.getElementById('copy-fallback-btn');
 
       let tiles = [];
       let currentGuess = '';
@@ -581,6 +591,22 @@
         if (resultCopyBtn) {
           resultCopyBtn.addEventListener('click', handleCopyClick);
         }
+        if (copyFallbackBtn) {
+          copyFallbackBtn.addEventListener('click', () => {
+            const text = copyFallbackTextarea?.value || '';
+            if (!text) return;
+            const result = copyTextFallback(text, { showUI: false });
+            if (result === 'text') {
+              setMessage('Share text copied to clipboard!', 'success');
+              updateResultStatus('Share text copied to clipboard!', 'success');
+              hideCopyFallback();
+            } else if (result === 'manual') {
+              updateResultStatus('Copy the text above manually.', 'info');
+            } else {
+              updateResultStatus('Unable to copy. Use Share instead.', 'error');
+            }
+          });
+        }
         keyCapture.addEventListener('blur', focusKeyCapture);
       }
 
@@ -719,6 +745,23 @@
         resultStatusEl.textContent = message;
         resultStatusEl.dataset.tone = tone;
         resultStatusEl.style.display = 'block';
+      }
+
+      function showCopyFallback(text) {
+        if (!copyFallbackEl || !copyFallbackTextarea) return;
+        copyFallbackEl.hidden = false;
+        copyFallbackTextarea.value = text;
+        setTimeout(() => {
+          copyFallbackTextarea.focus();
+          copyFallbackTextarea.select();
+        }, 0);
+        updateResultStatus('Copy the text below manually.', 'info');
+      }
+
+      function hideCopyFallback() {
+        if (!copyFallbackEl || !copyFallbackTextarea) return;
+        copyFallbackEl.hidden = true;
+        copyFallbackTextarea.value = '';
       }
 
       function updateStreakFlair() {
@@ -1274,7 +1317,7 @@
         return copyTextFallback(payload.text);
       }
 
-      function copyTextFallback(text) {
+      function copyTextFallback(text, { showUI = true } = {}) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
         textarea.setAttribute('readonly', '');
@@ -1292,9 +1335,15 @@
           success = false;
         }
         textarea.remove();
-        if (success) return 'text';
-        const manual = window.prompt('Copy this result and share it:', text);
-        return manual !== null ? 'manual' : 'none';
+        if (success) {
+          hideCopyFallback();
+          return 'text';
+        }
+        if (showUI) {
+          showCopyFallback(text);
+          return 'manual';
+        }
+        return 'none';
       }
 
       async function handleShareClick() {
@@ -1326,9 +1375,11 @@
         if (copied === 'card') {
           setMessage('Share card copied to clipboard!', 'success');
           updateResultStatus('Share card copied to clipboard!', 'success');
+          hideCopyFallback();
         } else if (copied === 'text') {
           setMessage('Share text copied to clipboard!', 'success');
           updateResultStatus('Share text copied to clipboard!', 'success');
+          hideCopyFallback();
         } else if (copied === 'manual') {
           const info = 'Copy the prompt text and share manually.';
           setMessage(info, 'info');
@@ -1350,9 +1401,11 @@
         if (copied === 'card') {
           setMessage('Share card copied to clipboard!', 'success');
           updateResultStatus('Share card copied to clipboard!', 'success');
+          hideCopyFallback();
         } else if (copied === 'text') {
           setMessage('Share text copied to clipboard!', 'success');
           updateResultStatus('Share text copied to clipboard!', 'success');
+          hideCopyFallback();
         } else if (copied === 'manual') {
           const info = 'Copy the prompt text and share manually.';
           setMessage(info, 'info');

@@ -577,6 +577,49 @@ body.modal-active {
   color: var(--danger);
 }
 
+.modal__fallback {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.6rem;
+  background: rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.modal__fallback[hidden] {
+  display: none;
+}
+
+.modal__fallback-label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.modal__fallback textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  font-family: monospace;
+  font-size: 0.85rem;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  color: var(--fg);
+}
+
+.modal__fallback textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.modal__fallback-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .modal ul {
   margin: 0;
   padding-left: 1.2rem;
