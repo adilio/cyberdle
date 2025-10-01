@@ -1250,8 +1250,8 @@
       }
 
       async function copySharePayload(payload) {
-        if (!payload || !navigator.clipboard) return 'none';
-        if (window.ClipboardItem && payload.card?.blob && navigator.clipboard.write) {
+        if (!payload) return 'none';
+        if (window.ClipboardItem && payload.card?.blob && navigator.clipboard?.write) {
           try {
             const items = {
               'image/png': payload.card.blob,
@@ -1260,23 +1260,28 @@
             await navigator.clipboard.write([new ClipboardItem(items)]);
             return 'card';
           } catch (error) {
-            // fall back to text copy below
+            // proceed to text fallback
           }
         }
-        try {
-          await navigator.clipboard.writeText(payload.text);
-          return 'text';
-        } catch (error) {
-          return 'none';
+        if (navigator.clipboard?.writeText && window.isSecureContext) {
+          try {
+            await navigator.clipboard.writeText(payload.text);
+            return 'text';
+          } catch (error) {
+            // continue to manual fallback
+          }
         }
+        return copyTextFallback(payload.text);
       }
 
-      function fallbackCopyText(text) {
+      function copyTextFallback(text) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
         textarea.setAttribute('readonly', '');
         textarea.style.position = 'fixed';
         textarea.style.top = '-9999px';
+        textarea.style.opacity = '0';
+        textarea.style.pointerEvents = 'none';
         document.body.appendChild(textarea);
         textarea.select();
         textarea.setSelectionRange(0, textarea.value.length);
@@ -1287,7 +1292,9 @@
           success = false;
         }
         textarea.remove();
-        return success ? 'text' : 'none';
+        if (success) return 'text';
+        const manual = window.prompt('Copy this result and share it:', text);
+        return manual !== null ? 'manual' : 'none';
       }
 
       async function handleShareClick() {
@@ -1303,10 +1310,14 @@
           }
           try {
             await navigator.share(shareData);
+            setMessage('Shared successfully!', 'success');
+            updateResultStatus('Shared successfully!', 'success');
             return;
           } catch (error) {
             if (error && error.name === 'AbortError') {
-              return; // user cancelled
+              const info = 'Share cancelled.';
+              updateResultStatus(info, 'info');
+              return;
             }
             // fall through to clipboard
           }
@@ -1318,15 +1329,14 @@
         } else if (copied === 'text') {
           setMessage('Share text copied to clipboard!', 'success');
           updateResultStatus('Share text copied to clipboard!', 'success');
+        } else if (copied === 'manual') {
+          const info = 'Copy the prompt text and share manually.';
+          setMessage(info, 'info');
+          updateResultStatus(info, 'info');
         } else {
-          const fallback = fallbackCopyText(payload.text);
-          if (fallback === 'text') {
-            setMessage('Share text copied to clipboard!', 'success');
-            updateResultStatus('Share text copied to clipboard!', 'success');
-          } else {
-            setMessage('Could not share', 'error');
-            updateResultStatus('Could not share', 'error');
-          }
+          const warning = 'Copy not supported on this device. Use Share instead.';
+          setMessage(warning, 'error');
+          updateResultStatus(warning, 'error');
         }
       }
 
@@ -1343,15 +1353,14 @@
         } else if (copied === 'text') {
           setMessage('Share text copied to clipboard!', 'success');
           updateResultStatus('Share text copied to clipboard!', 'success');
+        } else if (copied === 'manual') {
+          const info = 'Copy the prompt text and share manually.';
+          setMessage(info, 'info');
+          updateResultStatus(info, 'info');
         } else {
-          const fallback = fallbackCopyText(payload.text);
-          if (fallback === 'text') {
-            setMessage('Share text copied to clipboard!', 'success');
-            updateResultStatus('Share text copied to clipboard!', 'success');
-          } else {
-            setMessage('Could not copy', 'error');
-            updateResultStatus('Could not copy', 'error');
-          }
+          const warning = 'Copy not supported on this device. Use Share instead.';
+          setMessage(warning, 'error');
+          updateResultStatus(warning, 'error');
         }
       }
 
