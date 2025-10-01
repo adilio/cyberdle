@@ -1276,10 +1276,8 @@
         textarea.value = text;
         textarea.setAttribute('readonly', '');
         textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        textarea.style.pointerEvents = 'none';
-        const host = resultDialog?.open ? resultDialog : document.body;
-        host.appendChild(textarea);
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
         textarea.select();
         textarea.setSelectionRange(0, textarea.value.length);
         let success = false;
@@ -1305,12 +1303,9 @@
           }
           try {
             await navigator.share(shareData);
-            setMessage('Shared successfully!', 'success');
-            updateResultStatus('Shared successfully!', 'success');
             return;
           } catch (error) {
             if (error && error.name === 'AbortError') {
-              updateResultStatus('Share cancelled.', 'info');
               return; // user cancelled
             }
             // fall through to clipboard
@@ -1329,9 +1324,8 @@
             setMessage('Share text copied to clipboard!', 'success');
             updateResultStatus('Share text copied to clipboard!', 'success');
           } else {
-            const warning = 'Copy not supported on this device. Use Share instead.';
-            setMessage(warning, 'error');
-            updateResultStatus(warning, 'error');
+            setMessage('Could not share', 'error');
+            updateResultStatus('Could not share', 'error');
           }
         }
       }
@@ -1355,9 +1349,8 @@
             setMessage('Share text copied to clipboard!', 'success');
             updateResultStatus('Share text copied to clipboard!', 'success');
           } else {
-            const warning = 'Copy not supported on this device. Use Share instead.';
-            setMessage(warning, 'error');
-            updateResultStatus(warning, 'error');
+            setMessage('Could not copy', 'error');
+            updateResultStatus('Could not copy', 'error');
           }
         }
       }
