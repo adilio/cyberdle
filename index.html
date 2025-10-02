@@ -282,7 +282,7 @@
       }
 
       function isValidGuess(guess, list, len) {
-        return /^[A-Z]+$/.test(guess) && guess.length === len;
+        return /^[A-Z0-9]+$/.test(guess) && guess.length === len;
       }
 
       function yyyymmddSeed(date = new Date()) {
@@ -822,7 +822,7 @@
           removeLetter();
         } else {
           const letter = event.key.toUpperCase();
-          if (/^[A-Z]$/.test(letter)) {
+          if (/^[A-Z0-9]$/.test(letter)) {
             addLetter(letter);
           }
         }
@@ -848,7 +848,7 @@
         else if (newLength > currentLength) {
           const newChars = newValue.slice(currentLength);
           for (const char of newChars) {
-            if (/^[A-Z]$/.test(char)) {
+            if (/^[A-Z0-9]$/.test(char)) {
               addLetter(char);
             }
           }
@@ -866,7 +866,7 @@
         // Process the composed text
         const composedText = event.data.toUpperCase();
         for (const char of composedText) {
-          if (/^[A-Z]$/.test(char)) {
+          if (/^[A-Z0-9]$/.test(char)) {
             addLetter(char);
           }
         }
@@ -930,7 +930,7 @@
           return;
         }
         if (!isValidGuess(currentGuess, wordList, session.len)) {
-          setMessage('Letters only (A–Z).', 'error');
+          setMessage('Letters and numbers only (A–Z, 0–9).', 'error');
           return;
         }
         handleGuess(currentGuess);
