@@ -1,4 +1,4 @@
-# <img src="favicon.svg" alt="Cyberdle" width="32" height="32" /> Cyberdle
+# <img src="assets/favicon.svg" alt="Cyberdle" width="32" height="32" /> Cyberdle
 
 Look, we all know cybersecurity has way too many dang acronyms. Half the time it feels like we're drowning in acronym soup. CNAPP, CSPM, XDR, SOC, MITRE... and that's just the first 2 minutes of this meeting. So let's try and have some fun while we learn!
 
@@ -8,73 +8,59 @@ The entire game ships as static files (HTML, CSS, and a single dataset script), 
 
 ## Play Online
 
-The easiest way to play Cyberdle is online at: **[https://adilio.github.io/cyberdle/](https://adilio.github.io/cyberdle/)**
+Come hang out at **[https://cyberdle.adilio.ca/](https://cyberdle.adilio.ca/)** — the live site is always up to date and ready for your next streak. Open it on desktop, mobile, or that ancient Chromebook collecting dust in the corner. It just works.
 
-The site is hosted via GitHub Pages, so you can play directly in your browser without any setup or downloads.
+Want to stream it on Twitch? Throw it on the big screen in your SOC? Turn it into your team’s daily stand-up ritual? Go for it. It’s free and runs entirely in the browser.
 
-## How to Play
+## Quick Start
 
-1. **Read the Definition**: Each puzzle presents a detailed definition of a cybersecurity acronym.
-2. **Make Your Guess**: Type your guess using the on-screen keyboard or your physical keyboard.
-3. **Get Feedback**: Letters turn green (correct position), yellow (present elsewhere), or gray (absent).
-4. **Solve in 6 Tries**: Use the feedback to refine your guesses and solve the acronym.
+1. Read the definition and soak in the clues.
+2. Guess the acronym (letters and numbers totally welcome).
+3. Watch the tiles glow: 🟩 correct spot, 🟨 in the word but shuffled, ⬛ not there.
+4. Solve in six tries or less, then flex your results with the built‑in share card.
 
-Choose between **Daily Mode** (same puzzle for everyone each day) or **Random Mode** (fresh puzzle each time).
+You can play in **Daily mode** (same puzzle for everyone worldwide) or **Random mode** (hit refresh for endless chaos). Stats, streaks, and theme preference stick around thanks to localStorage—no accounts or trackers necessary.
 
-## Game Features
+## What You Get
 
-- **Keyboard-First Design**: Optimized for both physical and on-screen keyboards
-- **Dark/Light Theme Toggle**: Switch themes to match your preference
-- **Local Persistence**: Your stats and progress are saved in browser localStorage
-- **Confetti Celebrations**: Win animations that work offline
-- **Accessibility-Friendly**: Screen reader support and keyboard navigation
-- **No External Dependencies**: Runs entirely from static files
+- 🎯 Keyboard- and touch-friendly gameplay
+- 🌗 Dark/light theme toggle that remembers your vibe
+- 🎉 Confetti on the wins you’ll definitely brag about
+- ♿ Thoughtful accessibility touches from the start
+- 🧠 Completely offline-capable for planes, trains, and firewalled offices
 
-## Technical Architecture
+## Run It Yourself
 
-- `index.html` - Complete game UI, logic, and inline JavaScript
-- `style.css` - Responsive styling with theme support and animations
-- `acronyms.js` - Curated dataset of 50+ cybersecurity acronyms via `window.CYBERDLE_DATA`
-- **Runtime**: Vanilla browser APIs only; works offline under `file://`
-- **Storage**: Uses `cyberdle:simple:*` localStorage keys for persistence
-
-## Run Locally
-
-### Option 1
-
-Double-click `index.html` in your file browser. The game will open directly in your default browser.
-
-### Option 2
-
-Serve over HTTP:
+Clone the repo, then either:
 
 ```bash
+# Option 1: double-click
+open index.html
+
+# Option 2: serve locally
 python3 -m http.server
-# Visit http://localhost:8000
+# visit http://localhost:8000
 ```
 
-## Contribute
-
-Pull requests and issues are welcome! Ways to contribute:
-
-- **Expand the Dataset**: Add new acronyms, improve definitions, or fix typos in `acronyms.js`
-- **Enhance Gameplay**: Improve keyboard handling, add new features, or refine the UI
-- **Polish the Experience**: Better styling, animations, accessibility improvements
-- **Bug Fixes**: Report and fix any issues you encounter
-
-Cyberdle is MIT-licensed, so you're free to fork it, customize it, or build your own cybersecurity-themed variants. If you publish improvements, please consider opening a pull request to benefit the community.
-
-## Project Structure
+Everything lives in three files:
 
 ```
-index.html      # Game UI + logic
-style.css       # Themes + layout
-acronyms.js     # Acronym dataset
-favicon.svg     # Site favicon
-README.md       # This file
-LICENSE         # MIT license
+index.html          # UI + game logic
+style.css           # Themes and layout
+acronyms.js         # The acronym dataset
+assets/
+  favicon.svg       # Site icon
+  cyberdle-share-card.png  # Social preview art
+README.md           # This doc
+LICENSE             # MIT license
 ```
 
-## License
+## Contribute, Remix, Share
 
-Released under the [MIT License](LICENSE).
+- Got new acronyms? Add them! (Send a PR so we all benefit.)
+- Spot a bug? File an issue—or squash it and brag.
+- Want to reskin or self-host? It’s MIT-licensed. Fork away.
+
+We’re building a friendly corner of the cyber world where learning and laughing can co-exist. If you do something cool with Cyberdle, reach out—I’d love to hear about it.
+
+Stay curious, keep your passwords long, and may your next guess be green. 💚
