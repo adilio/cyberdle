@@ -16,7 +16,7 @@ Want to stream it on Twitch? Throw it on the big screen in your SOC? Turn it int
 
 1. Read the definition and soak in the clues.
 2. Guess the acronym (letters and numbers totally welcome).
-3. Watch the tiles glow: 🟩 correct spot, 🟨 in the word but shuffled, ⬛ not there.
+3. Watch the tiles glow: 🟩 correct spot, 🟨 in the word but shuffled, ⬛ shaded for not in the acronym.
 4. Solve in six tries or less, then flex your results with the built‑in share card.
 
 You can play in **Daily mode** (same puzzle for everyone worldwide) or **Random mode** (hit refresh for endless chaos). Stats, streaks, and theme preference stick around thanks to localStorage—no accounts or trackers necessary.
