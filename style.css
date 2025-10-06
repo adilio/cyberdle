@@ -577,6 +577,13 @@ body.modal-active {
   color: var(--danger);
 }
 
+.result__streak {
+  font-weight: 600;
+  margin: 0;
+  display: none;
+  color: var(--accent);
+}
+
 .modal__fallback {
   margin-top: 1rem;
   display: grid;

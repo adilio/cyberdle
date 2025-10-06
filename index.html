@@ -100,12 +100,15 @@
           <button class="btn btn--ghost" value="cancel">Close</button>
         </header>
         <div class="modal__body">
-          <p>Guess the cybersecurity acronym that matches the definition in six tries.</p>
+          <p>Welcome to Cyberdle! Crack the cybersecurity acronym hiding behind today&rsquo;s clue.</p>
           <ul>
-            <li>Letters turn green when correct, yellow when present elsewhere, gray otherwise.</li>
-            <li>Only approved acronyms are accepted. Length must match the target.</li>
-            <li>Daily mode picks a deterministic acronym; Random gives a new puzzle each time.</li>
+            <li>🟩 <strong>Green</strong> &mdash; right letter, right spot.</li>
+            <li>🟨 <strong>Yellow</strong> &mdash; it&rsquo;s in the word, just move it.</li>
+            <li>⬛ <strong>Gray</strong> &mdash; not in this acronym. Try something else.</li>
+            <li>Type on your keyboard or tap the on-screen keys. You get six shots!</li>
+            <li>Play <strong>Daily</strong> for the community challenge or <strong>Random</strong> to keep the party going.</li>
           </ul>
+          <p>Grab your ☕, summon your incident-response energy, and let&rsquo;s get guessing!</p>
         </div>
       </form>
     </dialog>
@@ -137,6 +140,7 @@
         <div class="modal__body">
           <p id="result-message"></p>
           <p id="result-hint-note" style="font-size:0.9em;opacity:0.8;display:none;"></p>
+          <p id="result-streak" class="result__streak" aria-live="polite"></p>
           <p><strong>Acronym:</strong> <span id="result-word"></span></p>
           <p><strong>Expansion:</strong> <span id="result-expansion"></span></p>
           <p><strong>Definition:</strong> <span id="result-definition"></span></p>
@@ -211,6 +215,7 @@
       const resultCopyBtn = document.getElementById('result-copy');
       const resultHintNoteEl = document.getElementById('result-hint-note');
       const resultStatusEl = document.getElementById('result-status');
+      const resultStreakEl = document.getElementById('result-streak');
       const copyFallbackEl = document.getElementById('copy-fallback');
       const copyFallbackTextarea = document.getElementById('copy-fallback-text');
       const copyFallbackBtn = document.getElementById('copy-fallback-btn');
@@ -1078,6 +1083,19 @@
           } else {
             resultHintNoteEl.textContent = '';
             resultHintNoteEl.style.display = 'none';
+          }
+        }
+        if (resultStreakEl) {
+          if (win && stats.streak > 0) {
+            let flair = '⭐';
+            if (stats.streak >= 10) flair = '🔥';
+            else if (stats.streak >= 5) flair = '⚡';
+            const suffix = stats.streak === 1 ? 'day' : 'days';
+            resultStreakEl.textContent = `${flair} Streak: ${stats.streak} ${suffix}! Keep it going!`;
+            resultStreakEl.style.display = 'block';
+          } else {
+            resultStreakEl.textContent = '';
+            resultStreakEl.style.display = 'none';
           }
         }
         updateResultStatus('');
