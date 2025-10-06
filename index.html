@@ -169,6 +169,7 @@
         theme: 'cyberdle:simple:theme',
         mode: 'cyberdle:simple:mode'
       };
+      const INTRO_KEY = 'cyberdle:intro-seen';
 
       const root = document.documentElement;
       const gridEl = document.getElementById('grid');
@@ -251,6 +252,7 @@
           tiles.flat().forEach(tile => tile.setAttribute('tabindex', '0'));
         }
         focusKeyCapture();
+        maybeShowIntro();
       }
 
       function scoreFor(row) {
@@ -772,6 +774,28 @@
         copyFallbackTextarea.value = '';
       }
 
+      function maybeShowIntro() {
+        try {
+          if (localStorage.getItem(INTRO_KEY) === '1') return;
+        } catch (error) {
+          // ignore storage errors; still show intro
+        }
+        setTimeout(() => {
+          if (typeof helpDialog.showModal === 'function') {
+            try {
+              helpDialog.showModal();
+            } catch (error) {
+              helpDialog.style.display = 'block';
+            }
+          }
+        }, 200);
+        try {
+          localStorage.setItem(INTRO_KEY, '1');
+        } catch (error) {
+          // ignore write failure
+        }
+      }
+
       function updateStreakFlair() {
         if (!streakFlairEl) return;
         const streak = stats.streak;
@@ -1091,25 +1115,47 @@
         const baseScore = scoreFor(rowIndex + 1);
         const penalty = session && session.hinted ? 20 : 0;
         const finalScore = Math.max(0, baseScore - penalty);
-        return {
+        const isDaily = session && session.mode === 'daily';
+        const prevDailyIndex = snapshot.lastDailyIndex ?? null;
+        const prevDailySeed = snapshot.lastDailySeed ?? null;
+        const isDuplicateDaily = Boolean(isDaily && prevDailyIndex === session.index && prevDailySeed === session.seed);
+        if (isDuplicateDaily) {
+          return { ...snapshot };
+        }
+        const next = {
           version: 1,
           played: snapshot.played + 1,
           won: snapshot.won + 1,
           streak: snapshot.streak + 1,
           best: Math.max(snapshot.best, snapshot.streak + 1),
-          score: snapshot.score + finalScore
+          score: snapshot.score + finalScore,
+          lastDailyIndex: prevDailyIndex,
+          lastDailySeed: prevDailySeed
         };
+        if (isDaily) {
+          next.lastDailyIndex = session.index;
+          next.lastDailySeed = session.seed;
+        }
+        return next;
       }
 
       function applyLoss(snapshot) {
-        return {
+        const isDaily = session && session.mode === 'daily';
+        const next = {
           version: 1,
           played: snapshot.played + 1,
           won: snapshot.won,
           streak: 0,
           best: snapshot.best,
-          score: snapshot.score
+          score: snapshot.score,
+          lastDailyIndex: snapshot.lastDailyIndex ?? null,
+          lastDailySeed: snapshot.lastDailySeed ?? null
         };
+        if (isDaily) {
+          next.lastDailyIndex = session.index;
+          next.lastDailySeed = session.seed;
+        }
+        return next;
       }
 
       function generateShareText() {
@@ -1487,7 +1533,9 @@
           won: sanitizeNumber(raw.won),
           streak: sanitizeNumber(raw.streak),
           best: sanitizeNumber(raw.best),
-          score: sanitizeNumber(raw.score)
+          score: sanitizeNumber(raw.score),
+          lastDailyIndex: sanitizeOptionalNumber(raw.lastDailyIndex),
+          lastDailySeed: sanitizeOptionalNumber(raw.lastDailySeed)
         };
       }
 
@@ -1496,11 +1544,24 @@
       }
 
       function createInitialStats() {
-        return { version: 1, played: 0, won: 0, streak: 0, best: 0, score: 0 };
+        return {
+          version: 1,
+          played: 0,
+          won: 0,
+          streak: 0,
+          best: 0,
+          score: 0,
+          lastDailyIndex: null,
+          lastDailySeed: null
+        };
       }
 
       function sanitizeNumber(value) {
         return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0;
+      }
+
+      function sanitizeOptionalNumber(value) {
+        return Number.isFinite(value) ? Math.floor(value) : null;
       }
 
       function loadTheme() {
